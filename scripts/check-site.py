@@ -26,9 +26,13 @@ for page in root.rglob("*.html"):
         if not re.search(r"\bhref\s*=", anchor.group(1), flags=re.I):
             errors.append(f"{page.relative_to(root)}: anchor missing href")
 
-for name in ("robots.txt", "sitemap.xml", "llms.txt", "llms-full.txt", "site.config.json"):
+for name in ("robots.txt", "sitemap.xml", "llms.txt", "llms-full.txt", "llms.html", "robots.html", "site.config.json"):
     if not (root / name).exists():
         errors.append(f"missing required root file: {name}")
+
+for route in ("/llms/",):
+    if (root / route.strip("/") / "index.html").exists():
+        errors.append(f"obsolete route must not be published: {route}")
 
 clean_routes = {
     "/": "index.html",
@@ -41,7 +45,6 @@ clean_routes = {
     "/security/": "security/index.html",
     "/contributing/": "contributing/index.html",
     "/sitemap/": "sitemap/index.html",
-    "/llms/": "llms/index.html",
 }
 for route, output in clean_routes.items():
     if not (root / output).is_file():
@@ -56,7 +59,8 @@ for page in root.rglob("*.html"):
             continue
         path = href.split("#", 1)[0].split("?", 1)[0]
         if path.lower().endswith(".html") and path.lower() != "/404.html":
-            errors.append(f"{page.relative_to(root)}: internal link uses legacy .html URL: {href}")
+            if not (root / path.lstrip("/")).exists():
+                errors.append(f"{page.relative_to(root)}: broken internal HTML link: {href}")
 
 try:
     sitemap_tree = ET.parse(root / "sitemap.xml")
@@ -69,36 +73,41 @@ try:
         errors.append("sitemap.xml: missing direct CSS stylesheet reference")
     if not (root / "assets/sitemap-xml.css").is_file():
         errors.append("sitemap.xml: referenced CSS stylesheet is missing")
-    sitemap_locations = [
-        node.text or ""
-        for node in sitemap_tree.getroot()
-        if node.tag.endswith("url")
-        for node in node
-        if node.tag.endswith("loc")
+    locations = [
+        node.text or "" for node in sitemap_tree.getroot()
+        if node.tag.endswith("url") for node in node if node.tag.endswith("loc")
     ]
-    if any(location.lower().endswith(".html") for location in sitemap_locations):
+    if any(location.lower().endswith(".html") for location in locations):
         errors.append("sitemap.xml: public locations must use clean URLs without .html")
+    if any(location.rstrip("/").endswith("/llms") for location in locations):
+        errors.append("sitemap.xml: obsolete /llms/ route must not be listed")
 except Exception as exc:
     errors.append(f"invalid sitemap.xml: {exc}")
 
 for required in (
     "sitemap/index.html",
-    "llms/index.html",
     "assets/sitemap.js",
     "assets/sitemap.css",
     "assets/sitemap-xml.css",
-    "assets/resources.css",
-    "assets/resources.js",
+    "assets/text-docs.css",
+    "scripts/build_text_pages.py",
 ):
     if not (root / required).is_file():
         errors.append(f"missing required presentation asset: {required}")
 
-sitemap_script = (root / "assets/sitemap.js").read_text(encoding="utf-8")
-if "XSLTProcessor" in sitemap_script or "sitemap.xsl" in sitemap_script:
-    errors.append("assets/sitemap.js: visual sitemap must not use XSLT")
+for page_name, expected_raw in (("llms.html", "llms.txt"), ("robots.html", "robots.txt")):
+    source = (root / page_name).read_text(encoding="utf-8") if (root / page_name).exists() else ""
+    if f'href="/{expected_raw}"' not in source:
+        errors.append(f"{page_name}: missing link to original {expected_raw}")
+    if "/assets/text-docs.css" not in source:
+        errors.append(f"{page_name}: missing companion stylesheet")
+
+for raw_name in ("llms.txt", "robots.txt"):
+    raw = (root / raw_name).read_text(encoding="utf-8")
+    if "<link" in raw.lower() or "<style" in raw.lower():
+        errors.append(f"{raw_name}: raw machine-readable text must not contain HTML styling")
 
 if errors:
     print("\n".join(errors))
     sys.exit(1)
-
 print("Ametherian static site checks passed.")
