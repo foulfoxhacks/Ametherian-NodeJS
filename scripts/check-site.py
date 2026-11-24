@@ -81,6 +81,9 @@ try:
         errors.append("sitemap.xml: public locations must use clean URLs without .html")
     if any(location.rstrip("/").endswith("/llms") for location in locations):
         errors.append("sitemap.xml: obsolete /llms/ route must not be listed")
+    for required_url in ("https://ametherian.foulfoxhacks.dev/llms.html", "https://ametherian.foulfoxhacks.dev/robots.html"):
+        if required_url not in locations:
+            errors.append(f"sitemap.xml: missing companion page {required_url}")
 except Exception as exc:
     errors.append(f"invalid sitemap.xml: {exc}")
 
