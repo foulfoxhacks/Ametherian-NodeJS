@@ -503,6 +503,7 @@ def head(path: str, faqs=None) -> str:
 <meta name="description" content="{esc(description)}">
 <meta name="robots" content="{robots}">
 <meta name="author" content="FoulFoxHacks">
+<meta name="publisher" content="FoulFoxHacks">
 <meta name="theme-color" content="#0b0812">
 <meta name="color-scheme" content="dark light">
 <link rel="canonical" href="{canonical(path)}">
