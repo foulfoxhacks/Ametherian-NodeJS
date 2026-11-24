@@ -3,6 +3,7 @@ import {
   AmetherianError, ErrorCodes, TimeoutError, LimitExceededError, isAmetherianError,
   createDeadline, abortable, collectBytes, createByteLimitStream, redactHeaders, redactUrl,
   getRuntimeCapabilities, requireCapability, validateOptions, createResourceScope, createEventHub,
+  detectPrototypePollution, assertNoPrototypePollution, checkNodeVersion, NODE_SECURITY_MINIMUMS,
   type ErrorCode,
 } from '@foulfoxhacks/ametherian-core';
 import { createDestinationPolicy, classifyAddress, type AddressCategory, DestinationBlockedError } from '@foulfoxhacks/ametherian-guard';
@@ -12,7 +13,7 @@ import { retry, createConcurrencyLimit, createRateLimiter, createCircuitBreaker 
 import { createLogger, createMetrics, attachEventHub, publishToDiagnosticsChannel } from '@foulfoxhacks/ametherian-observability';
 import { createHttpClient, createFetch, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
-import { normalizeOsv, auditLockfile, compareSemver, createOsvClient } from '@foulfoxhacks/ametherian-security';
+import { normalizeOsv, auditLockfile, compareSemver, createOsvClient, createNodeReleaseClient, compareNodeMinimums } from '@foulfoxhacks/ametherian-security';
 import * as ametherian from '@foulfoxhacks/ametherian';
 
 export async function usage(): Promise<void> {
@@ -90,6 +91,13 @@ export async function usage(): Promise<void> {
   const fr: Response = await fetch('https://example.com/', { method: 'POST', body: 'x', redirect: 'manual' });
   (await fr.json()) satisfies unknown;
   fetch.close();
+  const leaks: string[] = detectPrototypePollution();
+  assertNoPrototypePollution();
+  checkNodeVersion().ok satisfies boolean;
+  NODE_SECURITY_MINIMUMS['22'] satisfies string | undefined;
+  const nodeStatus = await createNodeReleaseClient().status([22]);
+  compareNodeMinimums(NODE_SECURITY_MINIMUMS, nodeStatus).ok satisfies boolean;
+  void leaks;
   createFakeClock().advance(1);
   fuzzStrings({ seed: 1 }) satisfies string[];
 

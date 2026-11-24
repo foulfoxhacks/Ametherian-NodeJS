@@ -121,3 +121,19 @@ export interface EventHub {
   emit(name: string, payload?: Record<string, unknown>): void;
 }
 export declare function createEventHub(options?: { onListenerError?: (error: unknown, event: string) => void }): EventHub;
+
+export declare const PROTOTYPE_POLLUTED: 'AMETHERIAN_PROTOTYPE_POLLUTED';
+export declare const RUNTIME_OUTDATED: 'AMETHERIAN_RUNTIME_OUTDATED';
+export declare const NODE_SECURITY_MINIMUMS: Readonly<Record<string, string>>;
+export declare function detectPrototypePollution(): string[];
+export declare function assertNoPrototypePollution(): void;
+export declare function lockdownPrototypes(): { frozen: string[] };
+export interface NodeVersionCheck {
+  ok: boolean;
+  current: string;
+  major: number;
+  required: string | null;
+  reason?: 'unparseable-version' | 'unsupported-major' | 'below-security-minimum';
+}
+export declare function checkNodeVersion(minimums?: Record<string, string>, version?: string): NodeVersionCheck;
+export declare function assertNodeVersion(minimums?: Record<string, string>, version?: string): NodeVersionCheck;

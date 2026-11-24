@@ -16,7 +16,8 @@
  */
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { createOsvClient, createNvdClient, compareWithBaseline } from '@foulfoxhacks/ametherian-security';
+import { createOsvClient, createNvdClient, compareWithBaseline, createNodeReleaseClient, compareNodeMinimums } from '@foulfoxhacks/ametherian-security';
+import { NODE_SECURITY_MINIMUMS } from '@foulfoxhacks/ametherian-core';
 import { summarize } from './lib.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -82,7 +83,24 @@ if (result.updated.length) {
 }
 if (result.ok && !result.removed.length) lines.push('No unmapped advisories.');
 
+// Node.js runtime: inherited llhttp/OpenSSL fixes arrive as Node security releases.
+const nodeClient = createNodeReleaseClient();
+const nodeStatus = await nodeClient.status(Object.keys(NODE_SECURITY_MINIMUMS).map(Number));
+nodeClient.close();
+const runtime = compareNodeMinimums(NODE_SECURITY_MINIMUMS, nodeStatus);
+lines.push('');
+lines.push('## Node.js runtime');
+lines.push('');
+lines.push('| Line | Minimum (core) | Latest security release | LTS | End of life |');
+lines.push('|---|---|---|---|---|');
+for (const [major, min] of Object.entries(NODE_SECURITY_MINIMUMS)) {
+  const l = nodeStatus.lines[major];
+  lines.push(`| ${major} | ${min} | ${l?.latestSecurity ?? 'n/a'} (${l?.latestSecurityDate ?? ''}) | ${l?.lts ?? 'no'} | ${l?.endOfLife ?? 'n/a'}${l?.isEndOfLife ? ' (ENDED)' : ''} |`);
+}
+for (const p of runtime.problems) lines.push(`- **Node ${p.major}: ${p.kind}**: ${p.detail}. Update NODE_SECURITY_MINIMUMS in packages/core/src/integrity.js (and CI/engines for end-of-life lines).`);
+if (runtime.ok) lines.push('Runtime minimums are current.');
+
 const report = `${lines.join('\n')}\n`;
 process.stdout.write(report);
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, report);
-process.exit(result.ok ? 0 : 1);
+process.exit(result.ok && runtime.ok ? 0 : 1);

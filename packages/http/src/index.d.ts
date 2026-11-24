@@ -110,6 +110,8 @@ export interface HttpClientOptions {
   stripHeadersOnRedirect?: string[];
   /** With baseUrl set, allow absolute URLs to other origins (default false). */
   allowAbsoluteUrls?: boolean;
+  /** Refuse requests while Object.prototype is polluted (default true). */
+  pollutionCheck?: boolean;
   /** Maximum request body size in bytes (default 10 MiB). */
   maxRequestBytes?: number;
   /** Pool limits for the built-in HTTP/1.1 transport. */

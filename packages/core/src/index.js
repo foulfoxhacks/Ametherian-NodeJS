@@ -6,3 +6,4 @@ export * from './runtime.js';
 export * from './config.js';
 export * from './lifecycle.js';
 export * from './events.js';
+export * from './integrity.js';
