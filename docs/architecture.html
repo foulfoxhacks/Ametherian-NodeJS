@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Architecture direction · Ametherian</title><meta name="description" content="Modularity, shared contracts, runtime adapters, and compatibility principles."><meta name="robots" content="index,follow"><link rel="canonical" href="https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/architecture.html"><meta property="og:type" content="article"><meta property="og:title" content="Architecture direction · Ametherian"><meta property="og:description" content="Modularity, shared contracts, runtime adapters, and compatibility principles."><meta property="og:image" content="https://foulfoxhacks.github.io/Ametherian-NodeJS/assets/ametherian-social-card.svg"><meta property="og:image:alt" content="Ametherian project in cosmic amethyst styling"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Architecture direction","description":"Modularity, shared contracts, runtime adapters, and compatibility principles.","publisher":{"@type":"Organization","name":"FoulFoxHacks"}}</script><link rel="stylesheet" href="/Ametherian-NodeJS/assets/site.css"></head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="/Ametherian-NodeJS/" title="Ametherian home"><span class="brand-mark">A</span>Ametherian</a><nav class="nav-links" aria-label="Main navigation"><a href="/Ametherian-NodeJS/docs/vision.html" title="Project vision">Vision</a><a href="/Ametherian-NodeJS/docs/packages.html" title="Package map">Packages</a><a href="/Ametherian-NodeJS/docs/architecture.html" title="Architecture">Architecture</a><a href="/Ametherian-NodeJS/docs/security.html" title="Security">Security</a><a href="/Ametherian-NodeJS/docs/roadmap.html" title="Roadmap">Roadmap</a></nav></div></header><main class="wrap section prose"><p class="eyebrow">Ametherian documentation</p><h1>Architecture direction</h1><p>Ametherian is intended to use a modular package architecture. A package should have one understandable responsibility, declare its supported runtime capabilities, and remain useful without requiring unrelated modules.</p>
+
+<h2>Shared contracts</h2>
+
+<p>Candidate shared conventions include typed errors, cancellation, deadlines, resource lifecycle, configuration validation, logging hooks, and consistent documentation of side effects. Shared contracts should reduce fragmentation without creating circular dependencies or forcing unnecessary dependencies into every package.</p>
+
+<h2>Runtime boundaries</h2>
+
+<p>Node.js is the initial target. APIs should make runtime assumptions explicit and isolate environment-specific behavior behind adapters where doing so improves portability. Unsupported capabilities should fail clearly rather than silently falling back.</p>
+
+<h2>Resource safety</h2>
+
+<p>Network and stream-oriented packages should define timeouts, maximum sizes, concurrency bounds, backpressure behavior, cancellation semantics, and cleanup responsibilities. Defaults should be conservative and configurable.</p>
+
+<h2>Compatibility and releases</h2>
+
+<p>The project should document supported Node.js versions, module formats, TypeScript support, semantic versioning policy, deprecation windows, and interoperability expectations before publishing stable packages.</p>
+
+<h2>Engineering evidence</h2>
+
+<p>Public compatibility and performance claims should be backed by reproducible test suites, benchmark methodology, fuzzing where appropriate, and transparent release notes.</p>
+<p><a href="/Ametherian-NodeJS/" title="Return to Ametherian home">← Back to project home</a></p></main><footer class="site-footer"><div class="wrap footer-row"><span>Ametherian · FoulFoxHacks</span><span><a href="/Ametherian-NodeJS/SECURITY.html" title="Security policy">Security</a> · <a href="/Ametherian-NodeJS/CONTRIBUTING.html" title="Contribution guide">Contributing</a></span></div></footer></body></html>

@@ -2,11 +2,15 @@
 
 > Ametherian is a proposed family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first direction.
 
-The project is at the public proposal and planning stage. Proposed packages and capabilities are not implemented, audited, or production-ready unless a page explicitly says otherwise.
+Ametherian is at the public proposal and planning stage. The packages and capabilities described here are proposed work, not claims of implemented, audited, or production-ready software.
 
-## Project resources
+## Project documentation
 
+- [Project vision](docs/vision.md)
+- [Proposed package map](docs/packages.md)
+- [Architecture direction](docs/architecture.md)
+- [Security approach](docs/security.md)
+- [Proposed roadmap](docs/roadmap.md)
 - [Repository](https://github.com/foulfoxhacks/Ametherian-NodeJS)
-- [Project status](PROJECT_STATUS.md)
-- [Contribution guide](CONTRIBUTING.md)
 - [Security policy](SECURITY.md)
+- [Contribution guide](CONTRIBUTING.md)

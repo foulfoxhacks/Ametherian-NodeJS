@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Security approach · Ametherian</title><meta name="description" content="Threat modeling, safe defaults, vulnerability intelligence, and responsible remediation."><meta name="robots" content="index,follow"><link rel="canonical" href="https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/security.html"><meta property="og:type" content="article"><meta property="og:title" content="Security approach · Ametherian"><meta property="og:description" content="Threat modeling, safe defaults, vulnerability intelligence, and responsible remediation."><meta property="og:image" content="https://foulfoxhacks.github.io/Ametherian-NodeJS/assets/ametherian-social-card.svg"><meta property="og:image:alt" content="Ametherian project in cosmic amethyst styling"><meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Security approach","description":"Threat modeling, safe defaults, vulnerability intelligence, and responsible remediation.","publisher":{"@type":"Organization","name":"FoulFoxHacks"}}</script><link rel="stylesheet" href="/Ametherian-NodeJS/assets/site.css"></head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="/Ametherian-NodeJS/" title="Ametherian home"><span class="brand-mark">A</span>Ametherian</a><nav class="nav-links" aria-label="Main navigation"><a href="/Ametherian-NodeJS/docs/vision.html" title="Project vision">Vision</a><a href="/Ametherian-NodeJS/docs/packages.html" title="Package map">Packages</a><a href="/Ametherian-NodeJS/docs/architecture.html" title="Architecture">Architecture</a><a href="/Ametherian-NodeJS/docs/security.html" title="Security">Security</a><a href="/Ametherian-NodeJS/docs/roadmap.html" title="Roadmap">Roadmap</a></nav></div></header><main class="wrap section prose"><p class="eyebrow">Ametherian documentation</p><h1>Security approach</h1><p>Security is a design and maintenance requirement, not a marketing guarantee. Ametherian cannot eliminate all vulnerabilities or secure arbitrary application code. Each future package must document its trust boundaries, threat model, assumptions, and known limitations.</p>
+
+<h2>Areas for threat modeling</h2>
+
+<p>Research should consider SSRF, DNS rebinding, redirect policy bypasses, TLS hostname and certificate validation, credential exposure, unsafe parsing, prototype pollution, decompression bombs, unbounded resource use, cache poisoning and isolation, filesystem traversal, concurrency races, and dependency or build-chain compromise.</p>
+
+<h2>Secure engineering practices</h2>
+
+<li>Reuse mature cryptographic, TLS, compression, and parsing primitives</li>
+<li>Bound resource consumption and make limits observable</li>
+<li>Avoid logging secrets; redact credentials and sensitive headers</li>
+<li>Validate redirects, destinations, and protocol transitions</li>
+<li>Test malformed, adversarial, and boundary inputs</li>
+<li>Track dependencies and provenance; review changes before release</li>
+<li>Add regression tests for confirmed vulnerabilities</li>
+<li>Require human review for security-sensitive fixes</li>
+
+<h2>Vulnerability intelligence</h2>
+
+<p>Potential sources include OSV, GitHub Security Advisories, NVD, CISA Known Exploited Vulnerabilities, Node.js security advisories, and upstream package advisories. Any future ingestion system must preserve source attribution, timestamps, affected-version ranges, confidence, and freshness. Intelligence should inform review and testing, not trigger unreviewed production code changes.</p>
+
+<h2>Reporting</h2>
+
+<p>Please follow the repository’s SECURITY.md policy. Do not publish exploit details in public issues before coordinated disclosure.</p>
+<p><a href="/Ametherian-NodeJS/" title="Return to Ametherian home">← Back to project home</a></p></main><footer class="site-footer"><div class="wrap footer-row"><span>Ametherian · FoulFoxHacks</span><span><a href="/Ametherian-NodeJS/SECURITY.html" title="Security policy">Security</a> · <a href="/Ametherian-NodeJS/CONTRIBUTING.html" title="Contribution guide">Contributing</a></span></div></footer></body></html>
