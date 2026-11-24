@@ -234,11 +234,11 @@ def sitemap() -> str:
             f"  <url><loc>{canonical(path)}</loc><lastmod>{TODAY}</lastmod></url>"
         )
     return (
-        '<?xml version="1.0" encoding="UTF-8"?>\\n'
-        '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>\\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n'
-        + "\\n".join(rows)
-        + "\\n</urlset>\\n"
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(rows)
+        + "\n</urlset>\n"
     )
 
 
