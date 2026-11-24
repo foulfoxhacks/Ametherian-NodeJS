@@ -1,0 +1,22 @@
+{
+  "project": "Ametherian",
+  "publisher": "FoulFoxHacks",
+  "tagline": "A new kind of Node library ecosystem",
+  "status": "proposal",
+  "siteUrl": "https://YOUR-GITHUB-USERNAME.github.io/Ametherian",
+  "basePath": "/Ametherian-NodeJS",
+  "defaultLocale": "en",
+  "theme": {
+    "name": "Cosmic Amethyst",
+    "colors": {
+      "background": "#100D19",
+      "surface": "#191426",
+      "surfaceRaised": "#211A31",
+      "text": "#F4F0FA",
+      "muted": "#B7ACC8",
+      "amethyst": "#A78BFA",
+      "violet": "#7652B8",
+      "border": "#3A2E50"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://foulfoxhacks.github.io/Ametherian-NodeJS/sitemap.xml
