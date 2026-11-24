@@ -11,6 +11,7 @@ Shared contracts for Ametherian packages, with no runtime dependencies:
 | Resource limits | `assertWithinLimit`, `createByteLimitStream`, `collectBytes` |
 | Redaction | `redactHeaders`, `redactUrl`, `REDACTED`, `DEFAULT_SENSITIVE_HEADERS`, `DEFAULT_SENSITIVE_QUERY_PARAMS` |
 | Runtime capabilities | `getRuntimeCapabilities`, `requireCapability` |
+| Config validation | `validateOptions` |
 
 Every error has a stable `code` (`AMETHERIAN_*`); branch on codes, not messages.
 

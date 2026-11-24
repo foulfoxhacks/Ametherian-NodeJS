@@ -9,7 +9,7 @@ test('package entry exports every public helper', () => {
     'createDeadline', 'throwIfAborted', 'abortable', 'toAbortError',
     'assertWithinLimit', 'createByteLimitStream', 'collectBytes',
     'redactHeaders', 'redactUrl', 'REDACTED', 'DEFAULT_SENSITIVE_HEADERS', 'DEFAULT_SENSITIVE_QUERY_PARAMS',
-    'getRuntimeCapabilities', 'requireCapability',
+    'getRuntimeCapabilities', 'requireCapability', 'validateOptions',
   ]) {
     assert.ok(name in core, `missing export ${name}`);
   }

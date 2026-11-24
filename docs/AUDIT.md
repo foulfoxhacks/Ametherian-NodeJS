@@ -50,7 +50,7 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-core` — resource limits | architecture: resource safety; security: bounded resource use | Missing | Done | `assertWithinLimit`, byte-limit transform for streams |
 | `ametherian-core` — redaction | security: avoid logging secrets | Missing | Done | `redactHeaders`, `redactUrl` |
 | `ametherian-core` — runtime capability reporting | brief: clear runtime capability reporting; architecture: runtime boundaries | Missing | Done | `getRuntimeCapabilities`, `requireCapability` |
-| `ametherian-core` — config validation | architecture: shared contracts | Missing | Missing | Next step (see RESUME.md) |
+| `ametherian-core` — config validation | architecture: shared contracts | Missing | Done | `validateOptions`: collects all problems, rejects unknown keys, ignores inherited keys |
 | `ametherian-core` — lifecycle / logging hooks | architecture: shared contracts | Missing | Missing | Needs a short spec first |
 | `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Missing | First security package after core |
 | `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Missing | Depends on core + guard |
