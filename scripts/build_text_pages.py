@@ -94,7 +94,7 @@ def remove_obsolete_resource_directory() -> None:
         stamp = date.today().isoformat()
         for location in (BASE + "/llms.html", BASE + "/robots.html"):
             if location not in source:
-                entry = f"  <url><loc>{location}</loc><lastmod>{stamp}</lastmod></url>\\n"
+                entry = f"  <url><loc>{location}</loc><lastmod>{stamp}</lastmod></url>\n"
                 source = source.replace("</urlset>", entry + "</urlset>")
         sitemap.write_text(source, encoding="utf-8")
     search = ROOT / "assets/search-index.js"
