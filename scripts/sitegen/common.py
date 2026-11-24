@@ -218,6 +218,22 @@ PAGES = {
         "short": "XML sitemap",
         "eyebrow": "Site index",
     },
+
+    "llms/index.html": {
+        "title": "AI & machine-readable resources — Ametherian",
+        "description": "Human-friendly directory of Ametherian machine-readable resources, including llms.txt, full project context, XML sitemap, and site configuration.",
+        "og_title": "AI & machine-readable resources",
+        "og_subtitle": "Structured project context and discovery endpoints.",
+        "og_label": "RESOURCES",
+        "og_key": "docs",
+        "og_alt": "Ametherian machine-readable resources directory.",
+        "body_class": "page-home",
+        "nav": "resources",
+        "kind": "article",
+        "schema": "doc",
+        "short": "AI resources",
+    },
+
     "404.html": {
         "title": "Page not found — Ametherian",
         "description": "The requested page is not part of the Ametherian site.",
@@ -245,6 +261,7 @@ ROUTES = {
     "SECURITY.html": "/security/",
     "CONTRIBUTING.html": "/contributing/",
     "sitemap/index.html": "/sitemap/",
+    "llms/index.html": "/llms/",
     "404.html": "/404.html",
 }
 
@@ -530,11 +547,12 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
         "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     )
     image = og_image(meta["og_key"])
-    extra_stylesheet = (
-        f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
-        if path == "sitemap/index.html"
-        else ""
-    )
+    extra_stylesheet = ""
+    if path == "sitemap/index.html":
+        extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
+    elif path == "llms/index.html":
+        resource_css = url_for("assets/resources.css", path)
+        extra_stylesheet = f'<link rel="stylesheet" href="{resource_css}">'
     return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
@@ -572,6 +590,7 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
 
 NAV_ITEMS = [
     ("Docs", "docs/index.html", "docs"),
+    ("Resources", "llms/index.html", "resources"),
     ("Vision", "docs/vision.html", "vision"),
     ("Packages", "docs/packages.html", "packages"),
     ("Architecture", "docs/architecture.html", "architecture"),
@@ -641,8 +660,10 @@ def site_footer(current: str) -> str:
       <a href="{REPO}" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
       <a href="{FOULFOX}" target="_blank" rel="noopener noreferrer">FoulFoxHacks <span aria-hidden="true">↗</span></a>
       <a href="{url_for('sitemap/index.html', current)}">Visual sitemap</a>
+      <a href="{url_for('llms/index.html', current)}">AI resource directory</a>
       <a href="{url_for('sitemap.xml', current)}">XML sitemap</a>
       <a href="{url_for('llms.txt', current)}">llms.txt</a>
+      <a href="{url_for('llms-full.txt', current)}">llms-full.txt</a>
     </div>
   </div>
   <div class="footer-social">
@@ -674,6 +695,7 @@ def canonical_path_script(path: str) -> str:
         "index.html": ("/index.html", "/"),
         "docs/index.html": ("/docs/index.html", "/docs/"),
         "sitemap/index.html": ("/sitemap/index.html", "/sitemap/"),
+        "llms/index.html": ("/llms/index.html", "/llms/"),
     }
     alias = aliases.get(path)
     if not alias:

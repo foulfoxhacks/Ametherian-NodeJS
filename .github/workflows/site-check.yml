@@ -14,4 +14,5 @@ jobs:
         with:
           python-version: '3.x'
       - run: python scripts/build_site.py
+      - run: python scripts/build_text_pages.py
       - run: python scripts/check-site.py
