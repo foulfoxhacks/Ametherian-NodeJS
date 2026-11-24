@@ -27,6 +27,10 @@ from sitegen.common import (  # noqa: E402
     REPO,
     TODAY,
     canonical,
+    head,
+    site_header,
+    site_footer,
+    url_for,
 )
 from sitegen.docs_pages import (  # noqa: E402
     architecture_page,
@@ -53,6 +57,7 @@ RENDERERS = {
     "docs/roadmap.html": roadmap_page,
     "SECURITY.html": security_policy_page,
     "CONTRIBUTING.html": contributing_page,
+    "sitemap/index.html": sitemap_page,
     "404.html": not_found_page,
 }
 
@@ -76,6 +81,8 @@ def section_for(path: str) -> str:
         return "Home"
     if path == "docs/index.html":
         return "Documentation"
+    if path == "sitemap/index.html":
+        return "Site index"
     if path.startswith("docs/"):
         return "Proposal document"
     return "Project policy"
@@ -119,56 +126,73 @@ def sitemap() -> str:
         )
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "\n".join(rows)
         + "\n</urlset>\n"
     )
 
 
+def sitemap_page() -> str:
+    current = "sitemap/index.html"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+{head(current)}
+</head>
+<body class="page-home" data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+{site_header(current, "")}
+<main id="main" class="sitemap-main">
+  <div class="shell">
+    <p class="eyebrow">Ametherian · Site index</p>
+    <h1>XML Sitemap</h1>
+    <p class="sitemap-lead">Explore the public pages, project policies, and technical documentation that make up Ametherian.</p>
+    <div class="sitemap-toolbar">
+      <label class="visually-hidden" for="sitemap-search">Filter sitemap pages</label>
+      <input id="sitemap-search" type="search" data-sitemap-search placeholder="Filter pages…" autocomplete="off">
+      <a class="button button--ghost" href="{url_for('sitemap.xml', current)}">View raw XML</a>
+    </div>
+    <p class="sitemap-status" data-sitemap-status role="status" aria-live="polite">Loading the sitemap…</p>
+    <div class="sitemap-output" data-sitemap-output>
+      <noscript><p>Enable JavaScript to display the visual sitemap. The <a href="{url_for('sitemap.xml', current)}">XML sitemap remains available</a>.</p></noscript>
+    </div>
+    <p class="sitemap-note">The XML file remains the authoritative crawler-facing sitemap. This page transforms that same XML locally in your browser.</p>
+  </div>
+</main>
+{site_footer(current)}
+<script>window.xsltUsePolyfillOnlyIfNeeded = true; window.xsltDontAutoloadXmlDocs = true;</script>
+<script src="{url_for('assets/vendor/xslt-polyfill.min.js', current)}" defer></script>
+<script src="{url_for('assets/sitemap.js', current)}" defer></script>
+<script src="{url_for('assets/site.js', current)}" defer></script>
+</body>
+</html>
+"""
+
+
 def sitemap_xsl() -> str:
+    """Return the XSLT 1.0 fragment used by the browser-side sitemap viewer."""
     return """<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9">
   <xsl:output method="html" encoding="UTF-8" indent="yes"/>
   <xsl:template match="/">
-    <html lang="en">
-      <head>
-        <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <meta name="publisher" content="FoulFoxHacks"/><meta name="robots" content="noindex,follow"/>
-        <title>XML Sitemap — Ametherian</title><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
-        <style>
-          :root{color-scheme:dark;--bg:#0b0812;--panel:#171125;--text:#f5f2fb;--muted:#b9b0c9;--line:#322847}
-          *{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 520px at 80% 0%,rgba(139,83,254,.18),transparent 65%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
-          a{color:#c4b5fd;text-decoration:none}a:hover{text-decoration:underline;color:#fff}.wrap{width:min(100% - 36px,1040px);margin:0 auto}
-          header{padding:42px 0 30px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;color:var(--text);font-weight:800;font-size:1.25rem}.brand img{width:42px;height:42px;object-fit:contain}
-          .eyebrow{margin:20px 0 5px;color:#c4b5fd;font:600 .72rem/1.4 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}h1{margin:0;font-size:clamp(2rem,5vw,3.4rem);line-height:1.08;letter-spacing:-.05em}
-          .intro{max-width:680px;color:var(--muted);margin:14px 0 0}.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.stat{padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.82rem}
-          main{padding:30px 0 64px}section{margin:0 0 26px;padding:22px;border:1px solid var(--line);border-radius:16px;background:rgba(23,17,37,.82)}h2{margin:0 0 14px;font-size:1.2rem}
-          .entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 0;border-top:1px solid rgba(255,255,255,.07)}.entry:first-of-type{border-top:0}.loc{overflow-wrap:anywhere;font-size:.92rem}.date{color:var(--muted);font:.75rem ui-monospace,monospace}
-          footer{padding:22px 0 36px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}@media(max-width:620px){.entry{grid-template-columns:1fr;gap:4px}section{padding:16px}}
-        </style>
-      </head>
-      <body>
-        <header><div class="wrap"><a class="brand" href="/"><img src="/assets/ametherian-mark.svg" alt=""/>Ametherian</a>
-          <p class="eyebrow">FoulFoxHacks · Node.js library ecosystem</p><h1>XML Sitemap</h1>
-          <p class="intro">A structured index of Ametherian's public pages. This branded view is a presentation layer; the underlying XML remains available to crawlers.</p>
-          <div class="stats"><span class="stat"><xsl:value-of select="count(sm:urlset/sm:url)"/> public URLs</span><span class="stat">Sitemap Protocol</span></div>
-        </div></header>
-        <main class="wrap">
-          <section><h2>Website and project policies</h2>
-            <xsl:for-each select="sm:urlset/sm:url[not(contains(sm:loc,'/docs/'))]">
-              <div class="entry"><a class="loc"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></div>
-            </xsl:for-each>
-          </section>
-          <section><h2>Documentation</h2>
-            <xsl:for-each select="sm:urlset/sm:url[contains(sm:loc,'/docs/')]">
-              <div class="entry"><a class="loc"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></div>
-            </xsl:for-each>
-          </section>
-        </main>
-        <footer><div class="wrap">© Ametherian · Published by FoulFoxHacks · <a href="/">Return to website</a></div></footer>
-      </body>
-    </html>
+    <div class="sitemap-groups">
+      <section class="sitemap-group" aria-labelledby="sitemap-project-title">
+        <div class="sitemap-group__heading"><p class="sitemap-group__eyebrow">01 · Project</p><h2 id="sitemap-project-title">Website and policies</h2></div>
+        <div class="sitemap-entries">
+          <xsl:for-each select="sm:urlset/sm:url[not(contains(sm:loc, '/docs/'))]">
+            <article class="sitemap-entry"><a class="sitemap-entry__link"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="sitemap-entry__date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></article>
+          </xsl:for-each>
+        </div>
+      </section>
+      <section class="sitemap-group" aria-labelledby="sitemap-docs-title">
+        <div class="sitemap-group__heading"><p class="sitemap-group__eyebrow">02 · Reference</p><h2 id="sitemap-docs-title">Documentation</h2></div>
+        <div class="sitemap-entries">
+          <xsl:for-each select="sm:urlset/sm:url[contains(sm:loc, '/docs/')]">
+            <article class="sitemap-entry"><a class="sitemap-entry__link"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="sitemap-entry__date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></article>
+          </xsl:for-each>
+        </div>
+      </section>
+    </div>
   </xsl:template>
 </xsl:stylesheet>
 """
