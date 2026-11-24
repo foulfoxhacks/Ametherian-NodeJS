@@ -1,10 +1,10 @@
 name: Node packages
 on:
   pull_request:
-    paths: ["packages/**", "package.json", "package-lock.json", ".github/workflows/node-ci.yml"]
+    paths: ["packages/**", "types-check/**", "package.json", "package-lock.json", ".github/workflows/node-ci.yml"]
   push:
     branches: [main]
-    paths: ["packages/**", "package.json", "package-lock.json", ".github/workflows/node-ci.yml"]
+    paths: ["packages/**", "types-check/**", "package.json", "package-lock.json", ".github/workflows/node-ci.yml"]
 permissions:
   contents: read
 jobs:
@@ -21,3 +21,12 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci --no-audit --no-fund
       - run: npm test
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
