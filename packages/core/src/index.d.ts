@@ -1,0 +1,40 @@
+export declare const ErrorCodes: Readonly<{
+  GENERIC: 'AMETHERIAN_ERROR';
+  ABORTED: 'AMETHERIAN_ABORTED';
+  TIMEOUT: 'AMETHERIAN_TIMEOUT';
+  LIMIT_EXCEEDED: 'AMETHERIAN_LIMIT_EXCEEDED';
+  CONFIG: 'AMETHERIAN_CONFIG';
+  UNSUPPORTED: 'AMETHERIAN_UNSUPPORTED';
+}>;
+export type ErrorCode = (typeof ErrorCodes)[keyof typeof ErrorCodes];
+
+export interface AmetherianErrorOptions {
+  code?: string;
+  cause?: unknown;
+  retryable?: boolean;
+  details?: Record<string, unknown>;
+}
+
+export declare class AmetherianError extends Error {
+  constructor(message: string, options?: AmetherianErrorOptions);
+  readonly code: string;
+  readonly retryable: boolean;
+  readonly details: Readonly<Record<string, unknown>>;
+  toJSON(): { name: string; code: string; message: string; retryable: boolean; details: Readonly<Record<string, unknown>> };
+}
+export declare class AbortError extends AmetherianError {
+  constructor(message?: string, options?: Omit<AmetherianErrorOptions, 'code' | 'retryable'>);
+}
+export declare class TimeoutError extends AmetherianError {
+  constructor(message?: string, options?: Omit<AmetherianErrorOptions, 'code'>);
+}
+export declare class LimitExceededError extends AmetherianError {
+  constructor(message: string, info: { limit: number; actual?: number; resource?: string; cause?: unknown });
+}
+export declare class ConfigError extends AmetherianError {
+  constructor(message: string, info?: { problems?: string[]; cause?: unknown });
+}
+export declare class UnsupportedCapabilityError extends AmetherianError {
+  constructor(capability: string, message?: string);
+}
+export declare function isAmetherianError(value: unknown): value is AmetherianError;
