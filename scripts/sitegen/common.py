@@ -228,7 +228,7 @@ PAGES = {
         "og_key": "docs",
         "og_alt": "Ametherian machine-readable resources directory.",
         "body_class": "page-home",
-        "nav": "docs",
+        "nav": "resources",
         "kind": "article",
         "schema": "doc",
         "short": "AI resources",
@@ -590,6 +590,7 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
 
 NAV_ITEMS = [
     ("Docs", "docs/index.html", "docs"),
+    ("Resources", "llms/index.html", "resources"),
     ("Vision", "docs/vision.html", "vision"),
     ("Packages", "docs/packages.html", "packages"),
     ("Architecture", "docs/architecture.html", "architecture"),
