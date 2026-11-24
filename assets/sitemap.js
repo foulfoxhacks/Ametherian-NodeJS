@@ -1,4 +1,4 @@
-/* Ametherian visual sitemap: XSLT 1.0 with a safe DOM fallback. */
+/* Ametherian visual sitemap: standards-based XML parsing and semantic DOM rendering. */
 (() => {
   "use strict";
   const output = document.querySelector("[data-sitemap-output]");
@@ -7,51 +7,43 @@
   if (!output || !status) return;
 
   const sitemapUrl = new URL("../sitemap.xml", document.currentScript.src);
-  const stylesheetUrl = new URL("../sitemap.xsl", document.currentScript.src);
-  const parseXml = (source, label) => {
-    if (/<!DOCTYPE|<!ENTITY/i.test(source)) throw new Error(label + " contains a prohibited document type or entity declaration.");
-    const parsed = new DOMParser().parseFromString(source, "application/xml");
-    if (parsed.querySelector("parsererror")) throw new Error(label + " is not valid XML.");
-    return parsed;
-  };
+  const ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
   const safeUrl = (value) => {
     try {
       const url = new URL(value, location.href);
       return url.origin === location.origin && ["https:", "http:"].includes(url.protocol) ? url.href : null;
     } catch { return null; }
   };
-  const fallbackRender = (xmlDoc) => {
-    const ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
+  const el = (tag, className, value) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (value !== undefined) node.textContent = value;
+    return node;
+  };
+  const render = (xmlDoc) => {
     const rows = Array.from(xmlDoc.getElementsByTagNameNS(ns, "url")).map((node) => ({
       loc: node.getElementsByTagNameNS(ns, "loc")[0]?.textContent?.trim() || "",
       date: node.getElementsByTagNameNS(ns, "lastmod")[0]?.textContent?.trim() || "",
-    }));
+    })).filter((row) => row.loc);
     const groups = [
-      { title: "Website and policies", rows: rows.filter((row) => !row.loc.includes("/docs/")) },
-      { title: "Documentation", rows: rows.filter((row) => row.loc.includes("/docs/")) },
+      { title: "Website and policies", eyebrow: "01 · Project", rows: rows.filter((row) => !row.loc.includes("/docs/") && !row.loc.includes("/llms/")) },
+      { title: "Documentation", eyebrow: "02 · Reference", rows: rows.filter((row) => row.loc.includes("/docs/")) },
+      { title: "Discovery resources", eyebrow: "03 · Machine-readable", rows: rows.filter((row) => row.loc.includes("/llms/")) },
     ];
-    const wrapper = document.createElement("div");
-    wrapper.className = "sitemap-groups";
+    const wrapper = el("div", "sitemap-groups");
     for (const group of groups) {
-      const section = document.createElement("section");
-      section.className = "sitemap-group";
-      const heading = document.createElement("h2");
-      heading.textContent = group.title;
-      const entries = document.createElement("div");
-      entries.className = "sitemap-entries";
+      if (!group.rows.length) continue;
+      const section = el("section", "sitemap-group");
+      const heading = el("div", "sitemap-group__heading");
+      heading.append(el("p", "sitemap-group__eyebrow", group.eyebrow), el("h2", "", group.title));
+      const entries = el("div", "sitemap-entries");
       for (const row of group.rows) {
-        const entry = document.createElement("article");
-        entry.className = "sitemap-entry";
-        const link = document.createElement("a");
-        link.className = "sitemap-entry__link";
-        link.textContent = row.loc;
+        const entry = el("article", "sitemap-entry");
+        const link = el("a", "sitemap-entry__link", row.loc);
         const href = safeUrl(row.loc);
         if (href) link.href = href;
         else link.setAttribute("aria-disabled", "true");
-        const date = document.createElement("span");
-        date.className = "sitemap-entry__date";
-        date.textContent = row.date ? "Updated " + row.date : "";
-        entry.append(link, date);
+        entry.append(link, el("span", "sitemap-entry__date", row.date ? "Updated " + row.date : ""));
         entries.append(entry);
       }
       section.append(heading, entries);
@@ -60,11 +52,6 @@
     output.replaceChildren(wrapper);
     return rows.length;
   };
-  const validateLinks = () => output.querySelectorAll("a[href]").forEach((link) => {
-    const href = safeUrl(link.getAttribute("href") || "");
-    if (href) link.href = href;
-    else { link.removeAttribute("href"); link.setAttribute("aria-disabled", "true"); }
-  });
   const filterEntries = () => {
     const query = (search?.value || "").trim().toLocaleLowerCase();
     let visible = 0;
@@ -84,30 +71,14 @@
   };
   const load = async () => {
     try {
-      const [xmlResponse, xslResponse] = await Promise.all([
-        fetch(sitemapUrl, { credentials: "same-origin", cache: "no-cache" }),
-        fetch(stylesheetUrl, { credentials: "same-origin", cache: "no-cache" }),
-      ]);
-      if (!xmlResponse.ok || !xslResponse.ok) throw new Error("The sitemap resources could not be loaded.");
-      const [xmlText, xslText] = await Promise.all([xmlResponse.text(), xslResponse.text()]);
-      const xmlDoc = parseXml(xmlText, "Sitemap");
-      const xslDoc = parseXml(xslText, "Sitemap stylesheet");
-      const count = xmlDoc.getElementsByTagNameNS("http://www.sitemaps.org/schemas/sitemap/0.9", "url").length;
-      let transformed = false;
-      if (typeof window.XSLTProcessor === "function") {
-        if (typeof window.xsltPolyfillReady === "function") await window.xsltPolyfillReady();
-        const processor = new window.XSLTProcessor();
-        processor.importStylesheet(xslDoc);
-        const fragment = processor.transformToFragment(xmlDoc, document);
-        if (fragment) { output.replaceChildren(fragment); validateLinks(); transformed = true; }
-      }
-      if (!transformed) {
-        fallbackRender(xmlDoc);
-        status.textContent = "Showing " + count + " pages in the compatibility view.";
-      } else {
-        const engine = window.xsltPolyfillVersion ? "bundled XSLT 1.0 engine" : "browser XSLT engine";
-        status.textContent = "Showing " + count + " public URLs · rendered with the " + engine + ".";
-      }
+      const response = await fetch(sitemapUrl, { credentials: "same-origin", cache: "no-cache" });
+      if (!response.ok) throw new Error("The XML sitemap could not be loaded.");
+      const source = await response.text();
+      if (/<!DOCTYPE|<!ENTITY/i.test(source)) throw new Error("The sitemap contains a prohibited document type or entity declaration.");
+      const xmlDoc = new DOMParser().parseFromString(source, "application/xml");
+      if (xmlDoc.querySelector("parsererror") || xmlDoc.documentElement.localName !== "urlset") throw new Error("The sitemap is not valid sitemap XML.");
+      const count = render(xmlDoc);
+      status.textContent = "Showing " + count + " public URLs from the canonical XML sitemap.";
       if (search) {
         search.dataset.loaded = "true";
         status.dataset.defaultText = status.textContent;
@@ -116,9 +87,8 @@
       filterEntries();
     } catch (error) {
       status.textContent = "The visual sitemap could not be rendered. The raw XML sitemap is still available.";
-      const link = document.createElement("a");
+      const link = el("a", "", "Open raw XML sitemap");
       link.href = "../sitemap.xml";
-      link.textContent = "Open raw XML sitemap";
       output.replaceChildren(link);
       console.error("Ametherian sitemap viewer:", error);
     }
