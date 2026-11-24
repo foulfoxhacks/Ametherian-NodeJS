@@ -34,15 +34,38 @@ export interface TransportRequest {
   signal?: AbortSignal;
   maxResponseBytes: number;
   lookup?: DestinationPolicy['lookup'];
+  stream?: boolean;
 }
 export interface TransportResponse {
   status: number;
   statusText: string;
   headers: Array<[string, string]>;
-  body: Uint8Array;
+  body: Uint8Array | ReadableStream<Uint8Array>;
 }
 export type Transport = ((req: TransportRequest) => Promise<TransportResponse>) & { close?(): void };
-export declare function createNodeTransport(options?: { keepAlive?: boolean; lookup?: DestinationPolicy['lookup'] }): Transport;
+type CA = string | Uint8Array | Array<string | Uint8Array>;
+export declare function createNodeTransport(options?: {
+  keepAlive?: boolean;
+  lookup?: DestinationPolicy['lookup'];
+  ca?: CA;
+  /** http:// proxy URL; https targets are tunnelled with CONNECT. */
+  proxy?: string;
+}): Transport;
+export declare function createHttp2Transport(options?: { lookup?: DestinationPolicy['lookup']; ca?: CA; idleTimeoutMs?: number }): Transport;
+
+export declare class HttpStreamResponse {
+  readonly status: number;
+  readonly statusText: string;
+  readonly headers: Headers;
+  readonly url: string;
+  readonly redirected: boolean;
+  readonly body: ReadableStream<Uint8Array>;
+  readonly ok: boolean;
+  bytes(): Promise<Uint8Array>;
+  text(): Promise<string>;
+  json<T = unknown>(options?: { schema?: { parse(v: unknown): T }; maxDepth?: number }): Promise<T>;
+  cancel(reason?: unknown): Promise<void>;
+}
 
 type Body = string | Uint8Array | ArrayBuffer | URLSearchParams;
 export interface RequestOptions {
@@ -56,6 +79,7 @@ export interface RequestOptions {
   maxResponseBytes?: number;
   throwOnStatus?: boolean;
   retry?: false | Omit<RetryOptions, 'signal'>;
+  stream?: boolean;
 }
 export interface HttpClientOptions {
   baseUrl?: string;
@@ -69,17 +93,31 @@ export interface HttpClientOptions {
   hooks?: EventHub;
   transport?: Transport;
   userAgent?: string;
+  /** http:// proxy for the built-in transport. */
+  proxy?: string;
+  /** Use the built-in HTTP/2 transport. */
+  http2?: boolean;
+  /** Extra CA certificates for the built-in transports. */
+  ca?: CA;
+  /** Extra header names removed on cross-origin redirects (Authorization, Cookie, Proxy-Authorization always are). */
+  stripHeadersOnRedirect?: string[];
 }
-type MethodOptions = Omit<RequestOptions, 'url' | 'method'>;
+type MethodOptions = Omit<RequestOptions, 'url' | 'method' | 'stream'>;
+type Method = (url: string, options?: MethodOptions) => Promise<HttpResponse>;
+interface MethodWithStream {
+  (url: string, options: MethodOptions & { stream: true }): Promise<HttpStreamResponse>;
+  (url: string, options?: MethodOptions & { stream?: false }): Promise<HttpResponse>;
+}
 export interface HttpClient {
-  request(options: RequestOptions): Promise<HttpResponse>;
-  get(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  head(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  delete(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  options(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  post(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  put(url: string, options?: MethodOptions): Promise<HttpResponse>;
-  patch(url: string, options?: MethodOptions): Promise<HttpResponse>;
+  request(options: RequestOptions & { stream: true }): Promise<HttpStreamResponse>;
+  request(options: RequestOptions & { stream?: false }): Promise<HttpResponse>;
+  get: MethodWithStream;
+  head: Method;
+  delete: MethodWithStream;
+  options: Method;
+  post: MethodWithStream;
+  put: MethodWithStream;
+  patch: MethodWithStream;
   readonly policy: DestinationPolicy;
   close(): void;
 }

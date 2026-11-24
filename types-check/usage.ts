@@ -81,6 +81,11 @@ export async function usage(): Promise<void> {
   } catch (e) {
     if (e instanceof HttpStatusError) e.response.status satisfies number;
   }
+  const streamed = await client.get('https://example.com/', { stream: true });
+  for await (const chunk of streamed.body) chunk satisfies Uint8Array;
+  (await streamed.text()) satisfies string;
+  createHttpClient({ proxy: 'http://proxy:8080', ca: 'pem', stripHeadersOnRedirect: ['x-api-key'] }).close();
+  createHttpClient({ http2: true }).close();
   createFakeClock().advance(1);
   fuzzStrings({ seed: 1 }) satisfies string[];
 

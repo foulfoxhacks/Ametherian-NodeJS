@@ -39,7 +39,10 @@ export function createMockTransport(routes = {}) {
     if (bytes.byteLength > req.maxResponseBytes) {
       throw new LimitExceededError('Mock response exceeded maxResponseBytes', { limit: req.maxResponseBytes, actual: bytes.byteLength, resource: 'response-body' });
     }
-    return { status: spec.status ?? 200, statusText: spec.statusText ?? '', headers, body: bytes };
+    const out = req.stream
+      ? new ReadableStream({ start: (c) => { if (bytes.byteLength) c.enqueue(bytes); c.close(); } })
+      : bytes;
+    return { status: spec.status ?? 200, statusText: spec.statusText ?? '', headers, body: out };
   };
   transport.calls = calls;
   transport.route = (key, handler) => table.set(key, handler);

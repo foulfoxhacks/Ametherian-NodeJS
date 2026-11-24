@@ -10,7 +10,7 @@ may change without notice.
 
 | Runtime | Support |
 |---|---|
-| Node.js 20 LTS | Supported (minimum 20.6) |
+| Node.js 20 LTS | Supported (packages declare `>=20`; the test suite needs 20.6+ for `ReadableStream.from`) |
 | Node.js 22 LTS | Supported |
 | Node.js 24 | Supported |
 | Odd-numbered Node releases | Best effort |

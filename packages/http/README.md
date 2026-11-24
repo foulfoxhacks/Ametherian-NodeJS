@@ -25,6 +25,12 @@ api.close();
 | Headers | CR/LF in names or values is rejected. Names are lower-cased. |
 | Events | `http.request`, `http.response`, `http.redirect`, `http.retry`, `http.error` on an optional `hooks` event hub, with redacted URLs. |
 
-**Transport:** the client talks to a small transport function (`createNodeTransport` by default). Tests can pass a fake one; see `ametherian-testing`.
+| Streaming | `{ stream: true }` returns `HttpStreamResponse`: `body` is a web `ReadableStream`, with `bytes()`/`text()`/`json()`/`cancel()`. The size limit and the request deadline keep applying while the body is read. |
+| Extra redirect stripping | `stripHeadersOnRedirect: ['x-api-key']` removes more headers on cross-origin hops. |
+| Proxy | `proxy: 'http://user:pass@proxy:8080'`. http:// targets are sent in absolute form; https:// targets are tunnelled with CONNECT, with TLS end to end. Proxy credentials go only to the proxy. The proxy resolves names, so the guard checks the target URL but can't check the proxy's DNS answer. |
+| HTTP/2 | `http2: true` uses one session per origin over TLS (ALPN h2) or h2c for `http://`. The guard lookup, limits and deadlines still apply. HTTP/2 through a proxy is not supported. |
+| Custom CA | `ca: pem` for private or test certificate authorities. There is no option to turn off certificate verification. |
 
-**Not covered yet:** HTTP proxies, HTTP/2, streaming request/response bodies, cookies, multipart uploads.
+**Transport:** the client talks to a small transport function (`createNodeTransport` by default, `createHttp2Transport` with `http2: true`). Tests can pass a fake one; see `ametherian-testing`.
+
+**Not covered yet:** streaming *request* bodies, cookies, multipart uploads, SOCKS proxies. See [docs/threat-models/http.md](../../docs/threat-models/http.md).
