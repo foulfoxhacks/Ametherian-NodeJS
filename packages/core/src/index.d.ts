@@ -101,3 +101,23 @@ export declare function validateOptions<S extends Record<string, OptionSpec>>(
   schema: S,
   settings?: { name?: string; allowUnknown?: boolean },
 ): Readonly<{ [K in keyof S]: any }>;
+
+export declare const asyncDispose: typeof Symbol.asyncDispose;
+export declare const dispose: typeof Symbol.dispose;
+export declare const CLEANUP_FAILED: 'AMETHERIAN_CLEANUP_FAILED';
+export interface ResourceScope {
+  readonly closed: boolean;
+  defer(fn: () => unknown): void;
+  use<T extends object>(resource: T): T;
+  close(): Promise<void>;
+  [Symbol.asyncDispose](): Promise<void>;
+}
+export declare function createResourceScope(): ResourceScope;
+
+export interface EventHub {
+  on(name: string, fn: (payload: any) => unknown): () => void;
+  onAny(fn: (name: string, payload: any) => unknown): () => void;
+  hasListeners(name: string): boolean;
+  emit(name: string, payload?: Record<string, unknown>): void;
+}
+export declare function createEventHub(options?: { onListenerError?: (error: unknown, event: string) => void }): EventHub;
