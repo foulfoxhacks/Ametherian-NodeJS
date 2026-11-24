@@ -65,7 +65,7 @@ def sitemap_page() -> str:
   <div class="shell">
     <p class="eyebrow">Ametherian · Site index</p>
     <h1>XML Sitemap</h1>
-    <p class="sitemap-lead">Explore the public pages, project policies, and technical documentation that make up Ametherian.</p>
+    <p class="sitemap-lead">Explore the public pages, project policies, documentation, and discovery resources that make up Ametherian.</p>
     <div class="sitemap-toolbar">
       <label class="visually-hidden" for="sitemap-search">Filter sitemap pages</label>
       <input id="sitemap-search" type="search" data-sitemap-search placeholder="Filter pages…" autocomplete="off">
@@ -75,18 +75,60 @@ def sitemap_page() -> str:
     <div class="sitemap-output" data-sitemap-output>
       <noscript><p>Enable JavaScript to display the visual sitemap. The <a href="{url_for('sitemap.xml', current)}">XML sitemap remains available</a>.</p></noscript>
     </div>
-    <p class="sitemap-note">The XML file remains the authoritative crawler-facing sitemap. This page transforms that same XML locally in your browser.</p>
+    <p class="sitemap-note">This is a CSS-styled HTML view of the crawler-facing XML sitemap. The XML remains independently readable by search engines and automated tools.</p>
   </div>
 </main>
 {site_footer(current)}
-<script>window.xsltUsePolyfillOnlyIfNeeded = true; window.xsltDontAutoloadXmlDocs = true;</script>
 {canonical_path_script(current)}
-<script src="{url_for('assets/vendor/xslt-polyfill.min.js', current)}" defer></script>
 <script src="{url_for('assets/sitemap.js', current)}" defer></script>
 <script src="{url_for('assets/site.js', current)}" defer></script>
 </body>
 </html>
 """
+
+
+def llms_page() -> str:
+    current = "llms/index.html"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+{head(current)}
+</head>
+<body class="page-home" data-root="{root_prefix(current)}">
+<a class="skip-link" href="#main">Skip to content</a>
+{site_header(current, "")}
+<main id="main" class="resources-main">
+  <div class="shell">
+    <p class="eyebrow">Ametherian · Discovery</p>
+    <h1>AI &amp; machine-readable resources</h1>
+    <p class="resources-lead">A human-friendly directory of the structured files that help search engines, AI assistants, developers, and automated tools understand Ametherian.</p>
+    <div class="resources-callout"><strong>Designed for both people and machines.</strong><span>Every raw endpoint remains available in its original format. This page adds presentation; it does not replace or rewrite the source files.</span></div>
+    <div class="resource-grid">
+      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Primary context</span><span class="resource-card__format">TXT</span></div><h2>llms.txt</h2><p>A concise overview of Ametherian, its proposal status, documentation, project files, and claim policy.</p><div class="resource-card__actions"><a href="{url_for('llms.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/llms.txt">Copy URL</button></div></article>
+      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Expanded context</span><span class="resource-card__format">TXT</span></div><h2>llms-full.txt</h2><p>Expanded project context covering the vision, package areas, architecture, security approach, roadmap, and boundaries.</p><div class="resource-card__actions"><a href="{url_for('llms-full.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/llms-full.txt">Copy URL</button></div></article>
+      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Search discovery</span><span class="resource-card__format">XML</span></div><h2>XML sitemap</h2><p>Canonical public URL inventory for search engines and automated discovery.</p><div class="resource-card__actions"><a href="{url_for('sitemap.xml', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/sitemap.xml">Copy URL</button></div></article>
+      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Site metadata</span><span class="resource-card__format">JSON</span></div><h2>Site configuration</h2><p>Machine-readable site metadata, canonical page routes, publisher details, and theme tokens.</p><div class="resource-card__actions"><a href="{url_for('site.config.json', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/site.config.json">Copy URL</button></div></article>
+      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Crawler guidance</span><span class="resource-card__format">TXT</span></div><h2>robots.txt</h2><p>Public crawler access policy and the canonical sitemap location.</p><div class="resource-card__actions"><a href="{url_for('robots.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/robots.txt">Copy URL</button></div></article>
+    </div>
+    <section class="resources-footnote" aria-labelledby="resources-principles">
+      <h2 id="resources-principles">Format and compatibility</h2>
+      <ul>
+        <li><code>llms.txt</code> and <code>llms-full.txt</code> remain plain Markdown text files.</li>
+        <li><code>sitemap.xml</code> remains standard XML without a stylesheet processing instruction.</li>
+        <li>JSON and crawler directives remain raw machine-readable files.</li>
+        <li>CSS is applied only to this human-facing HTML directory and the visual sitemap.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+{site_footer(current)}
+{canonical_path_script(current)}
+<script src="{url_for('assets/resources.js', current)}" defer></script>
+<script src="{url_for('assets/site.js', current)}" defer></script>
+</body>
+</html>
+"""
+
 
 
 
@@ -101,6 +143,7 @@ RENDERERS = {
     "SECURITY.html": security_policy_page,
     "CONTRIBUTING.html": contributing_page,
     "sitemap/index.html": sitemap_page,
+    "llms/index.html": llms_page,
     "404.html": not_found_page,
 }
 
@@ -194,35 +237,6 @@ def sitemap() -> str:
         + "\n".join(rows)
         + "\n</urlset>\n"
     )
-
-
-def sitemap_xsl() -> str:
-    """Return the XSLT 1.0 fragment used by the browser-side sitemap viewer."""
-    return """<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sm="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <xsl:output method="html" encoding="UTF-8" indent="yes"/>
-  <xsl:template match="/">
-    <div class="sitemap-groups">
-      <section class="sitemap-group" aria-labelledby="sitemap-project-title">
-        <div class="sitemap-group__heading"><p class="sitemap-group__eyebrow">01 · Project</p><h2 id="sitemap-project-title">Website and policies</h2></div>
-        <div class="sitemap-entries">
-          <xsl:for-each select="sm:urlset/sm:url[not(contains(sm:loc, '/docs/'))]">
-            <article class="sitemap-entry"><a class="sitemap-entry__link"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="sitemap-entry__date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></article>
-          </xsl:for-each>
-        </div>
-      </section>
-      <section class="sitemap-group" aria-labelledby="sitemap-docs-title">
-        <div class="sitemap-group__heading"><p class="sitemap-group__eyebrow">02 · Reference</p><h2 id="sitemap-docs-title">Documentation</h2></div>
-        <div class="sitemap-entries">
-          <xsl:for-each select="sm:urlset/sm:url[contains(sm:loc, '/docs/')]">
-            <article class="sitemap-entry"><a class="sitemap-entry__link"><xsl:attribute name="href"><xsl:value-of select="sm:loc"/></xsl:attribute><xsl:value-of select="sm:loc"/></a><span class="sitemap-entry__date"><xsl:if test="sm:lastmod">Updated <xsl:value-of select="sm:lastmod"/></xsl:if></span></article>
-          </xsl:for-each>
-        </div>
-      </section>
-    </div>
-  </xsl:template>
-</xsl:stylesheet>
-"""
 
 
 def llms_txt() -> str:
@@ -410,7 +424,7 @@ def webmanifest() -> str:
 def main() -> None:
     rendered = {path: renderer() for path, renderer in RENDERERS.items()}
     for path, source in rendered.items():
-        if path in {"index.html", "docs/index.html", "sitemap/index.html", "404.html"}:
+        if path in {"index.html", "docs/index.html", "sitemap/index.html", "llms/index.html", "404.html"}:
             write_text(path, source)
             continue
         clean_route_file = ROUTES[path].lstrip("/") + "index.html"
@@ -429,7 +443,6 @@ def main() -> None:
     )
 
     write_text("sitemap.xml", sitemap())
-    write_text("sitemap.xsl", sitemap_xsl())
     write_text("llms.txt", llms_txt())
     write_text("llms-full.txt", llms_full_txt())
     write_text("site.config.json", site_config())
