@@ -218,21 +218,6 @@ PAGES = {
         "short": "XML sitemap",
         "eyebrow": "Site index",
     },
-    "404.html": {
-        "title": "Page not found — Ametherian",
-        "description": "The requested page is not part of the Ametherian site.",
-        "og_title": "Page not found",
-        "og_subtitle": "This page does not exist.",
-        "og_label": "404",
-        "og_key": "404",
-        "og_alt": "Ametherian page not found social card.",
-        "body_class": "page-404",
-        "nav": "",
-        "kind": "website",
-        "schema": "404",
-        "robots": "noindex,follow",
-    },
-}
 
     "llms/index.html": {
         "title": "AI & machine-readable resources — Ametherian",
@@ -248,6 +233,22 @@ PAGES = {
         "schema": "doc",
         "short": "AI resources",
     },
+
+    "404.html": {
+        "title": "Page not found — Ametherian",
+        "description": "The requested page is not part of the Ametherian site.",
+        "og_title": "Page not found",
+        "og_subtitle": "This page does not exist.",
+        "og_label": "404",
+        "og_key": "404",
+        "og_alt": "Ametherian page not found social card.",
+        "body_class": "page-404",
+        "nav": "",
+        "kind": "website",
+        "schema": "404",
+        "robots": "noindex,follow",
+    },
+}
 
 ROUTES = {
     "index.html": "/",
