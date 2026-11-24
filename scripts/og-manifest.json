@@ -63,6 +63,13 @@
     "url": "ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
   },
   {
+    "key": "home",
+    "title": "XML sitemap",
+    "subtitle": "A structured directory of Ametherian's public website.",
+    "label": "SITE INDEX",
+    "url": "ametherian.foulfoxhacks.dev/sitemap"
+  },
+  {
     "key": "404",
     "title": "Page not found",
     "subtitle": "This page does not exist.",
