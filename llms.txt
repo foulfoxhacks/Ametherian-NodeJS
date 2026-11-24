@@ -1,0 +1,38 @@
+# Ametherian
+
+> Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first direction. It is at the public proposal and planning stage. No packages are published, audited, or production-ready.
+
+## Important status
+
+- Ametherian is a proposal, not released software.
+- No Ametherian package is published, and no security audit has been performed.
+- The project is independent and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project.
+- The project license has not been selected.
+- The roadmap is staged and publishes no dates or release commitments.
+
+## Documentation
+
+- [Documentation hub](https://ametherian.foulfoxhacks.dev/docs/)
+- [Project vision](https://ametherian.foulfoxhacks.dev/docs/vision.html)
+- [Proposed package map](https://ametherian.foulfoxhacks.dev/docs/packages.html)
+- [Architecture direction](https://ametherian.foulfoxhacks.dev/docs/architecture.html)
+- [Security approach](https://ametherian.foulfoxhacks.dev/docs/security.html)
+- [Proposed roadmap](https://ametherian.foulfoxhacks.dev/docs/roadmap.html)
+- [Security policy](https://ametherian.foulfoxhacks.dev/SECURITY.html)
+- [Contributing](https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html)
+
+## Project files
+
+- [Project status](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/PROJECT_STATUS.md)
+- [Project brief](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/AMETHERIAN-PROJECT-BRIEF.txt)
+- [License status](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/LICENSE-STATUS.md)
+- [Notice](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/NOTICE.md)
+- [Source repository](https://github.com/foulfoxhacks/Ametherian-NodeJS)
+
+## Topics
+
+Ametherian explores networking and protocols, data validation and serialization, application infrastructure, security engineering, observability, testing, developer tooling, and runtime utilities. The intent is focused packages with shared conventions rather than one monolithic dependency.
+
+## Claim policy
+
+Descriptions on this site distinguish proposed direction from implemented and released functionality. Compatibility, performance, security, and reliability claims require reproducible evidence or an explicit label as goals.

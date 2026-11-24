@@ -1,0 +1,63 @@
+{
+  "project": "Ametherian",
+  "publisher": "FoulFoxHacks",
+  "tagline": "A new kind of Node library ecosystem",
+  "status": "proposal",
+  "siteUrl": "https://ametherian.foulfoxhacks.dev",
+  "basePath": "",
+  "repository": "https://github.com/foulfoxhacks/Ametherian-NodeJS",
+  "defaultLocale": "en",
+  "lastReviewed": "2026-11-24",
+  "pages": [
+    {
+      "path": "index.html",
+      "url": "https://ametherian.foulfoxhacks.dev/"
+    },
+    {
+      "path": "docs/index.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/"
+    },
+    {
+      "path": "docs/vision.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/vision.html"
+    },
+    {
+      "path": "docs/packages.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/packages.html"
+    },
+    {
+      "path": "docs/architecture.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/architecture.html"
+    },
+    {
+      "path": "docs/security.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/security.html"
+    },
+    {
+      "path": "docs/roadmap.html",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/roadmap.html"
+    },
+    {
+      "path": "SECURITY.html",
+      "url": "https://ametherian.foulfoxhacks.dev/SECURITY.html"
+    },
+    {
+      "path": "CONTRIBUTING.html",
+      "url": "https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
+    }
+  ],
+  "theme": {
+    "name": "Cosmic Amethyst",
+    "colors": {
+      "background": "#0b0812",
+      "surface": "#120e1c",
+      "surfaceRaised": "#1d162c",
+      "text": "#f5f2fb",
+      "muted": "#b9b0c9",
+      "amethyst": "#8b53fe",
+      "violet": "#6d3be0",
+      "border": "#322847",
+      "node": "#5fa04e"
+    }
+  }
+}

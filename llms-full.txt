@@ -1,0 +1,74 @@
+# Ametherian — full project context
+
+Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the `@foulfoxhacks` npm scope. Its direction is Node.js-first and broader than a single HTTP client: it explores networking, data handling, application infrastructure, developer tooling, and security-conscious engineering.
+
+The project is at the public proposal and planning stage. No packages are published. No security audit has been performed. The project is not production-ready, is not a drop-in replacement for Axios or Undici, and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. The license has not been selected.
+
+## Canonical pages
+
+- Home: https://ametherian.foulfoxhacks.dev/
+- Documentation: https://ametherian.foulfoxhacks.dev/docs/
+- Vision: https://ametherian.foulfoxhacks.dev/docs/vision.html
+- Package map: https://ametherian.foulfoxhacks.dev/docs/packages.html
+- Architecture: https://ametherian.foulfoxhacks.dev/docs/architecture.html
+- Security approach: https://ametherian.foulfoxhacks.dev/docs/security.html
+- Roadmap: https://ametherian.foulfoxhacks.dev/docs/roadmap.html
+- Security policy: https://ametherian.foulfoxhacks.dev/SECURITY.html
+- Contributing: https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html
+
+## Vision
+
+Ametherian aims to investigate where consistent contracts and well-defined package boundaries could make commonly repeated infrastructure work easier to understand and maintain. Candidate packages are intended to be adopted independently and composed through shared conventions. The initial research compares Axios-style HTTP client ergonomics with Undici-style transport architecture. That is a starting point, not a boundary or a compatibility claim.
+
+Project boundaries:
+
+- Ametherian is a proposal and planning effort, not released software.
+- Candidate package names, capabilities, and roadmap items are provisional.
+- The project will not promise complete vulnerability prevention, universal compatibility, or automatic safety for arbitrary consuming applications.
+- Third-party names identify technologies and research context only.
+
+## Proposed package areas
+
+- Networking and protocols: HTTP clients, transport adapters, connection pools, proxy support, streaming, protocol utilities, retries, deadlines, and cancellation.
+- Data and serialization: validation, schemas, parsing, serialization, conversion, structured data, and safe handling of untrusted input.
+- Application infrastructure: caching, queues, concurrency, rate limiting, configuration, dependency boundaries, lifecycle management, and resilience.
+- Security engineering: security policy helpers, secure configuration, vulnerability intelligence integrations, dependency and supply-chain review, test fixtures, and regression tooling.
+- Observability and developer experience: logging, diagnostics, metrics, tracing, typed errors, test utilities, mocks, fixtures, fuzzing helpers, CLI support, and documentation tooling.
+
+Candidate names from the project brief: `@foulfoxhacks/ametherian`, `-core`, `-http`, `-transport`, `-security`, `-guard`, `-schema`, `-cache`, `-observability`, and `-testing`. These are naming proposals, not published packages.
+
+## Architecture direction
+
+Packages should have one understandable responsibility, declare supported runtime capabilities, and remain useful without unrelated modules. Candidate shared contracts include typed errors, cancellation, deadlines, resource lifecycle, configuration validation, logging hooks, and documentation of side effects. Shared contracts should reduce fragmentation without circular dependencies or forced dependencies.
+
+Node.js is the initial target. APIs should make runtime assumptions explicit and isolate environment-specific behavior behind adapters where useful. Unsupported capabilities should fail clearly. Network and stream-oriented packages should define timeouts, maximum sizes, concurrency bounds, backpressure, cancellation, and cleanup. Defaults should be conservative and configurable.
+
+Before stable releases, the project should document supported Node.js versions, module formats, TypeScript support, semantic versioning policy, deprecation windows, and interoperability expectations. Compatibility and performance claims need reproducible tests, benchmark methodology, fuzzing where appropriate, and transparent release notes.
+
+## Security approach
+
+Security is a design and maintenance requirement, not a marketing guarantee. Each package must document trust boundaries, threat model, assumptions, and known limitations. Threat modeling should consider SSRF, DNS rebinding, redirect policy bypasses, TLS hostname and certificate validation, credential exposure, unsafe parsing, prototype pollution, decompression bombs, unbounded resource use, cache poisoning and isolation, filesystem traversal, concurrency races, and dependency or build-chain compromise.
+
+Practices include reusing mature cryptographic, TLS, compression, and parsing primitives; bounding resource use; avoiding secret logging; validating redirects and protocol transitions; testing malformed and adversarial inputs; tracking dependency provenance; adding regression tests for confirmed vulnerabilities; and requiring human review for security-sensitive fixes.
+
+Vulnerability intelligence may draw on OSV, GitHub Security Advisories, NVD, CISA Known Exploited Vulnerabilities, Node.js security advisories, and upstream advisories. Any ingestion must preserve source attribution, timestamps, affected-version ranges, confidence, and freshness. Intelligence informs review and testing; it must not trigger unreviewed production changes.
+
+Security reports must follow the security policy. Do not post exploit details publicly before coordinated disclosure. There are no released packages or audited guarantees at this stage.
+
+## Roadmap
+
+The roadmap is staged: research and project foundation; specifications and threat models; implementation and verification; release readiness. Dates and release commitments are not published until scope, ownership, and capacity are established.
+
+A package should not be described as stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit. The status labels are proposal, active implementation, preview release, and stable release. No package currently meets the preview or stable definition.
+
+## Project status
+
+The project status report lists the vision as drafted, package taxonomy as proposed, HTTP and transport research as an initial documented direction, the security model as proposed requirements, vulnerability intelligence as a proposed workflow, package implementations as not represented as complete, and security audit as not performed. Progress requires public evidence such as reviewed specifications, threat models, source, tests, changelogs, and releases.
+
+## Project files
+
+- https://github.com/foulfoxhacks/Ametherian-NodeJS
+- https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/PROJECT_STATUS.md
+- https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/LICENSE-STATUS.md
+- https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/NOTICE.md
+- https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/REFERENCES.md

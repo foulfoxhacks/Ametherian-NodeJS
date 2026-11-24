@@ -1,0 +1,72 @@
+[
+  {
+    "key": "home",
+    "title": "A new kind of Node library ecosystem",
+    "subtitle": "An independent ecosystem for modular JavaScript and TypeScript infrastructure.",
+    "label": "ECOSYSTEM",
+    "url": "ametherian.foulfoxhacks.dev"
+  },
+  {
+    "key": "docs",
+    "title": "Documentation",
+    "subtitle": "Vision, package map, architecture, security, and roadmap.",
+    "label": "DOCUMENTATION",
+    "url": "ametherian.foulfoxhacks.dev/docs"
+  },
+  {
+    "key": "vision",
+    "title": "Project vision",
+    "subtitle": "A cohesive ecosystem of focused packages — not one oversized dependency.",
+    "label": "DOCUMENT",
+    "url": "ametherian.foulfoxhacks.dev/docs/vision.html"
+  },
+  {
+    "key": "packages",
+    "title": "Package map",
+    "subtitle": "Five research areas. Candidate packages.",
+    "label": "DOCUMENT",
+    "url": "ametherian.foulfoxhacks.dev/docs/packages.html"
+  },
+  {
+    "key": "architecture",
+    "title": "Architecture direction",
+    "subtitle": "Modular packages, explicit runtime boundaries, shared contracts.",
+    "label": "DOCUMENT",
+    "url": "ametherian.foulfoxhacks.dev/docs/architecture.html"
+  },
+  {
+    "key": "security-approach",
+    "title": "Security approach",
+    "subtitle": "Threat models, bounded resources, and evidence-backed claims.",
+    "label": "DOCUMENT",
+    "url": "ametherian.foulfoxhacks.dev/docs/security.html"
+  },
+  {
+    "key": "roadmap",
+    "title": "Roadmap",
+    "subtitle": "Research, specifications, implementation, and release readiness.",
+    "label": "DOCUMENT",
+    "url": "ametherian.foulfoxhacks.dev/docs/roadmap.html"
+  },
+  {
+    "key": "security-policy",
+    "title": "Security policy",
+    "subtitle": "Reporting status and the intended security process.",
+    "label": "POLICY",
+    "url": "ametherian.foulfoxhacks.dev/SECURITY.html"
+  },
+  {
+    "key": "contributing",
+    "title": "Contributing",
+    "subtitle": "How to give feedback on the direction and architecture.",
+    "label": "POLICY",
+    "url": "ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
+  },
+  {
+    "key": "404",
+    "title": "Page not found",
+    "subtitle": "This page does not exist.",
+    "label": "404",
+    "url": "ametherian.foulfoxhacks.dev/404.html"
+  }
+]

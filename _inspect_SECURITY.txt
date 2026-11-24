@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Security policy · Ametherian</title>
+<meta name="description" content="How to report potential security issues in Ametherian.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://ametherian.foulfoxhacks.dev/SECURITY.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Security policy · Ametherian">
+<meta property="og:description" content="How to report potential security issues in Ametherian.">
+<meta property="og:url" content="https://ametherian.foulfoxhacks.dev/SECURITY.html">
+<meta property="og:image" content="https://ametherian.foulfoxhacks.dev/assets/ametherian-social-card.svg">
+<meta property="og:image:alt" content="Ametherian project in cosmic amethyst styling">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Security policy","description":"How to report potential security issues in Ametherian.","publisher":{"@type":"Organization","name":"FoulFoxHacks"}}</script>
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="site-header">
+<div class="wrap nav">
+<a class="brand" href="/" title="Ametherian home">
+<img class="brand-mark-image" src="/assets/ametherian-mark.svg" alt="">Ametherian</a>
+<nav class="nav-links" aria-label="Main navigation">
+<a href="/" title="Project home">Home</a>
+<a href="/docs/vision.html" title="Project vision">Vision</a>
+<a href="/docs/security.html" title="Security approach">Security</a>
+</nav>
+</div>
+</header>
+<main class="wrap section prose">
+<h1>Security policy</h1>
+<h2>Current status</h2>
+<p>Ametherian is a planning repository. There are no released Ametherian packages or audited security guarantees represented here.</p>
+<h2>Reporting a vulnerability</h2>
+<p>Until a private reporting channel is configured, do not send sensitive vulnerability details through public Issues or Discussions. Contact the maintainers through a verified private channel listed on the repository's GitHub Security tab once it is enabled.</p>
+<p>Do not include live credentials, personal data, or data belonging to third parties in a report.</p>
+<h2>Intended security process</h2>
+<p>For future implementation repositories, the project intends to establish:</p>
+<ul>
+<li>A supported-version policy and security contact</li>
+<li>Private vulnerability reporting and coordinated disclosure</li>
+<li>Severity triage based on impact, exploitability, affected configurations, and known exploitation</li>
+<li>Reproducible regression tests for confirmed vulnerabilities</li>
+<li>Security advisories and patched release notes</li>
+<li>Dependency, secret, static-analysis, and supply-chain checks</li>
+<li>A documented emergency release and package-deprecation process</li>
+</ul>
+<h2>Security claims</h2>
+<p>A security feature is not considered complete merely because it appears in a roadmap or configuration example. It must have a defined threat model, implementation, tests, documentation, and review. Independent audits must be described with their actual scope and date.</p>
+<p>
+<a href="/" title="Return to Ametherian home">← Back to project home</a>
+</p>
+</main>
+<footer class="site-footer">
+<div class="wrap footer-row">
+<span>Ametherian · FoulFoxHacks</span>
+<span>
+<a href="/SECURITY.html" title="Security policy">Security</a> · <a href="/CONTRIBUTING.html" title="Contribution guide">Contributing</a>
+</span>
+<nav class="footer-socials" aria-label="Sammy's social profiles">
+<a href="https://www.twitch.tv/akasammythepuppy" aria-label="Twitch" title="Twitch" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/twitch/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://kick.com/akasammythepuppy" aria-label="Kick" title="Kick" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/kick/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://www.youtube.com/@akasammythepuppy" aria-label="YouTube" title="YouTube" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/youtube/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://www.tiktok.com/@akasammythepuppy" aria-label="TikTok" title="TikTok" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/tiktok/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://www.tiktok.com/@alphapupsammy" aria-label="TikTok secondary" title="TikTok secondary" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/tiktok/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://www.instagram.com/akasammythepuppy" aria-label="Instagram" title="Instagram" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/instagram/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://bsky.app/profile/akasammythepuppy.me" aria-label="Bluesky" title="Bluesky" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/bluesky/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://x.com/akasammythepup" aria-label="X" title="X" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/x/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://www.linkedin.com/in/foulfoxhacks/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/linkedin/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://github.com/foulfoxhacks" aria-label="GitHub" title="GitHub" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/github/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+<a href="https://open.spotify.com/user/2z4kruowiuhpf3w0vvhmhdpoz" aria-label="Spotify" title="Spotify" target="_blank" rel="me noopener noreferrer">
+<img src="https://cdn.simpleicons.org/spotify/eee9f5" alt="" loading="lazy" width="20" height="20">
+</a>
+</nav>
+</div>
+</footer>
+</body>
+</html>

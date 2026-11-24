@@ -1,0 +1,6 @@
+# Public proposal and documentation. Search and AI crawlers may read this site.
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+Sitemap: https://ametherian.foulfoxhacks.dev/sitemap.xml
