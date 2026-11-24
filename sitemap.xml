@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/vision.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/packages.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/architecture.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/security.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/roadmap.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/SECURITY.html</loc></url>
-<url><loc>https://foulfoxhacks.github.io/Ametherian-NodeJS/CONTRIBUTING.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/docs/vision.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/docs/packages.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/docs/architecture.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/docs/security.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/docs/roadmap.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/SECURITY.html</loc></url>
+<url><loc>https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html</loc></url>
 </urlset>
