@@ -190,6 +190,8 @@ def section_for(path: str) -> str:
         return "Documentation"
     if path == "sitemap/index.html":
         return "Site index"
+    if path == "llms/index.html":
+        return "Discovery resources"
     if path.startswith("docs/"):
         return "Proposal document"
     return "Project policy"
