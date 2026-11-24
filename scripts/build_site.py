@@ -47,6 +47,44 @@ from sitegen.pages import home_page  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
+def sitemap_page() -> str:
+    current = "sitemap/index.html"
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+{head(current)}
+</head>
+<body class="page-home" data-root="../">
+<a class="skip-link" href="#main">Skip to content</a>
+{site_header(current, "")}
+<main id="main" class="sitemap-main">
+  <div class="shell">
+    <p class="eyebrow">Ametherian · Site index</p>
+    <h1>XML Sitemap</h1>
+    <p class="sitemap-lead">Explore the public pages, project policies, and technical documentation that make up Ametherian.</p>
+    <div class="sitemap-toolbar">
+      <label class="visually-hidden" for="sitemap-search">Filter sitemap pages</label>
+      <input id="sitemap-search" type="search" data-sitemap-search placeholder="Filter pages…" autocomplete="off">
+      <a class="button button--ghost" href="{url_for('sitemap.xml', current)}">View raw XML</a>
+    </div>
+    <p class="sitemap-status" data-sitemap-status role="status" aria-live="polite">Loading the sitemap…</p>
+    <div class="sitemap-output" data-sitemap-output>
+      <noscript><p>Enable JavaScript to display the visual sitemap. The <a href="{url_for('sitemap.xml', current)}">XML sitemap remains available</a>.</p></noscript>
+    </div>
+    <p class="sitemap-note">The XML file remains the authoritative crawler-facing sitemap. This page transforms that same XML locally in your browser.</p>
+  </div>
+</main>
+{site_footer(current)}
+<script>window.xsltUsePolyfillOnlyIfNeeded = true; window.xsltDontAutoloadXmlDocs = true;</script>
+<script src="{url_for('assets/vendor/xslt-polyfill.min.js', current)}" defer></script>
+<script src="{url_for('assets/sitemap.js', current)}" defer></script>
+<script src="{url_for('assets/site.js', current)}" defer></script>
+</body>
+</html>
+"""
+
+
+
 RENDERERS = {
     "index.html": home_page,
     "docs/index.html": docs_home_page,
@@ -130,43 +168,6 @@ def sitemap() -> str:
         + "\n".join(rows)
         + "\n</urlset>\n"
     )
-
-
-def sitemap_page() -> str:
-    current = "sitemap/index.html"
-    return f"""<!doctype html>
-<html lang="en">
-<head>
-{head(current)}
-</head>
-<body class="page-home" data-root="../">
-<a class="skip-link" href="#main">Skip to content</a>
-{site_header(current, "")}
-<main id="main" class="sitemap-main">
-  <div class="shell">
-    <p class="eyebrow">Ametherian · Site index</p>
-    <h1>XML Sitemap</h1>
-    <p class="sitemap-lead">Explore the public pages, project policies, and technical documentation that make up Ametherian.</p>
-    <div class="sitemap-toolbar">
-      <label class="visually-hidden" for="sitemap-search">Filter sitemap pages</label>
-      <input id="sitemap-search" type="search" data-sitemap-search placeholder="Filter pages…" autocomplete="off">
-      <a class="button button--ghost" href="{url_for('sitemap.xml', current)}">View raw XML</a>
-    </div>
-    <p class="sitemap-status" data-sitemap-status role="status" aria-live="polite">Loading the sitemap…</p>
-    <div class="sitemap-output" data-sitemap-output>
-      <noscript><p>Enable JavaScript to display the visual sitemap. The <a href="{url_for('sitemap.xml', current)}">XML sitemap remains available</a>.</p></noscript>
-    </div>
-    <p class="sitemap-note">The XML file remains the authoritative crawler-facing sitemap. This page transforms that same XML locally in your browser.</p>
-  </div>
-</main>
-{site_footer(current)}
-<script>window.xsltUsePolyfillOnlyIfNeeded = true; window.xsltDontAutoloadXmlDocs = true;</script>
-<script src="{url_for('assets/vendor/xslt-polyfill.min.js', current)}" defer></script>
-<script src="{url_for('assets/sitemap.js', current)}" defer></script>
-<script src="{url_for('assets/site.js', current)}" defer></script>
-</body>
-</html>
-"""
 
 
 def sitemap_xsl() -> str:
