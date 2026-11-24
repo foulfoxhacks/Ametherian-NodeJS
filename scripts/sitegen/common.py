@@ -234,6 +234,21 @@ PAGES = {
     },
 }
 
+ROUTES = {
+    "index.html": "/",
+    "docs/index.html": "/docs/",
+    "docs/vision.html": "/docs/vision/",
+    "docs/packages.html": "/docs/packages/",
+    "docs/architecture.html": "/docs/architecture/",
+    "docs/security.html": "/docs/security/",
+    "docs/roadmap.html": "/docs/roadmap/",
+    "SECURITY.html": "/security/",
+    "CONTRIBUTING.html": "/contributing/",
+    "sitemap/index.html": "/sitemap/",
+    "404.html": "/404.html",
+}
+
+
 DOC_ORDER = [
     ("docs/index.html", "Documentation"),
     ("docs/vision.html", "Project vision"),
@@ -355,21 +370,22 @@ SOCIAL_ICONS = {
 def social_icon(name: str) -> str:
     return f'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{SOCIAL_ICONS[name]}</svg>'
 
-def url_for(target: str, current: str) -> str:
-    if target.startswith(("http://", "https://", "mailto:", "#")):
+def route_for(target: str) -> str:
+    """Return the public clean URL for a generated page or static resource."""
+    if target.startswith(("http://", "https://", "mailto:", "tel:", "#")):
         return target
-    start = posixpath.dirname(current) or "."
-    return posixpath.relpath(target, start)
+    path, separator, fragment = target.partition("#")
+    route = ROUTES.get(path, "/" + path.lstrip("/"))
+    return route + (separator + fragment if separator else "")
+
+
+def url_for(target: str, current: str = "") -> str:
+    # Root-relative links remain stable when pages move into directory indexes.
+    return route_for(target)
 
 
 def canonical(path: str) -> str:
-    if path == "index.html":
-        return BASE + "/"
-    if path == "docs/index.html":
-        return BASE + "/docs/"
-    if path == "sitemap/index.html":
-        return BASE + "/sitemap/"
-    return f"{BASE}/{path}"
+    return BASE + route_for(path)
 
 
 def og_image(key: str) -> str:
@@ -505,11 +521,11 @@ def schema_graph(path: str, faqs=None) -> str:
     )
 
 
-def head(path: str, faqs=None) -> str:
+def head(path: str, faqs=None, *, robots: str | None = None) -> str:
     meta = PAGES[path]
     title = meta["title"]
     description = meta["description"]
-    robots = meta.get(
+    robots = robots or meta.get(
         "robots",
         "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     )
@@ -648,10 +664,27 @@ def site_footer(current: str) -> str:
 
 
 def root_prefix(path: str) -> str:
-    rel = url_for("index.html", path)
-    if rel == "index.html":
+    # All internal links and assets are root-relative.
+    return ""
+
+
+def canonical_path_script(path: str) -> str:
+    """Canonicalize unavoidable GitHub Pages index.html aliases in-browser."""
+    aliases = {
+        "index.html": ("/index.html", "/"),
+        "docs/index.html": ("/docs/index.html", "/docs/"),
+        "sitemap/index.html": ("/sitemap/index.html", "/sitemap/"),
+    }
+    alias = aliases.get(path)
+    if not alias:
         return ""
-    return rel.rsplit("/", 1)[0] + "/"
+    old_path, clean_path = alias
+    return (
+        "<script>"
+        f"if (window.location.pathname === {json.dumps(old_path)}) "
+        f"window.location.replace({json.dumps(clean_path)} + window.location.search + window.location.hash);"
+        "</script>"
+    )
 
 
 def site_shell(path: str, body: str, faqs=None) -> str:
@@ -666,7 +699,9 @@ def site_shell(path: str, body: str, faqs=None) -> str:
 {site_header(path, meta['nav'])}
 {body}
 {site_footer(path)}
+{canonical_path_script(path)}
 <script src="{url_for('assets/site.js', path)}" defer></script>
+{canonical_path_script(path)}
 </body>
 </html>
 """
