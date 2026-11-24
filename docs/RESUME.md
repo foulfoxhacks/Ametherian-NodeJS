@@ -7,7 +7,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 - Local checkout: `E:\Codebase\Ametherian-NodeJS`
 - Work branch: `dev/core-foundation` (pushed to `origin`). Never commit to `main` directly; `main` is the live site.
 - Audit: `docs/AUDIT.md`
-- Tests: `npm test` at repo root (Node ≥ 20, no dependencies to install).
+- Tests: `npm test` at repo root (Node ≥ 20.6 for `ReadableStream.from` in tests; no dependencies to install). Current: 47 tests passing in `packages/core`.
 - Site checks (must keep passing): `python scripts/build_site.py && python scripts/check-site.py`
 
 ## Steps
@@ -20,7 +20,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 6. [x] `packages/core` — cancellation & deadlines (`src/cancel.js`) + tests.
 7. [x] `packages/core` — resource limits (`src/limits.js`) + tests.
 8. [x] `packages/core` — redaction (`src/redact.js`) + tests.
-9. [ ] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
+9. [x] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
 10. [ ] `packages/core` — config validation helper (`src/config.js`): validate an options object against a small descriptor (type, min/max, allowed values, required), throw `ConfigError` listing every problem. Tests for each rule and for unknown keys.
 11. [ ] Open a PR from `dev/core-foundation` to `main` for review. Confirm the site-check workflow still passes.
 12. [ ] Write `docs/threat-models/guard.md` (SSRF, DNS rebinding, redirect policy, private ranges, IPv6/IPv4-mapped addresses, URL parsing confusion).

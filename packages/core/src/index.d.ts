@@ -71,3 +71,17 @@ export declare function redactHeaders(
   options?: RedactOptions,
 ): Record<string, string | string[] | undefined>;
 export declare function redactUrl(url: string | URL, options?: RedactOptions): string;
+
+export interface RuntimeCapabilities {
+  runtime: 'node' | 'deno' | 'bun' | 'unknown';
+  version: string | null;
+  fetch: boolean;
+  webStreams: boolean;
+  abortSignalAny: boolean;
+  abortSignalTimeout: boolean;
+  webCrypto: boolean;
+  structuredClone: boolean;
+}
+export type CapabilityName = Exclude<keyof RuntimeCapabilities, 'runtime' | 'version'>;
+export declare function getRuntimeCapabilities(globalObject?: object): Readonly<RuntimeCapabilities>;
+export declare function requireCapability(...names: CapabilityName[]): void;
