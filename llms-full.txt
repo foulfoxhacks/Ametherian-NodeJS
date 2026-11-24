@@ -1,0 +1,26 @@
+# Ametherian
+
+Ametherian is a proposed Node.js-first ecosystem of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope. It is currently at the public proposal and planning stage. No package in this proposal should be treated as released, audited, or production-ready without an explicit release notice.
+
+## Vision and scope
+
+Ametherian explores networking and protocols, data validation and serialization, application infrastructure, security engineering, observability, testing, developer tooling, and runtime utilities. The intent is to provide focused packages with shared conventions rather than a single monolithic dependency.
+
+## Architecture direction
+
+Candidate shared contracts include typed errors, cancellation, deadlines, resource lifecycle, configuration validation, logging hooks, runtime capability declarations, and bounded resource use. Node.js is the initial target. Compatibility, performance, and security claims must be supported by reproducible evidence.
+
+## Security direction
+
+Threat modeling should include SSRF, DNS rebinding, redirect bypass, TLS validation, credential leakage, unsafe parsing, prototype pollution, decompression bombs, resource exhaustion, cache poisoning, path traversal, race conditions, and supply-chain compromise. Prefer mature cryptographic, TLS, compression, and parsing primitives. Vulnerability intelligence should preserve provenance and freshness and inform human-reviewed fixes; it must not trigger unreviewed production code changes.
+
+## Project resources
+
+- https://github.com/foulfoxhacks/Ametherian-NodeJS
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/vision.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/packages.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/architecture.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/security.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/docs/roadmap.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/SECURITY.html
+- https://foulfoxhacks.github.io/Ametherian-NodeJS/CONTRIBUTING.html

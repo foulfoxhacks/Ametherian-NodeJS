@@ -1,0 +1,30 @@
+AMETHERIAN
+A new kind of Node library ecosystem
+A FoulFoxHacks public project proposal
+
+Ametherian is a proposed family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope. Its direction extends beyond HTTP clients into networking, application infrastructure, data handling, developer tooling, and security-conscious engineering.
+
+The initial research compares Axios-style HTTP client ergonomics with Undici-style transport architecture. That is the starting point, not the limit of the project.
+
+AREAS UNDER CONSIDERATION
+Networking and protocols; validation and schemas; serialization and parsing; authentication integrations; caching; queues and concurrency; retries and rate limiting; observability; testing and fuzzing; filesystem and runtime utilities; database adapters; CLI and build tooling; dependency and supply-chain security.
+
+DESIGN PRINCIPLES
+Focused packages with shared conventions. Secure defaults and explicit trust boundaries. Clear runtime capability reporting. Bounded resource use. Interoperability with existing libraries. Evidence-backed claims. Human review for security changes.
+
+CURRENT STATUS
+Public proposal and planning stage. Proposed package names and capabilities are not claims of released software. No security audit or production-readiness claim is made.
+
+PROPOSED PACKAGE EXAMPLES
+@foulfoxhacks/ametherian
+@foulfoxhacks/ametherian-core
+@foulfoxhacks/ametherian-http
+@foulfoxhacks/ametherian-transport
+@foulfoxhacks/ametherian-security
+@foulfoxhacks/ametherian-guard
+@foulfoxhacks/ametherian-schema
+@foulfoxhacks/ametherian-cache
+@foulfoxhacks/ametherian-observability
+@foulfoxhacks/ametherian-testing
+
+Ametherian is not affiliated with or endorsed by Axios, Undici, Node.js, OpenJS, or other referenced projects.
