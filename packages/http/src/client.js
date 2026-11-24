@@ -15,14 +15,19 @@ import {
   ConfigError,
   isAmetherianError,
   AmetherianError,
+  LimitExceededError,
 } from '@foulfoxhacks/ametherian-core';
 import { createDestinationPolicy } from '@foulfoxhacks/ametherian-guard';
 import { retry } from '@foulfoxhacks/ametherian-resilience';
 import { parseJson } from '@foulfoxhacks/ametherian-schema';
 import { createNodeTransport } from './transport.js';
 import { createHttp2Transport } from './http2.js';
-import { HttpStatusError, TOO_MANY_REDIRECTS } from './errors.js';
+import { HttpStatusError, TOO_MANY_REDIRECTS, BASE_URL_ESCAPE } from './errors.js';
+import { own, ownGet } from './hardening.js';
 
+const HEADER_NAME = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
+// eslint-disable-next-line no-control-regex
+const HEADER_VALUE_BAD = /[\x00-\x08\x0a-\x1f\x7f]/;
 const IDEMPOTENT = new Set(['GET', 'HEAD', 'OPTIONS', 'PUT', 'DELETE', 'TRACE']);
 const CREDENTIAL_HEADERS = ['authorization', 'cookie', 'proxy-authorization'];
 const REDIRECT_STATUS = new Set([301, 302, 303, 307, 308]);
@@ -40,6 +45,12 @@ const CLIENT_SCHEMA = {
   userAgent: { type: 'string', default: 'ametherian-http/0.0.0' },
   proxy: { type: 'string' },
   http2: { type: 'boolean', default: false },
+  // With baseUrl set, absolute or protocol-relative request URLs to another origin are refused
+  // (axios CVE-2025-27152 / CVE-2024-39338, undici CVE-2022-35949 class).
+  allowAbsoluteUrls: { type: 'boolean', default: false },
+  maxRequestBytes: { type: 'integer', min: 0, default: 10 * 1024 * 1024 },
+  maxSocketsPerOrigin: { type: 'integer', min: 1, max: 10_000, default: 50 },
+  maxTotalSockets: { type: 'integer', min: 1, max: 100_000, default: 256 },
   stripHeadersOnRedirect: {
     type: 'array',
     default: [],
@@ -56,7 +67,17 @@ const REQUEST_SCHEMA = {
   maxResponseBytes: { type: 'integer', min: 0 },
   throwOnStatus: { type: 'boolean' },
   stream: { type: 'boolean', default: false },
+  maxRequestBytes: { type: 'integer', min: 0 },
 };
+
+/** Origin of a base URL, or a ConfigError if it is not an absolute URL. */
+function policy0(baseUrl) {
+  try {
+    return new URL(baseUrl).origin;
+  } catch {
+    throw new ConfigError('baseUrl must be an absolute URL', { problems: ['baseUrl: not an absolute URL'] });
+  }
+}
 
 /** `retry` may be false (off) or retry options; undefined means defaults. */
 function checkRetryOption(value, where) {
@@ -80,8 +101,17 @@ function lowerHeaders(...sources) {
     const entries = src instanceof Headers ? [...src] : Object.entries(src ?? {});
     for (const [k, v] of entries) {
       if (v === undefined || v === null) continue;
-      if (/[\r\n]/.test(String(k)) || /[\r\n]/.test(String(v))) {
-        throw new ConfigError('Header names and values must not contain CR or LF', { problems: [`headers.${k}: contains CR/LF`] });
+      // RFC 9110: names are tokens; values may not contain control characters other than HTAB.
+      // Rejects CRLF/NUL injection (undici CVE-2022-31150, CVE-2022-35948, CVE-2023-23936; axios CVE-2026-40175).
+      if (!HEADER_NAME.test(String(k))) {
+        throw new ConfigError('Invalid header name', {
+          problems: [`headers: name ${JSON.stringify(String(k)).slice(0, 60)} is not an RFC 9110 token`],
+        });
+      }
+      if (HEADER_VALUE_BAD.test(String(v))) {
+        throw new ConfigError('Header values must not contain control characters', {
+          problems: [`headers.${k}: contains CR, LF, NUL or another control character`],
+        });
       }
       out[String(k).toLowerCase()] = String(v);
     }
@@ -118,9 +148,16 @@ class HttpResponse {
  * @param {object} [options]
  */
 export function createHttpClient(options) {
-  const { retry: clientRetry, ca, ...clientRest } = options ?? {};
+  // Own properties only, so a polluted Object.prototype cannot configure the client.
+  const clientRest = own(options);
+  const clientRetry = ownGet(options, 'retry');
+  const ca = ownGet(options, 'ca');
+  delete clientRest.retry;
+  delete clientRest.ca;
   const o = validateOptions(clientRest, CLIENT_SCHEMA, { name: 'http client options' });
-  const defaultRetry = checkRetryOption(clientRetry, 'http client options') ?? {};
+  const checkedRetry = checkRetryOption(clientRetry, 'http client options');
+  const defaultRetry = checkedRetry === false ? false : own(checkedRetry ?? {});
+  const baseOrigin = o.baseUrl ? policy0(o.baseUrl) : null;
   const policy = o.policy ?? createDestinationPolicy();
   for (const fn of ['checkUrl', 'checkRedirect', 'lookup']) {
     if (typeof policy[fn] !== 'function') throw new ConfigError('policy must come from createDestinationPolicy', { problems: [`policy.${fn}: missing`] });
@@ -137,7 +174,13 @@ export function createHttpClient(options) {
     o.transport ??
     (o.http2
       ? createHttp2Transport({ lookup: policy.lookup, ca })
-      : createNodeTransport({ lookup: policy.lookup, ca, proxy: o.proxy }));
+      : createNodeTransport({
+          lookup: policy.lookup,
+          ca,
+          proxy: o.proxy,
+          maxSocketsPerOrigin: o.maxSocketsPerOrigin,
+          maxTotalSockets: o.maxTotalSockets,
+        }));
   const redirectStrip = [...CREDENTIAL_HEADERS, ...o.stripHeadersOnRedirect.map((h) => h.toLowerCase())];
   const hooks = o.hooks;
   const emit = (name, payload) => {
@@ -147,6 +190,12 @@ export function createHttpClient(options) {
 
   async function attempt(req, signal) {
     let url = policy.checkUrl(req.url, o.baseUrl);
+    if (baseOrigin && !o.allowAbsoluteUrls && url.origin !== baseOrigin) {
+      throw new AmetherianError('Request URL leaves the configured baseUrl origin', {
+        code: BASE_URL_ESCAPE,
+        details: { baseOrigin, url: redactUrl(url) },
+      });
+    }
     let method = req.method;
     let headers = { ...req.headers };
     let body = req.body;
@@ -213,15 +262,36 @@ export function createHttpClient(options) {
    *           throwOnStatus?: boolean, retry?: object | false }} input
    */
   async function request(input) {
-    const { json, body: rawBody, retry: retryOverride, ...rest } = input ?? {};
+    // Own properties only: inherited `json`, `body`, `retry`, headers or method must never apply.
+    const json = ownGet(input, 'json');
+    const rawBody = ownGet(input, 'body');
+    const retryOverride = ownGet(input, 'retry');
+    const rest = own(input);
+    delete rest.json;
+    delete rest.body;
+    delete rest.retry;
     const r = validateOptions(rest, REQUEST_SCHEMA, { name: 'request options' });
     let body = toBytes(rawBody);
     const extraHeaders = {};
     if (json !== undefined) {
       if (rawBody !== undefined) throw new ConfigError('Use either body or json, not both', { problems: ['body/json: both set'] });
-      body = new TextEncoder().encode(JSON.stringify(json));
+      let text;
+      try {
+        text = JSON.stringify(json);
+      } catch (err) {
+        throw new ConfigError('json body could not be serialised', { problems: [`json: ${err.message}`], cause: err });
+      }
+      body = new TextEncoder().encode(text);
       extraHeaders['content-type'] = 'application/json';
       extraHeaders.accept = 'application/json';
+    }
+    const maxRequestBytes = r.maxRequestBytes ?? o.maxRequestBytes;
+    if (body && body.byteLength > maxRequestBytes) {
+      throw new LimitExceededError(`Request body exceeds ${maxRequestBytes} bytes`, {
+        limit: maxRequestBytes,
+        actual: body.byteLength,
+        resource: 'request-body',
+      });
     }
     const req = {
       method: r.method,
@@ -234,7 +304,7 @@ export function createHttpClient(options) {
     };
     const timeoutMs = r.timeoutMs ?? o.timeoutMs;
     const override = checkRetryOption(retryOverride, 'request options');
-    const retryConfig = override === undefined ? defaultRetry : override;
+    const retryConfig = override === undefined ? defaultRetry : override === false ? false : own(override);
     const canRetry = retryConfig && IDEMPOTENT.has(req.method);
 
     const once = async () => {
@@ -274,11 +344,12 @@ export function createHttpClient(options) {
   }
 
   const client = { request, policy, close: () => transport.close?.() };
+  // Method shortcuts build the request from own properties of `opts` only.
   for (const m of ['get', 'head', 'delete', 'options']) {
-    client[m] = (url, opts = {}) => request({ ...opts, method: m.toUpperCase(), url });
+    client[m] = (url, opts = {}) => request(Object.assign(own(opts), { method: m.toUpperCase(), url }));
   }
   for (const m of ['post', 'put', 'patch']) {
-    client[m] = (url, opts = {}) => request({ ...opts, method: m.toUpperCase(), url });
+    client[m] = (url, opts = {}) => request(Object.assign(own(opts), { method: m.toUpperCase(), url }));
   }
   return Object.freeze(client);
 }

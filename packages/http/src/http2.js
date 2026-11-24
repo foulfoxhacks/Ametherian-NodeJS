@@ -11,6 +11,7 @@ import { isIP } from 'node:net';
 import { toAbortError } from '@foulfoxhacks/ametherian-core';
 import { NetworkError } from './errors.js';
 import { bodyFrom, responseHeaderPairs, ametherianCause } from './body.js';
+import { pinnedTls, ownGet } from './hardening.js';
 
 // Connection-specific headers are forbidden in HTTP/2 (RFC 9113 §8.2.2).
 const FORBIDDEN = new Set(['connection', 'keep-alive', 'proxy-connection', 'transfer-encoding', 'upgrade', 'host']);
@@ -19,18 +20,25 @@ const FORBIDDEN = new Set(['connection', 'keep-alive', 'proxy-connection', 'tran
  * @param {{ lookup?: Function, ca?: string | Buffer | Array<string | Buffer>, idleTimeoutMs?: number }} [options]
  */
 export function createHttp2Transport(options = {}) {
+  const opt = (k) => ownGet(options, k);
   /** @type {Map<string, import('node:http2').ClientHttp2Session>} */
   const sessions = new Map();
-  const idleTimeoutMs = options.idleTimeoutMs ?? 30_000;
+  const idleTimeoutMs = opt('idleTimeoutMs') ?? 30_000;
 
   function sessionFor(url) {
     const existing = sessions.get(url.origin);
     if (existing && !existing.closed && !existing.destroyed) return existing;
     const host = url.hostname.replace(/^\[|\]$/g, '');
     const session = http2.connect(url.origin, {
-      ...(options.lookup ? { lookup: options.lookup } : {}),
-      ...(options.ca ? { ca: options.ca } : {}),
-      ...(url.protocol === 'https:' && !isIP(host) ? { servername: host } : {}),
+      ...pinnedTls(opt('ca') ? { ca: opt('ca') } : {}),
+      // Own values shadow polluted prototypes (axios CVE-2026-101898/-101905 class).
+      createConnection: undefined,
+      socketPath: undefined,
+      localAddress: undefined,
+      signal: undefined,
+      settings: undefined,
+      lookup: opt('lookup'),
+      servername: url.protocol === 'https:' && !isIP(host) ? host : undefined,
     });
     session.setTimeout(idleTimeoutMs, () => session.close());
     session.on('error', () => {}); // surfaced per request via stream errors
@@ -71,7 +79,7 @@ export function createHttp2Transport(options = {}) {
         if (!FORBIDDEN.has(k.toLowerCase())) h2headers[k.toLowerCase()] = v;
       }
       try {
-        req = session.request(h2headers, { endStream: !(body && body.byteLength) });
+        req = session.request(h2headers, { endStream: !(body && body.byteLength), signal: undefined, waitForTrailers: false });
       } catch (e) {
         return fail(wrap(e));
       }

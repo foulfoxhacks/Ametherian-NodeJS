@@ -22,6 +22,7 @@ import { isIP } from 'node:net';
 import { toAbortError, redactUrl, ConfigError } from '@foulfoxhacks/ametherian-core';
 import { NetworkError } from './errors.js';
 import { bodyFrom, responseHeaderPairs, ametherianCause } from './body.js';
+import { pinnedHttp, pinnedTls, ownGet } from './hardening.js';
 
 function parseProxy(proxy) {
   if (proxy === undefined) return null;
@@ -42,19 +43,33 @@ function parseProxy(proxy) {
 }
 
 /**
- * @param {{ keepAlive?: boolean, lookup?: Function, ca?: string | Buffer | Array<string | Buffer>, proxy?: string }} [options]
+ * @param {{ keepAlive?: boolean, lookup?: Function, ca?: string | Buffer | Array<string | Buffer>, proxy?: string,
+ *           maxSocketsPerOrigin?: number, maxTotalSockets?: number, maxFreeSockets?: number }} [options]
  */
 export function createNodeTransport(options = {}) {
-  const proxy = parseProxy(options.proxy);
-  const tlsOptions = options.ca ? { ca: options.ca } : {};
-  const agentOptions = { keepAlive: options.keepAlive ?? true, ...(options.lookup ? { lookup: options.lookup } : {}), ...tlsOptions };
+  // Read only own properties: inherited (polluted) values must never configure the transport.
+  const opt = (k) => ownGet(options, k);
+  const proxy = parseProxy(opt('proxy'));
+  const lookup = opt('lookup');
+  const tlsOptions = pinnedTls(opt('ca') ? { ca: opt('ca') } : {});
+  // Pool limits, like undici's Pool connections/maxTotal: bounded sockets per origin and overall.
+  const pool = {
+    keepAlive: opt('keepAlive') ?? true,
+    maxSockets: opt('maxSocketsPerOrigin') ?? 50,
+    maxTotalSockets: opt('maxTotalSockets') ?? 256,
+    maxFreeSockets: opt('maxFreeSockets') ?? 16,
+    scheduling: 'lifo',
+  };
+  const agentOptions = { ...pinnedHttp(), ...pool, lookup, ...tlsOptions };
   const agents = { 'http:': new http.Agent(agentOptions), 'https:': new https.Agent(agentOptions) };
   // Reaching the proxy itself uses normal DNS: the proxy is trusted configuration and often private.
-  const proxyAgent = proxy ? new http.Agent({ keepAlive: options.keepAlive ?? true }) : null;
+  const proxyAgent = proxy ? new http.Agent({ ...pinnedHttp(), ...pool, lookup: undefined }) : null;
 
   function tunnel(url, onSocket) {
     const target = `${url.hostname.replace(/^\[|\]$/g, '')}:${url.port || 443}`;
     const connectReq = http.request({
+      ...pinnedHttp(),
+      lookup: undefined,
       host: proxy.hostname,
       port: proxy.port,
       method: 'CONNECT',
@@ -69,7 +84,7 @@ export function createNodeTransport(options = {}) {
         return;
       }
       const host = url.hostname.replace(/^\[|\]$/g, '');
-      const secure = tls.connect({ socket, host, servername: isIP(host) ? undefined : host, ALPNProtocols: ['http/1.1'], ...tlsOptions });
+      const secure = tls.connect({ ...tlsOptions, socket, host, port: undefined, servername: isIP(host) ? undefined : host, ALPNProtocols: ['http/1.1'] });
       secure.once('secureConnect', () => onSocket(null, secure));
       secure.once('error', (e) => onSocket(e));
     });
@@ -93,6 +108,8 @@ export function createNodeTransport(options = {}) {
       let requestOptions;
       if (proxy && url.protocol === 'http:') {
         requestOptions = {
+          ...pinnedHttp(),
+          lookup: undefined,
           host: proxy.hostname,
           port: proxy.port,
           path: url.href,
@@ -102,6 +119,8 @@ export function createNodeTransport(options = {}) {
         };
       } else if (proxy) {
         requestOptions = {
+          ...pinnedHttp(),
+          ...tlsOptions,
           method,
           headers,
           // agent must be left unset: `agent: false` makes Node build its own https.Agent,
@@ -113,10 +132,30 @@ export function createNodeTransport(options = {}) {
           },
         };
       } else {
-        requestOptions = { method, headers, agent: agents[url.protocol], ...(options.lookup ? { lookup: options.lookup } : {}), ...tlsOptions };
+        requestOptions = {
+          ...pinnedHttp(),
+          ...tlsOptions,
+          // Keep URL userinfo (only present when the policy allows credentials) instead of the pinned undefined.
+          auth: url.username || url.password ? `${decodeURIComponent(url.username)}:${decodeURIComponent(url.password)}` : undefined,
+          method,
+          headers,
+          agent: agents[url.protocol],
+          lookup,
+        };
       }
 
-      const req = proxy && url.protocol === 'http:' ? http.request(requestOptions) : mod.request(url, requestOptions);
+      // Never hand Node a URL object: its URL detection reads `auth`/`path`, which a polluted
+      // prototype can fake, turning our options into the callback. Use explicit own fields.
+      if (!(proxy && url.protocol === 'http:')) {
+        Object.assign(requestOptions, {
+          protocol: url.protocol,
+          hostname: url.hostname.replace(/^\[|\]$/g, ''),
+          host: undefined,
+          port: url.port ? Number(url.port) : url.protocol === 'https:' ? 443 : 80,
+          path: `${url.pathname}${url.search}`,
+        });
+      }
+      const req = (proxy && url.protocol === 'http:' ? http : mod).request(requestOptions);
 
       req.on('response', (res) => {
         const pairs = [];

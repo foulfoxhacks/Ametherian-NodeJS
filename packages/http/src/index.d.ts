@@ -5,6 +5,7 @@ import type { RetryOptions } from '@foulfoxhacks/ametherian-resilience';
 export declare const HTTP_STATUS: 'AMETHERIAN_HTTP_STATUS';
 export declare const NETWORK: 'AMETHERIAN_NETWORK';
 export declare const TOO_MANY_REDIRECTS: 'AMETHERIAN_TOO_MANY_REDIRECTS';
+export declare const BASE_URL_ESCAPE: 'AMETHERIAN_BASE_URL_ESCAPE';
 export declare const RETRYABLE_STATUS: readonly number[];
 export declare function parseRetryAfter(value: string | null | undefined, now?: () => number): number | undefined;
 
@@ -50,6 +51,9 @@ export declare function createNodeTransport(options?: {
   ca?: CA;
   /** http:// proxy URL; https targets are tunnelled with CONNECT. */
   proxy?: string;
+  maxSocketsPerOrigin?: number;
+  maxTotalSockets?: number;
+  maxFreeSockets?: number;
 }): Transport;
 export declare function createHttp2Transport(options?: { lookup?: DestinationPolicy['lookup']; ca?: CA; idleTimeoutMs?: number }): Transport;
 
@@ -80,6 +84,7 @@ export interface RequestOptions {
   throwOnStatus?: boolean;
   retry?: false | Omit<RetryOptions, 'signal'>;
   stream?: boolean;
+  maxRequestBytes?: number;
 }
 export interface HttpClientOptions {
   baseUrl?: string;
@@ -101,6 +106,13 @@ export interface HttpClientOptions {
   ca?: CA;
   /** Extra header names removed on cross-origin redirects (Authorization, Cookie, Proxy-Authorization always are). */
   stripHeadersOnRedirect?: string[];
+  /** With baseUrl set, allow absolute URLs to other origins (default false). */
+  allowAbsoluteUrls?: boolean;
+  /** Maximum request body size in bytes (default 10 MiB). */
+  maxRequestBytes?: number;
+  /** Pool limits for the built-in HTTP/1.1 transport. */
+  maxSocketsPerOrigin?: number;
+  maxTotalSockets?: number;
 }
 type MethodOptions = Omit<RequestOptions, 'url' | 'method' | 'stream'>;
 type Method = (url: string, options?: MethodOptions) => Promise<HttpResponse>;
