@@ -900,6 +900,7 @@ def docs_shell(
 {content}
 <script src="{url_for('assets/search-index.js', path)}" defer></script>
 <script src="{url_for('assets/site.js', path)}" defer></script>
+{canonical_path_script(path)}
 </body>
 </html>
 """
