@@ -50,7 +50,7 @@ for page in root.rglob("*.html"):
     if "design-preview" in page.parts or page.name == "_asset_test.html":
         continue
     source = page.read_text(encoding="utf-8")
-    for href in re.findall(r'href=["\\']([^"\\']+)["\\']', source, flags=re.I):
+    for href in re.findall(r"href=['\\"]([^'\\"]+)['\\"]", source, flags=re.I):
         if href.startswith(("http://", "https://", "mailto:", "tel:", "#")):
             continue
         path = href.split("#", 1)[0].split("?", 1)[0]
