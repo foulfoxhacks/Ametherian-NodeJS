@@ -48,3 +48,13 @@ export interface Deadline {
 }
 export declare function createDeadline(ms: number, options?: { signal?: AbortSignal }): Deadline;
 export declare function abortable<T>(work: Promise<T> | (() => Promise<T>), signal: AbortSignal | undefined): Promise<T>;
+
+export declare function assertWithinLimit(actual: number, limit: number, resource?: string): void;
+export declare function createByteLimitStream(
+  maxBytes: number,
+  options?: { resource?: string },
+): TransformStream<string | ArrayBuffer | ArrayBufferView, string | ArrayBuffer | ArrayBufferView>;
+export declare function collectBytes(
+  source: AsyncIterable<Uint8Array | string> | Iterable<Uint8Array | string>,
+  options: { maxBytes: number; signal?: AbortSignal; resource?: string },
+): Promise<Uint8Array>;
