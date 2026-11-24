@@ -38,3 +38,13 @@ export declare class UnsupportedCapabilityError extends AmetherianError {
   constructor(capability: string, message?: string);
 }
 export declare function isAmetherianError(value: unknown): value is AmetherianError;
+
+export declare function toAbortError(reason: unknown): AmetherianError;
+export declare function throwIfAborted(signal: AbortSignal | undefined): void;
+export interface Deadline {
+  readonly signal: AbortSignal;
+  dispose(): void;
+  readonly expiresAt: number;
+}
+export declare function createDeadline(ms: number, options?: { signal?: AbortSignal }): Deadline;
+export declare function abortable<T>(work: Promise<T> | (() => Promise<T>), signal: AbortSignal | undefined): Promise<T>;

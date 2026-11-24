@@ -17,7 +17,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 3. [x] Write `docs/AUDIT.md` and this file; push branch.
 4. [x] Workspace scaffold: root `package.json` (private, npm workspaces `packages/*`), `.github/workflows/node-ci.yml`.
 5. [x] `packages/core` — typed errors (`src/errors.js`) + tests.
-6. [ ] `packages/core` — cancellation & deadlines (`src/cancel.js`) + tests.
+6. [x] `packages/core` — cancellation & deadlines (`src/cancel.js`) + tests.
 7. [ ] `packages/core` — resource limits (`src/limits.js`) + tests.
 8. [ ] `packages/core` — redaction (`src/redact.js`) + tests.
 9. [ ] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
