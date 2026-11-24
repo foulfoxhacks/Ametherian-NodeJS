@@ -5,31 +5,52 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 ## Where things are
 
 - Local checkout: `E:\Codebase\Ametherian-NodeJS`
-- Work branch: `dev/core-foundation` (pushed to `origin`). Never commit to `main` directly; `main` is the live site.
-- Audit: `docs/AUDIT.md`
-- Tests: `npm test` at repo root (Node ≥ 20.6 for `ReadableStream.from` in tests; no third-party dependencies). Current: 58 tests in `packages/core`, 36 in `packages/guard`. Run `npm ci` first (links workspaces).
+- `main` is the live site (GitHub Pages). Never commit to it directly. Work on a branch and open a PR.
+- Merged so far: #9 (audit, core), #10 (config validation, guard, CI fix), #11 (Node 20 fix, lifecycle/events, schema).
+- Open: #12 from `dev/modules` (cache, resilience, observability, http, testing, security, meta package).
+- Audit: `docs/AUDIT.md`. Threat model: `docs/threat-models/guard.md`.
+- Tests: `npm ci && npm test` at repo root (Node ≥ 20.6; no third-party dependencies). 185 tests across 10 packages.
 - Site checks (must keep passing): `python scripts/build_site.py && python scripts/check-site.py`
 
-## Steps
+## Packages (`packages/*`, all `private`, `UNLICENSED`, unpublished)
 
-1. [x] Fresh clone, confirm `git fsck` clean.
-2. [x] Locate blueprint (`docs/*.md`, `AMETHERIAN-PROJECT-BRIEF.txt`).
-3. [x] Write `docs/AUDIT.md` and this file; push branch.
-4. [x] Workspace scaffold: root `package.json` (private, npm workspaces `packages/*`), `.github/workflows/node-ci.yml`.
-5. [x] `packages/core` — typed errors (`src/errors.js`) + tests.
-6. [x] `packages/core` — cancellation & deadlines (`src/cancel.js`) + tests.
-7. [x] `packages/core` — resource limits (`src/limits.js`) + tests.
-8. [x] `packages/core` — redaction (`src/redact.js`) + tests.
-9. [x] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
-10. [x] `packages/core` — config validation helper (`src/config.js`): validate an options object against a small descriptor (type, min/max, allowed values, required), throw `ConfigError` listing every problem. Tests for each rule and for unknown keys.
-11. [x] PR open: https://github.com/foulfoxhacks/Ametherian-NodeJS/pull/9 (site check passes; Node CI fixed by using plain `node --test`).
-12. [x] Write `docs/threat-models/guard.md` (SSRF, DNS rebinding, redirect policy, private ranges, IPv6/IPv4-mapped addresses, URL parsing confusion).
-13. [x] `packages/guard` — destination policy: parse URL, block private/loopback/link-local/metadata ranges by default, explicit allowlist, redirect re-check hook. Use core errors.
-14. [ ] Repo hygiene PR (separate): move root scratch scripts and `_pylibs/` out of the served tree; remove dead `build-clean-urls.yml`. Say clearly in the PR that it changes publicly reachable files.
+| Package | Tests | Depends on |
+|---|---|---|
+| `ametherian-core` | 68 | — |
+| `ametherian-guard` | 36 | core |
+| `ametherian-schema` | 13 | core |
+| `ametherian-cache` | 8 | core |
+| `ametherian-resilience` | 15 | core |
+| `ametherian-observability` | 10 | core |
+| `ametherian-http` | 17 | core, guard, resilience, schema |
+| `ametherian-testing` | 8 | core (dev: http, guard, schema, cache) |
+| `ametherian-security` | 8 | core, schema |
+| `ametherian` (meta) | 2 | all except testing |
+
+## Done
+
+1. [x] Fresh clone, audit, resume plan.
+2. [x] Workspace + Node CI (20/22/24, `npm ci`, fail-fast off).
+3. [x] core: errors, cancellation/deadlines, limits, redaction, runtime capabilities, config validation, lifecycle scope, event hub.
+4. [x] guard threat model + destination policy (URL, redirect, DNS-time checks).
+5. [x] schema, cache, resilience, observability, http, testing, security, meta package.
+
+## Next steps (in order)
+
+6. [ ] Get #12 reviewed and merged. Check Node CI on all three versions.
+7. [ ] Type-check the hand-written `.d.ts` files: add a CI job running `tsc --noEmit` against a small usage file (TypeScript as a devDependency only).
+8. [ ] Threat models for `http`, `schema`, `cache` and `security` in `docs/threat-models/`, using the same table format as `guard.md`.
+9. [ ] Write the compatibility policy (`docs/compatibility.md`): Node versions, ESM-only decision, semver and deprecation windows.
+10. [ ] Choose a license (see `LICENSE-STATUS.md`). This is the maintainer's decision. Publishing is blocked until then.
+11. [ ] http: proxy support (with guard running at the proxy boundary), streaming bodies, HTTP/2 evaluation.
+12. [ ] security: fetch adapters (OSV API, GHSA) through `ametherian-http`, keeping provenance. Findings stay report-only.
+13. [ ] Repo hygiene PR (separate): move root scratch scripts and `_pylibs/` out of the served tree; remove the dead `build-clean-urls.yml`. Say clearly in the PR that it changes publicly reachable files.
+14. [ ] Update `PROJECT_STATUS.md` / site copy to mention preview packages, but only once the maintainer agrees on wording. It is public text.
 
 ## Conventions
 
-- ESM only, plain JavaScript with hand-written `.d.ts`, zero runtime dependencies in core.
+- ESM only, plain JavaScript with hand-written `.d.ts`, zero third-party runtime dependencies.
 - Every error has a stable `code` string (`AMETHERIAN_*`); tests assert codes, not messages.
 - Defaults are conservative; limits are explicit and reported in errors.
-- Small commits, push after each step.
+- New packages: copy the `package.json` shape from an existing package (private, `UNLICENSED`, `engines.node >=20`, `exports` with `types`), then run `npm install` to update the lockfile.
+- Small commits, one per module; push after each.

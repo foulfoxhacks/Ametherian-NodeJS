@@ -1,6 +1,6 @@
 # Ametherian code audit
 
-Audit date: 2026-11-24 · Audited commit: `798c70e` (main) · Branch for new work: `dev/core-foundation`
+Audit date: 2026-11-24 · First audited commit: `798c70e` (main, before any package code) · Statuses below updated through branch `dev/modules` (PR #12)
 
 ## Blueprint sources
 
@@ -53,15 +53,16 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-core` — config validation | architecture: shared contracts | Missing | Done | `validateOptions`: collects all problems, rejects unknown keys, ignores inherited keys |
 | `ametherian-core` — lifecycle / logging hooks | architecture: shared contracts | Missing | Done | `createResourceScope` (LIFO, once, all failures reported), `createEventHub` (isolated listeners) |
 | `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Done | `classifyAddress`, `createDestinationPolicy` (`checkUrl`, `checkRedirect`, `lookup`); threat model in `docs/threat-models/guard.md` |
-| `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Missing | Depends on core + guard |
+| `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Done (http); transport is an interface inside http | Guarded destinations incl. DNS time, credential stripping on cross-origin redirects, decompression-safe body limits, deadlines, idempotent-only retries. No proxy/HTTP2/streaming yet |
 | `ametherian-schema` | packages: data & serialization | Missing | Done | Composable validators, all-issues errors, pollution-safe objects, bounded `parseJson` |
-| `ametherian-cache` | packages: app infrastructure | Missing | Missing | |
-| `ametherian-observability` | packages: observability | Missing | Missing | |
-| `ametherian-testing` | packages: observability & DX | Missing | Missing | |
-| `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Missing | Ingestion must keep provenance; no unreviewed code changes |
-| `@foulfoxhacks/ametherian` meta package | brief | Missing | Missing | Only after several packages exist |
-| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; others pending |
-| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | Core declares Node ≥ 20, ESM only, bundled `.d.ts` |
+| `ametherian-cache` | packages: app infrastructure | Missing | Done | Bounded LRU/TTL, size budget, load de-duplication, collision-free scopes |
+| `ametherian-resilience` (retries, concurrency, rate limits, circuit breaker) | packages: app infrastructure; brief: queues, retries, rate limiting | Missing | Done | Not in the brief's example names; added as its own focused package |
+| `ametherian-observability` | packages: observability | Missing | Done | Redacting structured logger, bounded-cardinality metrics + Prometheus text, event hub and diagnostics_channel bridges |
+| `ametherian-testing` | packages: observability & DX | Missing | Done | Mock transport, test server, fake clock, deterministic adversarial fuzz corpus (used to fuzz schema and guard) |
+| `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Partial | OSV normalisation with provenance, SemVer range matching, lockfile audit with staleness + human-review flag. No fetching, GHSA/NVD/KEV adapters or provenance attestation yet |
+| `@foulfoxhacks/ametherian` meta package | brief | Missing | Done | Re-exports packages as namespaces (testing excluded) |
+| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; http, schema, cache, security still need their own |
+| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | All packages: Node ≥ 20, ESM only, hand-written `.d.ts`, CI on Node 20/22/24. No written semver/deprecation policy, no `tsc` type check yet |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
 ## Repository hygiene findings (not fixed here)

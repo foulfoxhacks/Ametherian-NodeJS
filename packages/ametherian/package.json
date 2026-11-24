@@ -1,0 +1,34 @@
+{
+  "name": "@foulfoxhacks/ametherian",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Umbrella package re-exporting the Ametherian packages as namespaces. Unpublished preview.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@foulfoxhacks/ametherian-core": "0.0.0",
+    "@foulfoxhacks/ametherian-guard": "0.0.0",
+    "@foulfoxhacks/ametherian-schema": "0.0.0",
+    "@foulfoxhacks/ametherian-cache": "0.0.0",
+    "@foulfoxhacks/ametherian-resilience": "0.0.0",
+    "@foulfoxhacks/ametherian-observability": "0.0.0",
+    "@foulfoxhacks/ametherian-http": "0.0.0",
+    "@foulfoxhacks/ametherian-security": "0.0.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

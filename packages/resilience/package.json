@@ -1,0 +1,18 @@
+{
+  "name": "@foulfoxhacks/ametherian-resilience",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Retry with backoff, concurrency and rate limits, and circuit breaker for Ametherian packages. Unpublished preview.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "default": "./src/index.js" }
+  },
+  "files": ["src"],
+  "sideEffects": false,
+  "dependencies": { "@foulfoxhacks/ametherian-core": "0.0.0" },
+  "scripts": {
+    "test": "node --test"
+  }
+}
