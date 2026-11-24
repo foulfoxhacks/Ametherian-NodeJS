@@ -52,7 +52,7 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-core` — runtime capability reporting | brief: clear runtime capability reporting; architecture: runtime boundaries | Missing | Done | `getRuntimeCapabilities`, `requireCapability` |
 | `ametherian-core` — config validation | architecture: shared contracts | Missing | Done | `validateOptions`: collects all problems, rejects unknown keys, ignores inherited keys |
 | `ametherian-core` — lifecycle / logging hooks | architecture: shared contracts | Missing | Missing | Needs a short spec first |
-| `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Missing | First security package after core |
+| `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Done | `classifyAddress`, `createDestinationPolicy` (`checkUrl`, `checkRedirect`, `lookup`); threat model in `docs/threat-models/guard.md` |
 | `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Missing | Depends on core + guard |
 | `ametherian-schema` | packages: data & serialization | Missing | Missing | |
 | `ametherian-cache` | packages: app infrastructure | Missing | Missing | |
@@ -60,7 +60,7 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-testing` | packages: observability & DX | Missing | Missing | |
 | `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Missing | Ingestion must keep provenance; no unreviewed code changes |
 | `@foulfoxhacks/ametherian` meta package | brief | Missing | Missing | Only after several packages exist |
-| Threat models (per package family) | roadmap: specs & threat models | Doc only | Doc only | `docs/threat-models/` not yet written |
+| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; others pending |
 | Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | Core declares Node ≥ 20, ESM only, bundled `.d.ts` |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
