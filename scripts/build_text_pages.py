@@ -2,6 +2,7 @@
 """Build styled browser companions for the raw llms.txt and robots.txt files."""
 from __future__ import annotations
 import html, json, re, shutil
+from datetime import date
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://ametherian.foulfoxhacks.dev"
@@ -90,6 +91,11 @@ def remove_obsolete_resource_directory() -> None:
     if sitemap.exists():
         source = sitemap.read_text(encoding="utf-8")
         source = re.sub(r"\s*<url><loc>" + re.escape(BASE) + r"/llms/</loc><lastmod>[^<]*</lastmod></url>", "", source)
+        stamp = date.today().isoformat()
+        for location in (BASE + "/llms.html", BASE + "/robots.html"):
+            if location not in source:
+                entry = f"  <url><loc>{location}</loc><lastmod>{stamp}</lastmod></url>\\n"
+                source = source.replace("</urlset>", entry + "</urlset>")
         sitemap.write_text(source, encoding="utf-8")
     search = ROOT / "assets/search-index.js"
     if search.exists():
