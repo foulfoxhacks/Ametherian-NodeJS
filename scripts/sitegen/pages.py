@@ -7,7 +7,7 @@ FAQS = [
         "Is Ametherian released?",
         'No. Ametherian is a public planning project. No Ametherian '
         'packages are published, and this site does not describe completed '
-        'software. The <a href="docs/packages.html">package names</a> '
+        'software. The <a href="/docs/packages/">package names</a> '
         'and capabilities are research directions.',
         "No. Ametherian is a public planning project. No Ametherian "
         "packages are published, and this site does not describe completed "

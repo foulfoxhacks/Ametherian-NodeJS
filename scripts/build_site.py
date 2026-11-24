@@ -24,9 +24,12 @@ from sitegen.common import (  # noqa: E402
     BASE,
     DOC_ORDER,
     PAGES,
+    ROUTES,
     REPO,
     TODAY,
     canonical,
+    route_for,
+    canonical_path_script,
     head,
     site_header,
     site_footer,
@@ -76,6 +79,7 @@ def sitemap_page() -> str:
 </main>
 {site_footer(current)}
 <script>window.xsltUsePolyfillOnlyIfNeeded = true; window.xsltDontAutoloadXmlDocs = true;</script>
+{canonical_path_script(current)}
 <script src="{url_for('assets/vendor/xslt-polyfill.min.js', current)}" defer></script>
 <script src="{url_for('assets/sitemap.js', current)}" defer></script>
 <script src="{url_for('assets/site.js', current)}" defer></script>
@@ -105,6 +109,27 @@ def write_text(path: str, content: str) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(content.encode("utf-8"))
     print(f"wrote {path}")
+
+
+def legacy_redirect(path: str) -> str:
+    """Keep old .html URLs usable while directing browsers to the clean route."""
+    destination = ROUTES[path]
+    escaped_destination = html.escape(destination, quote=True)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+{head(path, robots="noindex,follow")}
+<meta http-equiv="refresh" content="0;url={escaped_destination}">
+</head>
+<body>
+<main id="main">
+  <h1>{html.escape(PAGES[path]["title"])}</h1>
+  <p>This page has moved to <a href="{escaped_destination}">{escaped_destination}</a>.</p>
+</main>
+<script>window.location.replace({json.dumps(destination)} + window.location.search + window.location.hash);</script>
+</body>
+</html>
+"""
 
 
 def strip_tags(source: str) -> str:
@@ -143,7 +168,7 @@ def search_index(rendered: dict[str, str]) -> list[dict]:
                 headings.append({"id": ident, "text": text, "level": int(level)})
         entries.append(
             {
-                "path": path,
+                "path": route_for(path),
                 "title": PAGES[path]["og_title"],
                 "section": section_for(path),
                 "description": PAGES[path]["description"],
@@ -215,13 +240,13 @@ def llms_txt() -> str:
 ## Documentation
 
 - [Documentation hub]({BASE}/docs/)
-- [Project vision]({BASE}/docs/vision.html)
-- [Proposed package map]({BASE}/docs/packages.html)
-- [Architecture direction]({BASE}/docs/architecture.html)
-- [Security approach]({BASE}/docs/security.html)
-- [Proposed roadmap]({BASE}/docs/roadmap.html)
-- [Security policy]({BASE}/SECURITY.html)
-- [Contributing]({BASE}/CONTRIBUTING.html)
+- [Project vision]({BASE}/docs/vision/)
+- [Proposed package map]({BASE}/docs/packages/)
+- [Architecture direction]({BASE}/docs/architecture/)
+- [Security approach]({BASE}/docs/security/)
+- [Proposed roadmap]({BASE}/docs/roadmap/)
+- [Security policy]({BASE}/security/)
+- [Contributing]({BASE}/contributing/)
 
 ## Project files
 
@@ -252,13 +277,13 @@ The project is at the public proposal and planning stage. No packages are publis
 
 - Home: {BASE}/
 - Documentation: {BASE}/docs/
-- Vision: {BASE}/docs/vision.html
-- Package map: {BASE}/docs/packages.html
-- Architecture: {BASE}/docs/architecture.html
-- Security approach: {BASE}/docs/security.html
-- Roadmap: {BASE}/docs/roadmap.html
-- Security policy: {BASE}/SECURITY.html
-- Contributing: {BASE}/CONTRIBUTING.html
+- Vision: {BASE}/docs/vision/
+- Package map: {BASE}/docs/packages/
+- Architecture: {BASE}/docs/architecture/
+- Security approach: {BASE}/docs/security/
+- Roadmap: {BASE}/docs/roadmap/
+- Security policy: {BASE}/security/
+- Contributing: {BASE}/contributing/
 
 ## Vision
 
@@ -331,7 +356,7 @@ def site_config() -> str:
         "defaultLocale": "en",
         "lastReviewed": TODAY,
         "pages": [
-            {"path": path, "url": canonical(path)}
+            {"path": ROUTES[path], "url": canonical(path)}
             for path in RENDERERS
             if path != "404.html"
         ],
@@ -384,7 +409,12 @@ def webmanifest() -> str:
 def main() -> None:
     rendered = {path: renderer() for path, renderer in RENDERERS.items()}
     for path, source in rendered.items():
-        write_text(path, source)
+        if path in {"index.html", "docs/index.html", "sitemap/index.html", "404.html"}:
+            write_text(path, source)
+            continue
+        clean_route_file = ROUTES[path].lstrip("/") + "index.html"
+        write_text(clean_route_file, source)
+        write_text(path, legacy_redirect(path))
 
     index = search_index(rendered)
     payload = json.dumps(index, ensure_ascii=False, separators=(",", ":"))
