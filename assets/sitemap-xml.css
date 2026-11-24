@@ -1,51 +1,148 @@
-/* Ametherian — browser-native styling for the raw XML sitemap.
-   Loaded directly by sitemap.xml through an xml-stylesheet CSS processing instruction.
-   Keep selectors namespace-agnostic for the sitemap.org default namespace. */
+/* Ametherian — browser presentation for the raw XML sitemaps.
+   Loaded by /sitemap.xml (sitemap index) and /sitemaps/<language>.xml through an
+   xml-stylesheet processing instruction. CSS only: no XSLT, no JavaScript, and the
+   XML stays exactly what search engines read. CSS cannot create links inside raw
+   XML, so the header points readers to the interactive sitemap at /sitemap/. */
+
 * { box-sizing: border-box; }
+
+sitemapindex,
 urlset {
-  display: block; min-height: 100vh; padding: clamp(24px, 5vw, 64px);
-  color: #f5f2fb;
-  background: radial-gradient(ellipse at 12% 0%, rgba(139,83,254,.22), transparent 42%), linear-gradient(145deg,#0b0812,#120e1c 58%,#0b0812);
-  font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  counter-reset: sitemap-entry;
+  --bg: #0b0812;
+  --panel: rgba(29, 22, 44, .78);
+  --panel-line: rgba(196, 181, 253, .16);
+  --text: #f5f2fb;
+  --muted: #b9b0c9;
+  --accent: #a78bfa;
+  --accent-strong: #8b53fe;
+  --chip: rgba(139, 83, 254, .16);
+  display: block;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0 clamp(16px, 4vw, 48px) 48px;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(139, 83, 254, .22), transparent 42%),
+    linear-gradient(145deg, #0b0812, #120e1c 58%, #0b0812);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  counter-reset: entry;
+}
+
+/* Site header */
+sitemapindex::before,
+urlset::before {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto 28px;
+  padding: 22px 0 22px 52px;
+  border-bottom: 1px solid var(--panel-line);
+  background: url("/assets/ametherian-mark.svg") left center / 36px 37px no-repeat;
+  white-space: pre-wrap;
+  font-size: clamp(.82rem, 2.4vw, .92rem);
+  color: var(--muted);
+}
+sitemapindex::before {
+  content: "Ametherian\A XML sitemap index · one sitemap per language · interactive view: ametherian.foulfoxhacks.dev/sitemap/";
 }
 urlset::before {
-  display: block; max-width: 1080px; margin: 0 auto 12px; color: #b9a0ff;
-  content: "AMETHERIAN  /  SEARCH DISCOVERY";
-  font: 700 .75rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .16em;
+  content: "Ametherian\A XML sitemap · pages with their language alternates · interactive view: ametherian.foulfoxhacks.dev/sitemap/";
 }
+sitemapindex::first-line,
+urlset::first-line { color: var(--text); font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
+
+/* Entries */
+sitemap,
+url {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px clamp(14px, 3vw, 22px);
+  border: 1px solid var(--panel-line);
+  border-bottom: 0;
+  background: var(--panel);
+  counter-increment: entry;
+}
+sitemap:first-of-type,
+url:first-of-type { border-radius: 16px 16px 0 0; }
+sitemap:last-of-type,
+url:last-of-type { border-bottom: 1px solid var(--panel-line); border-radius: 0 0 16px 16px; }
+sitemap:only-of-type,
+url:only-of-type { border-radius: 16px; }
+
+sitemap::before,
+url::before {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font: 700 .68rem/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .12em;
+}
+sitemap::before { content: "LANGUAGE SITEMAP  " counter(entry, decimal-leading-zero); }
+url::before { content: "PAGE  " counter(entry, decimal-leading-zero); }
+
+loc {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: clamp(.9rem, 2.4vw, 1.02rem);
+  font-weight: 650;
+}
+lastmod {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font: .76rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+lastmod::before { content: "Updated  "; color: var(--accent-strong); font-weight: 700; }
+
+/* hreflang alternates (xhtml:link) as language chips */
+url > link {
+  display: inline-block;
+  margin: 8px 6px 0 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--accent);
+  font: 600 .7rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+url > link::before { content: attr(hreflang); }
+url > link[hreflang="x-default"] { background: transparent; border: 1px dashed var(--panel-line); }
+
+/* Footer with totals */
+sitemapindex::after,
 urlset::after {
-  display: block; max-width: 1080px; margin: 28px auto 0; padding-top: 18px;
-  border-top: 1px solid rgba(196,181,253,.2); color: #a99dbb;
-  content: "Machine-readable XML sitemap · Styled directly with CSS · No XSLT or JavaScript required";
+  display: block;
+  max-width: 1080px;
+  margin: 24px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-line);
+  color: var(--muted);
   font-size: .82rem;
 }
-url {
-  display: block; max-width: 1080px; margin: 0 auto; padding: 18px 22px;
-  border: 1px solid rgba(196,181,253,.16); border-bottom: 0;
-  background: rgba(29,22,44,.76); counter-increment: sitemap-entry;
+sitemapindex::after { content: counter(entry) " language sitemaps · standard sitemaps.org XML, styled with CSS · © FoulFoxHacks"; }
+urlset::after { content: counter(entry) " pages · standard sitemaps.org XML with hreflang alternates, styled with CSS · © FoulFoxHacks"; }
+
+@media (min-width: 860px) {
+  sitemap { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; align-items: center; }
+  sitemap::before { grid-column: 1 / -1; }
+  sitemap > lastmod { grid-column: 2; grid-row: 2; margin-top: 0; text-align: right; }
 }
-url:first-of-type { margin-top: 24px; border-radius: 16px 16px 0 0; }
-url:last-of-type { border-bottom: 1px solid rgba(196,181,253,.16); border-radius: 0 0 16px 16px; }
-url::before {
-  display: block; margin-bottom: 8px; color: #a78bfa;
-  content: "PAGE  /  " counter(sitemap-entry,decimal-leading-zero);
-  font: 700 .68rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .12em;
-}
-loc { display: block; color: #f5f2fb; font-size: clamp(.92rem,2vw,1.05rem); font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
-lastmod { display: block; margin-top: 7px; color: #b9b0c9; font: .76rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; }
-lastmod::before { color: #8b53fe; content: "LAST MODIFIED  "; font-weight: 700; letter-spacing: .06em; }
-@media (min-width: 900px) {
-  urlset { padding-top: 48px; padding-bottom: 48px; }
-  url { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; column-gap: 24px; }
-  url::before { grid-column: 1 / -1; }
-  loc { grid-column: 1; }
-  lastmod { grid-column: 2; grid-row: 2; margin-top: 0; text-align: right; }
-}
+
 @media (prefers-color-scheme: light) {
-  urlset { color: #241b35; background: linear-gradient(145deg,#f7f4ff,#eee8ff); }
-  url { border-color: rgba(77,54,116,.18); background: rgba(255,255,255,.82); }
-  loc { color: #241b35; }
-  lastmod { color: #655777; }
-  urlset::after { border-color: rgba(77,54,116,.2); color: #655777; }
+  sitemapindex,
+  urlset {
+    --panel: rgba(255, 255, 255, .86);
+    --panel-line: rgba(77, 54, 116, .16);
+    --text: #1a1427;
+    --muted: #5d5373;
+    --accent: #6d3be0;
+    --accent-strong: #6d3be0;
+    --chip: rgba(109, 59, 224, .1);
+    background: linear-gradient(145deg, #f7f4ff, #eee8ff);
+  }
+}
+@media print {
+  sitemapindex, urlset { background: #fff; color: #000; }
+  sitemap, url { break-inside: avoid; background: none; }
 }

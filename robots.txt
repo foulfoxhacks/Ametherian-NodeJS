@@ -1,4 +1,4 @@
-# Public proposal and documentation. Search and AI crawlers may read this site.
+# Ametherian: public project site and documentation. Search and AI crawlers may read this site.
 User-agent: *
 Allow: /
 Disallow: /404.html

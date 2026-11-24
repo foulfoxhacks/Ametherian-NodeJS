@@ -1,38 +1,58 @@
 # Ametherian
 
-> Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first direction. It is at the public proposal and planning stage. No packages are published, audited, or production-ready.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. None is published to npm, none has been audited, and the license has not been chosen.
 
 ## Important status
 
-- Ametherian is a proposal, not released software.
-- No Ametherian package is published, and no security audit has been performed.
+- Preview packages are public in the repository and pass CI; they are not published to npm.
+- No security audit has been performed. The project is not production-ready.
 - The project is independent and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project.
-- The project license has not been selected.
-- The roadmap is staged and publishes no dates or release commitments.
+- The license has not been selected.
+- Supported runtimes: Node.js 22, 24 and 26 at their latest security releases. Node.js 20 is end of life.
+
+## Modules
+
+- `@foulfoxhacks/ametherian-core` 0.1.0: Shared contracts: typed errors, deadlines and cancellation, resource limits, redaction, config validation, lifecycle, event hooks, runtime and integrity checks.
+- `@foulfoxhacks/ametherian-guard` 0.1.0: Outbound destination policy: blocks SSRF to private, loopback and metadata addresses, checked again on every redirect and at DNS time.
+- `@foulfoxhacks/ametherian-schema` 0.1.0: Validation and bounded parsing of untrusted input, safe against prototype pollution.
+- `@foulfoxhacks/ametherian-cache` 0.1.0: Bounded LRU/TTL cache with load de-duplication and collision-free scopes.
+- `@foulfoxhacks/ametherian-resilience` 0.1.0: Retries with backoff, concurrency and rate limits, circuit breaker.
+- `@foulfoxhacks/ametherian-observability` 0.1.0: Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.
+- `@foulfoxhacks/ametherian-http` 0.1.0: HTTP client and undici-style fetch(): guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.
+- `@foulfoxhacks/ametherian-testing` 0.1.0: Mock transport, test server, fake clock and an adversarial fuzz corpus.
+- `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV and NIST NVD clients with provenance, lockfile audit, Node.js release checks.
+- `@foulfoxhacks/ametherian` 0.1.0: Umbrella package re-exporting the others as namespaces.
+
+## Security model
+
+- Every published advisory for axios and undici is mapped: 111 total, 64 prevented with named regression tests, 47 not applicable with a recorded reason.
+- A daily workflow checks OSV, the GitHub Advisory Database, NIST NVD and Node.js security releases.
 
 ## Documentation
 
+- [Modules](https://ametherian.foulfoxhacks.dev/modules/)
+- [Changelog](https://ametherian.foulfoxhacks.dev/changelog/)
 - [Documentation hub](https://ametherian.foulfoxhacks.dev/docs/)
 - [Project vision](https://ametherian.foulfoxhacks.dev/docs/vision/)
-- [Proposed package map](https://ametherian.foulfoxhacks.dev/docs/packages/)
+- [Package map](https://ametherian.foulfoxhacks.dev/docs/packages/)
 - [Architecture direction](https://ametherian.foulfoxhacks.dev/docs/architecture/)
 - [Security approach](https://ametherian.foulfoxhacks.dev/docs/security/)
-- [Proposed roadmap](https://ametherian.foulfoxhacks.dev/docs/roadmap/)
+- [Roadmap](https://ametherian.foulfoxhacks.dev/docs/roadmap/)
 - [Security policy](https://ametherian.foulfoxhacks.dev/security/)
 - [Contributing](https://ametherian.foulfoxhacks.dev/contributing/)
 
+## Languages
+
+The site is available in English, Español (/es/), Português (Brasil) (/pt-br/), Deutsch (/de/), Français (/fr/), Русский (/ru/), 日本語 (/ja/) and 简体中文 (/zh-cn/). The sitemap index at https://ametherian.foulfoxhacks.dev/sitemap.xml lists one sitemap per language.
+
 ## Project files
 
+- [Vulnerability model](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/docs/vulnerability-model.md)
+- [Compatibility policy](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/docs/compatibility.md)
 - [Project status](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/PROJECT_STATUS.md)
-- [Project brief](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/AMETHERIAN-PROJECT-BRIEF.txt)
 - [License status](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/LICENSE-STATUS.md)
-- [Notice](https://github.com/foulfoxhacks/Ametherian-NodeJS/blob/main/NOTICE.md)
 - [Source repository](https://github.com/foulfoxhacks/Ametherian-NodeJS)
-
-## Topics
-
-Ametherian explores networking and protocols, data validation and serialization, application infrastructure, security engineering, observability, testing, developer tooling, and runtime utilities. The intent is focused packages with shared conventions rather than one monolithic dependency.
 
 ## Claim policy
 
-Descriptions on this site distinguish proposed direction from implemented and released functionality. Compatibility, performance, security, and reliability claims require reproducible evidence or an explicit label as goals.
+Descriptions on this site distinguish implemented preview code from released software. Compatibility, performance, security and reliability claims require reproducible evidence or an explicit label as goals.

@@ -1,6 +1,6 @@
 {
   "name": "@foulfoxhacks/ametherian-security",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Vulnerability intelligence (OSV fetch and normalisation with provenance, semver matching, lockfile audit) for Ametherian packages. Unpublished preview.",
   "license": "UNLICENSED",
@@ -19,16 +19,16 @@
   ],
   "sideEffects": false,
   "dependencies": {
-    "@foulfoxhacks/ametherian-core": "0.0.0",
-    "@foulfoxhacks/ametherian-schema": "0.0.0",
-    "@foulfoxhacks/ametherian-guard": "0.0.0",
-    "@foulfoxhacks/ametherian-http": "0.0.0",
-    "@foulfoxhacks/ametherian-resilience": "0.0.0"
+    "@foulfoxhacks/ametherian-core": "0.1.0",
+    "@foulfoxhacks/ametherian-schema": "0.1.0",
+    "@foulfoxhacks/ametherian-guard": "0.1.0",
+    "@foulfoxhacks/ametherian-http": "0.1.0",
+    "@foulfoxhacks/ametherian-resilience": "0.1.0"
   },
   "scripts": {
     "test": "node --test"
   },
   "devDependencies": {
-    "@foulfoxhacks/ametherian-testing": "0.0.0"
+    "@foulfoxhacks/ametherian-testing": "0.1.0"
   }
 }

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/vision/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/vision/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/vision/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/packages/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/packages/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/packages/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/architecture/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/architecture/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/architecture/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/security/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/security/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/security/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/docs/roadmap/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/roadmap/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/roadmap/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/security/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/security/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/security/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/security/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/security/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/security/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/security/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/security/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/security/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/security/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/contributing/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/contributing/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/contributing/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/sitemap/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/sitemap/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/sitemap/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/modules/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/modules/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/modules/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/modules/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/modules/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/modules/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/modules/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/modules/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/modules/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/modules/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/changelog/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/changelog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/changelog/"/>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/llms.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ametherian.foulfoxhacks.dev/robots.html</loc>
+    <lastmod>2026-11-24</lastmod>
+  </url>
+</urlset>

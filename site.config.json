@@ -2,11 +2,62 @@
   "project": "Ametherian",
   "publisher": "FoulFoxHacks",
   "tagline": "A new kind of Node library ecosystem",
-  "status": "proposal",
+  "status": "preview",
+  "version": "0.1.0",
   "siteUrl": "https://ametherian.foulfoxhacks.dev",
   "basePath": "",
   "repository": "https://github.com/foulfoxhacks/Ametherian-NodeJS",
   "defaultLocale": "en",
+  "locales": [
+    {
+      "code": "en",
+      "lang": "en",
+      "name": "English",
+      "prefix": "/"
+    },
+    {
+      "code": "es",
+      "lang": "es",
+      "name": "Español",
+      "prefix": "/es"
+    },
+    {
+      "code": "pt-br",
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "prefix": "/pt-br"
+    },
+    {
+      "code": "de",
+      "lang": "de",
+      "name": "Deutsch",
+      "prefix": "/de"
+    },
+    {
+      "code": "fr",
+      "lang": "fr",
+      "name": "Français",
+      "prefix": "/fr"
+    },
+    {
+      "code": "ru",
+      "lang": "ru",
+      "name": "Русский",
+      "prefix": "/ru"
+    },
+    {
+      "code": "ja",
+      "lang": "ja",
+      "name": "日本語",
+      "prefix": "/ja"
+    },
+    {
+      "code": "zh-cn",
+      "lang": "zh-Hans",
+      "name": "简体中文",
+      "prefix": "/zh-cn"
+    }
+  ],
   "lastReviewed": "2026-11-24",
   "pages": [
     {
@@ -48,6 +99,14 @@
     {
       "path": "/sitemap/",
       "url": "https://ametherian.foulfoxhacks.dev/sitemap/"
+    },
+    {
+      "path": "/modules/",
+      "url": "https://ametherian.foulfoxhacks.dev/modules/"
+    },
+    {
+      "path": "/changelog/",
+      "url": "https://ametherian.foulfoxhacks.dev/changelog/"
     }
   ],
   "theme": {

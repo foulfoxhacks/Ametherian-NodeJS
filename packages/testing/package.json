@@ -1,6 +1,6 @@
 {
   "name": "@foulfoxhacks/ametherian-testing",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Mock transport, test server, fake clock and fuzzing helpers for Ametherian packages. Unpublished preview.",
   "license": "UNLICENSED",
@@ -19,15 +19,15 @@
   ],
   "sideEffects": false,
   "dependencies": {
-    "@foulfoxhacks/ametherian-core": "0.0.0"
+    "@foulfoxhacks/ametherian-core": "0.1.0"
   },
   "scripts": {
     "test": "node --test"
   },
   "devDependencies": {
-    "@foulfoxhacks/ametherian-cache": "0.0.0",
-    "@foulfoxhacks/ametherian-guard": "0.0.0",
-    "@foulfoxhacks/ametherian-http": "0.0.0",
-    "@foulfoxhacks/ametherian-schema": "0.0.0"
+    "@foulfoxhacks/ametherian-cache": "0.1.0",
+    "@foulfoxhacks/ametherian-guard": "0.1.0",
+    "@foulfoxhacks/ametherian-http": "0.1.0",
+    "@foulfoxhacks/ametherian-schema": "0.1.0"
   }
 }

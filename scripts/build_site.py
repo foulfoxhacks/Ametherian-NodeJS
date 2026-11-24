@@ -48,6 +48,10 @@ from sitegen.docs_pages import (  # noqa: E402
     vision_page,
 )
 from sitegen.pages import home_page  # noqa: E402
+from sitegen.release_pages import modules_page, changelog_page, packages as package_rows, baseline_counts  # noqa: E402
+from sitegen import i18n  # noqa: E402
+from sitegen.companions import build as build_companions  # noqa: E402
+import hashlib  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -87,51 +91,6 @@ def sitemap_page() -> str:
 """
 
 
-def llms_page() -> str:
-    current = "llms/index.html"
-    return f"""<!doctype html>
-<html lang="en">
-<head>
-{head(current)}
-</head>
-<body class="page-home" data-root="{root_prefix(current)}">
-<a class="skip-link" href="#main">Skip to content</a>
-{site_header(current, "")}
-<main id="main" class="resources-main">
-  <div class="shell">
-    <p class="eyebrow">Ametherian · Discovery</p>
-    <h1>AI &amp; machine-readable resources</h1>
-    <p class="resources-lead">A human-friendly directory of the structured files that help search engines, AI assistants, developers, and automated tools understand Ametherian.</p>
-    <div class="resources-callout"><strong>Designed for both people and machines.</strong><span>Every raw endpoint remains available in its original format. This page adds presentation; it does not replace or rewrite the source files.</span></div>
-    <div class="resource-grid">
-      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Primary context</span><span class="resource-card__format">TXT</span></div><h2>llms.txt</h2><p>A concise overview of Ametherian, its proposal status, documentation, project files, and claim policy.</p><div class="resource-card__actions"><a href="{url_for('llms.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/llms.txt">Copy URL</button></div></article>
-      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Expanded context</span><span class="resource-card__format">TXT</span></div><h2>llms-full.txt</h2><p>Expanded project context covering the vision, package areas, architecture, security approach, roadmap, and boundaries.</p><div class="resource-card__actions"><a href="{url_for('llms-full.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/llms-full.txt">Copy URL</button></div></article>
-      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Search discovery</span><span class="resource-card__format">XML</span></div><h2>XML sitemap</h2><p>Canonical public URL inventory for search engines and automated discovery.</p><div class="resource-card__actions"><a href="{url_for('sitemap.xml', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/sitemap.xml">Copy URL</button></div></article>
-      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Site metadata</span><span class="resource-card__format">JSON</span></div><h2>Site configuration</h2><p>Machine-readable site metadata, canonical page routes, publisher details, and theme tokens.</p><div class="resource-card__actions"><a href="{url_for('site.config.json', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/site.config.json">Copy URL</button></div></article>
-      <article class="resource-card"><div class="resource-card__top"><span class="resource-card__kind">Crawler guidance</span><span class="resource-card__format">TXT</span></div><h2>robots.txt</h2><p>Public crawler access policy and the canonical sitemap location.</p><div class="resource-card__actions"><a href="{url_for('robots.txt', current)}">Open raw file ↗</a><button class="resource-copy" type="button" data-copy-url="{BASE}/robots.txt">Copy URL</button></div></article>
-    </div>
-    <section class="resources-footnote" aria-labelledby="resources-principles">
-      <h2 id="resources-principles">Format and compatibility</h2>
-      <ul>
-        <li><code>llms.txt</code> and <code>llms-full.txt</code> remain plain Markdown text files.</li>
-        <li><code>sitemap.xml</code> remains standard XML and links directly to a dedicated CSS stylesheet for browser presentation.</li>
-        <li>JSON and crawler directives remain raw machine-readable files.</li>
-        <li>The XML sitemap uses a browser-native CSS stylesheet; no XSLT or JavaScript is required to display it.</li>
-      </ul>
-    </section>
-  </div>
-</main>
-{site_footer(current)}
-{canonical_path_script(current)}
-<script src="{url_for('assets/resources.js', current)}" defer></script>
-<script src="{url_for('assets/site.js', current)}" defer></script>
-</body>
-</html>
-"""
-
-
-
-
 RENDERERS = {
     "index.html": home_page,
     "docs/index.html": docs_home_page,
@@ -143,7 +102,8 @@ RENDERERS = {
     "SECURITY.html": security_policy_page,
     "CONTRIBUTING.html": contributing_page,
     "sitemap/index.html": sitemap_page,
-    "llms/index.html": llms_page,
+    "modules/index.html": modules_page,
+    "changelog/index.html": changelog_page,
     "404.html": not_found_page,
 }
 
@@ -190,8 +150,10 @@ def section_for(path: str) -> str:
         return "Documentation"
     if path == "sitemap/index.html":
         return "Site index"
-    if path == "llms/index.html":
-        return "Discovery resources"
+    if path == "modules/index.html":
+        return "Modules"
+    if path == "changelog/index.html":
+        return "Changelog"
     if path.startswith("docs/"):
         return "Proposal document"
     return "Project policy"
@@ -225,62 +187,95 @@ def search_index(rendered: dict[str, str]) -> list[dict]:
     return entries
 
 
-def sitemap() -> str:
+DIRECT_INDEX = {"index.html", "docs/index.html", "sitemap/index.html", "modules/index.html", "changelog/index.html", "404.html"}
+XML_HEAD = '<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>\n'
+NL = "\n"
+
+
+def sitemap_index(dates: dict[str, str]) -> str:
+    newest = max(dates.values())
+    rows = [
+        f"  <sitemap><loc>{BASE}/sitemaps/{l['code']}.xml</loc><lastmod>{newest}</lastmod></sitemap>"
+        for l in i18n.ALL
+    ]
+    return XML_HEAD + '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + NL + NL.join(rows) + NL + "</sitemapindex>" + NL
+
+
+def sitemap_for(locale: dict, dates: dict[str, str]) -> str:
     rows = []
     for path in RENDERERS:
         if path == "404.html":
             continue
-        rows.append(
-            f"  <url><loc>{canonical(path)}</loc><lastmod>{TODAY}</lastmod></url>"
-        )
+        route = ROUTES[path]
+        alts = "".join(
+            f'{NL}    <xhtml:link rel="alternate" hreflang="{l["hreflang"]}" href="{BASE}{i18n.localized_route(route, l)}"/>'
+            for l in i18n.ALL
+        ) + f'{NL}    <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{route}"/>'
+        rows.append(f"  <url>{NL}    <loc>{BASE}{i18n.localized_route(route, locale)}</loc>{NL}    <lastmod>{dates[path]}</lastmod>{alts}{NL}  </url>")
+    if locale["code"] == "en":
+        for extra in ("llms.html", "robots.html"):
+            rows.append(f"  <url>{NL}    <loc>{BASE}/{extra}</loc>{NL}    <lastmod>{dates[extra]}</lastmod>{NL}  </url>")
     return (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + "\n".join(rows)
-        + "\n</urlset>\n"
+        XML_HEAD
+        + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
+        + NL + NL.join(rows) + NL + "</urlset>" + NL
     )
 
 
+def _modules_lines() -> str:
+    return NL.join(f"- `{r['name']}` {r['version']}: {r['purpose']}" for r in package_rows())
+
 def llms_txt() -> str:
+    base = baseline_counts()
     return f"""# Ametherian
 
-> Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first direction. It is at the public proposal and planning stage. No packages are published, audited, or production-ready.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. None is published to npm, none has been audited, and the license has not been chosen.
 
 ## Important status
 
-- Ametherian is a proposal, not released software.
-- No Ametherian package is published, and no security audit has been performed.
+- Preview packages are public in the repository and pass CI; they are not published to npm.
+- No security audit has been performed. The project is not production-ready.
 - The project is independent and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project.
-- The project license has not been selected.
-- The roadmap is staged and publishes no dates or release commitments.
+- The license has not been selected.
+- Supported runtimes: Node.js 22, 24 and 26 at their latest security releases. Node.js 20 is end of life.
+
+## Modules
+
+{_modules_lines()}
+
+## Security model
+
+- Every published advisory for axios and undici is mapped: {base.get('total', 0)} total, {base.get('prevented', 0)} prevented with named regression tests, {base.get('na', 0)} not applicable with a recorded reason.
+- A daily workflow checks OSV, the GitHub Advisory Database, NIST NVD and Node.js security releases.
 
 ## Documentation
 
+- [Modules]({BASE}/modules/)
+- [Changelog]({BASE}/changelog/)
 - [Documentation hub]({BASE}/docs/)
 - [Project vision]({BASE}/docs/vision/)
-- [Proposed package map]({BASE}/docs/packages/)
+- [Package map]({BASE}/docs/packages/)
 - [Architecture direction]({BASE}/docs/architecture/)
 - [Security approach]({BASE}/docs/security/)
-- [Proposed roadmap]({BASE}/docs/roadmap/)
+- [Roadmap]({BASE}/docs/roadmap/)
 - [Security policy]({BASE}/security/)
 - [Contributing]({BASE}/contributing/)
 
+## Languages
+
+The site is available in English, Español (/es/), Português (Brasil) (/pt-br/), Deutsch (/de/), Français (/fr/), Русский (/ru/), 日本語 (/ja/) and 简体中文 (/zh-cn/). The sitemap index at {BASE}/sitemap.xml lists one sitemap per language.
+
 ## Project files
 
+- [Vulnerability model]({REPO}/blob/main/docs/vulnerability-model.md)
+- [Compatibility policy]({REPO}/blob/main/docs/compatibility.md)
 - [Project status]({REPO}/blob/main/PROJECT_STATUS.md)
-- [Project brief]({REPO}/blob/main/AMETHERIAN-PROJECT-BRIEF.txt)
 - [License status]({REPO}/blob/main/LICENSE-STATUS.md)
-- [Notice]({REPO}/blob/main/NOTICE.md)
 - [Source repository]({REPO})
-
-## Topics
-
-Ametherian explores networking and protocols, data validation and serialization, application infrastructure, security engineering, observability, testing, developer tooling, and runtime utilities. The intent is focused packages with shared conventions rather than one monolithic dependency.
 
 ## Claim policy
 
-Descriptions on this site distinguish proposed direction from implemented and released functionality. Compatibility, performance, security, and reliability claims require reproducible evidence or an explicit label as goals.
+Descriptions on this site distinguish implemented preview code from released software. Compatibility, performance, security and reliability claims require reproducible evidence or an explicit label as goals.
 """
 
 
@@ -289,7 +284,7 @@ def llms_full_txt() -> str:
 
 Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the `@foulfoxhacks` npm scope. Its direction is Node.js-first and broader than a single HTTP client: it explores networking, data handling, application infrastructure, developer tooling, and security-conscious engineering.
 
-The project is at the public proposal and planning stage. No packages are published. No security audit has been performed. The project is not production-ready, is not a drop-in replacement for Axios or Undici, and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. The license has not been selected.
+Ten packages exist as tested previews in the repository (see the Modules section). No packages are published to npm. No security audit has been performed. The project is not production-ready, is not a drop-in replacement for Axios or Undici, and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. The license has not been selected.
 
 ## Canonical pages
 
@@ -309,7 +304,7 @@ Ametherian aims to investigate where consistent contracts and well-defined packa
 
 Project boundaries:
 
-- Ametherian is a proposal and planning effort, not released software.
+- Ametherian's packages are unpublished previews, not released software.
 - Candidate package names, capabilities, and roadmap items are provisional.
 - The project will not promise complete vulnerability prevention, universal compatibility, or automatic safety for arbitrary consuming applications.
 - Third-party names identify technologies and research context only.
@@ -322,7 +317,7 @@ Project boundaries:
 - Security engineering: security policy helpers, secure configuration, vulnerability intelligence integrations, dependency and supply-chain review, test fixtures, and regression tooling.
 - Observability and developer experience: logging, diagnostics, metrics, tracing, typed errors, test utilities, mocks, fixtures, fuzzing helpers, CLI support, and documentation tooling.
 
-Candidate names from the project brief: `@foulfoxhacks/ametherian`, `-core`, `-http`, `-transport`, `-security`, `-guard`, `-schema`, `-cache`, `-observability`, and `-testing`. These are naming proposals, not published packages.
+Candidate names from the project brief: `@foulfoxhacks/ametherian`, `-core`, `-http`, `-transport`, `-security`, `-guard`, `-schema`, `-cache`, `-observability`, and `-testing`. All ten now exist as unpublished preview packages in the repository.
 
 ## Architecture direction
 
@@ -346,15 +341,21 @@ Security reports must follow the security policy. Do not post exploit details pu
 
 The roadmap is staged: research and project foundation; specifications and threat models; implementation and verification; release readiness. Dates and release commitments are not published until scope, ownership, and capacity are established.
 
-A package should not be described as stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit. The status labels are proposal, active implementation, preview release, and stable release. No package currently meets the preview or stable definition.
+A package should not be described as stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit. The status labels are proposal, active implementation, preview release, and stable release. All ten packages are at the preview stage (version 0.1.0, unpublished); none is stable.
 
 ## Project status
 
 The project status report lists the vision as drafted, package taxonomy as proposed, HTTP and transport research as an initial documented direction, the security model as proposed requirements, vulnerability intelligence as a proposed workflow, package implementations as not represented as complete, and security audit as not performed. Progress requires public evidence such as reviewed specifications, threat models, source, tests, changelogs, and releases.
 
+## Modules
+
+{_modules_lines()}
+
 ## Project files
 
 - {REPO}
+- {REPO}/blob/main/CHANGELOG.md
+- {REPO}/blob/main/docs/vulnerability-model.md
 - {REPO}/blob/main/PROJECT_STATUS.md
 - {REPO}/blob/main/LICENSE-STATUS.md
 - {REPO}/blob/main/NOTICE.md
@@ -362,17 +363,19 @@ The project status report lists the vision as drafted, package taxonomy as propo
 """
 
 
-def site_config() -> str:
+def site_config(dates: dict[str, str]) -> str:
     config = {
         "project": "Ametherian",
         "publisher": "FoulFoxHacks",
         "tagline": "A new kind of Node library ecosystem",
-        "status": "proposal",
+        "status": "preview",
+        "version": json.loads((ROOT / "package.json").read_text(encoding="utf-8"))["version"],
         "siteUrl": BASE,
         "basePath": "",
         "repository": REPO,
         "defaultLocale": "en",
-        "lastReviewed": TODAY,
+        "locales": [{"code": l["code"], "lang": l["lang"], "name": l["name"], "prefix": l["prefix"] or "/"} for l in i18n.ALL],
+        "lastReviewed": max(dates.values()),
         "pages": [
             {"path": ROUTES[path], "url": canonical(path)}
             for path in RENDERERS
@@ -424,39 +427,101 @@ def webmanifest() -> str:
     return json.dumps(manifest, indent=2) + "\n"
 
 
+LASTMOD_FILE = ROOT / "scripts" / "lastmod.json"
+
+
+def update_lastmod(sources: dict[str, str]) -> dict[str, str]:
+    """Content-hash based lastmod: a page's date changes only when its content does."""
+    try:
+        known = json.loads(LASTMOD_FILE.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        known = {}
+    out = {}
+    for path, source in sources.items():
+        # Ignore values that legitimately change without the page changing.
+        stable = re.sub(r'"dateModified":\s*"[^"]*"', "", source)
+        digest = hashlib.sha256(stable.encode("utf-8")).hexdigest()[:16]
+        prev = known.get(path)
+        out[path] = {"hash": digest, "date": prev["date"] if prev and prev.get("hash") == digest else TODAY}
+    LASTMOD_FILE.write_text(json.dumps(out, indent=2, sort_keys=True) + NL, encoding="utf-8")
+    return {k: v["date"] for k, v in out.items()}
+
+
+def strip_markers(source: str) -> str:
+    return source.replace("<!--HREFLANG-->", "").replace("<!--LANG-SWITCH-->", "")
+
+
+def translated_search_index(entries: list[dict], locale: dict) -> list[dict]:
+    table = i18n.catalog(locale["code"])
+
+    def tr(text: str) -> str:
+        return table.get(i18n.norm(text), text)
+
+    out = []
+    for e in entries:
+        out.append({
+            **e,
+            "path": i18n.localized_route(e["path"], locale),
+            "title": tr(e["title"]),
+            "section": tr(e["section"]),
+            "description": tr(e["description"]),
+            "headings": [{**h, "text": tr(h["text"])} for h in e["headings"]],
+        })
+    return out
+
+
+def write_search(name: str, entries: list[dict]) -> None:
+    payload = json.dumps(entries, ensure_ascii=False, separators=(",", ":"))
+    payload = payload.replace("</", "<\\/").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+    write_text(name, "/* Generated by scripts/build_site.py. */" + NL + f"window.AMETHERIAN_SEARCH = {payload};" + NL)
+
+
 def main() -> None:
     rendered = {path: renderer() for path, renderer in RENDERERS.items()}
+    companions = build_companions()
+    translated_routes = {ROUTES[p] for p in RENDERERS if p != "404.html"}
+
+    dates = update_lastmod({**{p: strip_markers(s) for p, s in rendered.items()}, **companions})
+
     for path, source in rendered.items():
-        if path in {"index.html", "docs/index.html", "sitemap/index.html", "llms/index.html", "404.html"}:
-            write_text(path, source)
+        route = ROUTES[path]
+        if path == "404.html":
+            english = strip_markers(i18n.decorate(source.replace("<!--HREFLANG-->", ""), "/", i18n.DEFAULT))
+        else:
+            english = i18n.decorate(source, route, i18n.DEFAULT)
+        if path in DIRECT_INDEX:
+            write_text(path, english)
+        else:
+            write_text(ROUTES[path].lstrip("/") + "index.html", english)
+            write_text(path, strip_markers(legacy_redirect(path)))
+        if path == "404.html":
             continue
-        clean_route_file = ROUTES[path].lstrip("/") + "index.html"
-        write_text(clean_route_file, source)
-        write_text(path, legacy_redirect(path))
+        for locale in i18n.LOCALES:
+            local = i18n.translate_page(source, locale, route, translated_routes)
+            write_text(i18n.localized_route(route, locale).lstrip("/") + "index.html", i18n.decorate(local, route, locale))
+
+    for name, source in companions.items():
+        write_text(name, i18n.decorate(source, "/", i18n.DEFAULT).replace("<!--HREFLANG-->", ""))
 
     index = search_index(rendered)
-    payload = json.dumps(index, ensure_ascii=False, separators=(",", ":"))
-    payload = payload.replace("</", "<\\/").replace("\u2028", "\\u2028").replace(
-        "\u2029", "\\u2029"
-    )
-    write_text(
-        "assets/search-index.js",
-        "/* Generated by scripts/build_site.py. */\n"
-        f"window.AMETHERIAN_SEARCH = {payload};\n",
-    )
+    write_search("assets/search-index.js", index)
+    for locale in i18n.LOCALES:
+        write_search(f"assets/search-index.{locale['code']}.js", translated_search_index(index, locale))
 
-    write_text("sitemap.xml", sitemap())
+    write_text("sitemap.xml", sitemap_index(dates))
+    for locale in i18n.ALL:
+        write_text(f"sitemaps/{locale['code']}.xml", sitemap_for(locale, dates))
     write_text("llms.txt", llms_txt())
     write_text("llms-full.txt", llms_full_txt())
-    write_text("site.config.json", site_config())
+    write_text("site.config.json", site_config(dates))
     write_text("assets/site.webmanifest", webmanifest())
     write_text(
         "robots.txt",
-        "# Public proposal and documentation. Search and AI crawlers may read this site.\n"
-        "User-agent: *\n"
-        "Allow: /\n"
-        "Disallow: /404.html\n\n"
-        f"Sitemap: {BASE}/sitemap.xml\n",
+        "# Ametherian: public project site and documentation. Search and AI crawlers may read this site." + NL
+        + "User-agent: *" + NL
+        + "Allow: /" + NL
+        + "Disallow: /404.html" + NL + NL
+        + f"Sitemap: {BASE}/sitemap.xml" + NL,
     )
 
     manifest = [
@@ -469,11 +534,8 @@ def main() -> None:
         }
         for path, meta in PAGES.items()
     ]
-    write_text(
-        "scripts/og-manifest.json",
-        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
-    )
-    print(f"\nBuilt {len(rendered)} pages with {len(index)} search entries.")
+    write_text("scripts/og-manifest.json", json.dumps(manifest, indent=2, ensure_ascii=False) + NL)
+    print(f"{NL}Built {len(rendered)} pages x {len(i18n.ALL)} languages, {len(index)} search entries.")
 
 
 if __name__ == "__main__":

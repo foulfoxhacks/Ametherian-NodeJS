@@ -236,7 +236,7 @@ test('HTTP/2 cleartext (h2c): JSON, redirects, gzip, limits and streaming', asyn
   const c = createHttpClient({ policy: loopback(), http2: true, retry: false });
   const base = `http://127.0.0.1:${port}`;
   const res = await c.get(`${base}/json`);
-  assert.deepEqual(res.json(), { path: '/json', method: 'GET', ua: 'ametherian-http/0.0.0' });
+  assert.deepEqual(res.json(), { path: '/json', method: 'GET', ua: 'ametherian-http/0.1.0' });
   const r2 = await c.get(`${base}/redirect`);
   assert.equal(r2.redirected, true);
   assert.equal(r2.json().path, '/json');

@@ -23,7 +23,7 @@
   {
     "key": "packages",
     "title": "Package map",
-    "subtitle": "Five research areas. Candidate packages.",
+    "subtitle": "Five areas, each with preview packages.",
     "label": "DOCUMENT",
     "url": "ametherian.foulfoxhacks.dev/docs/packages"
   },
@@ -68,6 +68,20 @@
     "subtitle": "A structured directory of Ametherian's public website.",
     "label": "SITE INDEX",
     "url": "ametherian.foulfoxhacks.dev/sitemap"
+  },
+  {
+    "key": "docs",
+    "title": "Modules",
+    "subtitle": "Ten preview packages, tested and unpublished.",
+    "label": "MODULES",
+    "url": "ametherian.foulfoxhacks.dev/modules"
+  },
+  {
+    "key": "docs",
+    "title": "Changelog",
+    "subtitle": "Versions, builds, and release notes.",
+    "label": "CHANGELOG",
+    "url": "ametherian.foulfoxhacks.dev/changelog"
   },
   {
     "key": "404",

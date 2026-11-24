@@ -310,3 +310,53 @@
     updateToc();
   }
 })();
+
+/* Theme switch (System -> Light -> Dark) and language menu. */
+(() => {
+  "use strict";
+  const root = document.documentElement;
+  const KEY = "ametherian-theme";
+  const media = window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null;
+  const labels = { system: "Colour theme: system", light: "Colour theme: light", dark: "Colour theme: dark" };
+  const stored = () => {
+    try { const v = localStorage.getItem(KEY); return v === "light" || v === "dark" ? v : "system"; } catch { return "system"; }
+  };
+  const apply = (mode) => {
+    const resolved = mode === "system" ? (media && media.matches ? "light" : "dark") : mode;
+    root.dataset.theme = resolved;
+    root.dataset.themeMode = mode;
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", labels[mode]);
+      button.title = labels[mode];
+    });
+  };
+  apply(stored());
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-theme-toggle]");
+    if (!button) return;
+    const next = { system: "light", light: "dark", dark: "system" }[stored()];
+    try { next === "system" ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, next); } catch { /* storage blocked */ }
+    apply(next);
+  });
+  if (media && media.addEventListener) media.addEventListener("change", () => { if (stored() === "system") apply("system"); });
+
+  // Close the language menu on outside click or Escape.
+  document.addEventListener("click", (event) => {
+    document.querySelectorAll("[data-lang-switch][open]").forEach((menu) => {
+      if (!menu.contains(event.target)) menu.removeAttribute("open");
+    });
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    document.querySelectorAll("[data-lang-switch][open]").forEach((menu) => {
+      menu.removeAttribute("open");
+      menu.querySelector("summary")?.focus();
+    });
+  });
+})();
+
+/* Collapse the docs navigation on small screens so the page content comes first. */
+(() => {
+  const nav = document.querySelector("[data-docs-nav]");
+  if (nav && window.matchMedia && window.matchMedia("(max-width: 860px)").matches) nav.removeAttribute("open");
+})();
