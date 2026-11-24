@@ -49,9 +49,15 @@ test('requireCapability rejects unknown names', () => {
   assert.throws(() => requireCapability('runtime'), TypeError);
 });
 
-test('requireCapability throws typed error when missing', (t) => {
-  t.mock.property(globalThis, 'structuredClone', undefined);
-  assert.throws(() => requireCapability('structuredClone'), (err) => {
-    return err.code === ErrorCodes.UNSUPPORTED && err.details.capability === 'structuredClone';
-  });
+test('requireCapability throws typed error when missing', () => {
+  // Manual save/restore: t.mock.property is not available on Node 20.
+  const original = Object.getOwnPropertyDescriptor(globalThis, 'structuredClone');
+  globalThis.structuredClone = undefined;
+  try {
+    assert.throws(() => requireCapability('structuredClone'), (err) => {
+      return err.code === ErrorCodes.UNSUPPORTED && err.details.capability === 'structuredClone';
+    });
+  } finally {
+    Object.defineProperty(globalThis, 'structuredClone', original);
+  }
 });
