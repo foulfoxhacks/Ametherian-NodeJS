@@ -72,6 +72,26 @@ export function createOsvClient(options) {
     return out;
   }
 
+  /**
+   * Every advisory for a package across all versions (used by the advisory
+   * watcher). Follows pagination up to maxPages.
+   * @param {{ ecosystem: string, name: string }} pkg
+   */
+  async function queryAllVersions(pkg) {
+    const q = object({ ecosystem: string({ min: 1, max: 100 }), name: string({ min: 1, max: 300 }) }).parse(pkg);
+    const out = [];
+    let pageToken;
+    for (let page = 0; page < o.maxPages; page++) {
+      const body = { package: { ecosystem: q.ecosystem, name: q.name }, ...(pageToken ? { page_token: pageToken } : {}) };
+      const res = await http.post('/v1/query', { json: body, retry: { retries: 2 } });
+      const data = res.json({ schema: QueryResponse, maxDepth: 32 });
+      for (const v of data.vulns ?? []) out.push(normalizeOsv(v, provenance(`${base.origin}/v1/query`)));
+      if (!data.next_page_token) return out;
+      pageToken = data.next_page_token;
+    }
+    return out;
+  }
+
   /** Full advisory by ID. */
   async function getVuln(id) {
     const safeId = string({ min: 1, max: 200, pattern: /^[A-Za-z0-9._:-]+$/ }).parse(id);
@@ -99,5 +119,5 @@ export function createOsvClient(options) {
     return advisories;
   }
 
-  return Object.freeze({ queryPackage, queryBatch, getVuln, close: () => http.close?.() });
+  return Object.freeze({ queryPackage, queryAllVersions, queryBatch, getVuln, close: () => http.close?.() });
 }
