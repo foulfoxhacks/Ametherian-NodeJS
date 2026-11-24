@@ -33,6 +33,7 @@ from sitegen.common import (  # noqa: E402
     head,
     site_header,
     site_footer,
+    root_prefix,
     url_for,
 )
 from sitegen.docs_pages import (  # noqa: E402
