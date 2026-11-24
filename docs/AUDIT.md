@@ -54,7 +54,7 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-core` — lifecycle / logging hooks | architecture: shared contracts | Missing | Done | `createResourceScope` (LIFO, once, all failures reported), `createEventHub` (isolated listeners) |
 | `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Done | `classifyAddress`, `createDestinationPolicy` (`checkUrl`, `checkRedirect`, `lookup`); threat model in `docs/threat-models/guard.md` |
 | `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Missing | Depends on core + guard |
-| `ametherian-schema` | packages: data & serialization | Missing | Missing | |
+| `ametherian-schema` | packages: data & serialization | Missing | Done | Composable validators, all-issues errors, pollution-safe objects, bounded `parseJson` |
 | `ametherian-cache` | packages: app infrastructure | Missing | Missing | |
 | `ametherian-observability` | packages: observability | Missing | Missing | |
 | `ametherian-testing` | packages: observability & DX | Missing | Missing | |
