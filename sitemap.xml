@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ametherian.foulfoxhacks.dev/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://ametherian.foulfoxhacks.dev/docs/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/vision.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/packages.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/architecture.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/security.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/roadmap.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/SECURITY.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/docs/vision/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/docs/packages/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/docs/architecture/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/docs/security/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/docs/roadmap/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/security/</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://ametherian.foulfoxhacks.dev/contributing/</loc><lastmod>2026-11-24</lastmod></url>
   <url><loc>https://ametherian.foulfoxhacks.dev/sitemap/</loc><lastmod>2026-11-24</lastmod></url>
 </urlset>
