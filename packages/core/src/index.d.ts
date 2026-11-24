@@ -58,3 +58,16 @@ export declare function collectBytes(
   source: AsyncIterable<Uint8Array | string> | Iterable<Uint8Array | string>,
   options: { maxBytes: number; signal?: AbortSignal; resource?: string },
 ): Promise<Uint8Array>;
+
+export declare const REDACTED: '[REDACTED]';
+export declare const DEFAULT_SENSITIVE_HEADERS: readonly string[];
+export declare const DEFAULT_SENSITIVE_QUERY_PARAMS: readonly string[];
+export interface RedactOptions {
+  extra?: string[];
+  replacement?: string;
+}
+export declare function redactHeaders(
+  headers: Headers | Array<[string, string]> | Record<string, string | string[] | undefined>,
+  options?: RedactOptions,
+): Record<string, string | string[] | undefined>;
+export declare function redactUrl(url: string | URL, options?: RedactOptions): string;

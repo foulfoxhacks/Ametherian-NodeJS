@@ -19,7 +19,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 5. [x] `packages/core` — typed errors (`src/errors.js`) + tests.
 6. [x] `packages/core` — cancellation & deadlines (`src/cancel.js`) + tests.
 7. [x] `packages/core` — resource limits (`src/limits.js`) + tests.
-8. [ ] `packages/core` — redaction (`src/redact.js`) + tests.
+8. [x] `packages/core` — redaction (`src/redact.js`) + tests.
 9. [ ] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
 10. [ ] `packages/core` — config validation helper (`src/config.js`): validate an options object against a small descriptor (type, min/max, allowed values, required), throw `ConfigError` listing every problem. Tests for each rule and for unknown keys.
 11. [ ] Open a PR from `dev/core-foundation` to `main` for review. Confirm the site-check workflow still passes.
