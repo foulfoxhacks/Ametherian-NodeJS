@@ -26,7 +26,7 @@ for page in root.rglob("*.html"):
         if not re.search(r"\bhref\s*=", anchor.group(1), flags=re.I):
             errors.append(f"{page.relative_to(root)}: anchor missing href")
 
-for name in ("robots.txt", "sitemap.xml", "llms.txt"):
+for name in ("robots.txt", "sitemap.xml", "llms.txt", "llms-full.txt", "site.config.json"):
     if not (root / name).exists():
         errors.append(f"missing required root file: {name}")
 
@@ -41,6 +41,7 @@ clean_routes = {
     "/security/": "security/index.html",
     "/contributing/": "contributing/index.html",
     "/sitemap/": "sitemap/index.html",
+    "/llms/": "llms/index.html",
 }
 for route, output in clean_routes.items():
     if not (root / output).is_file():
@@ -61,8 +62,9 @@ try:
     sitemap_tree = ET.parse(root / "sitemap.xml")
     if not sitemap_tree.getroot().tag.endswith("urlset"):
         errors.append("sitemap.xml: root element must be urlset")
-    if "xml-stylesheet" in (root / "sitemap.xml").read_text(encoding="utf-8"):
-        errors.append("sitemap.xml: remove XSLT processing instructions; use the /sitemap/ viewer")
+    sitemap_source = (root / "sitemap.xml").read_text(encoding="utf-8")
+    if "xml-stylesheet" in sitemap_source or "sitemap.xsl" in sitemap_source:
+        errors.append("sitemap.xml: must not depend on XSLT; use the CSS-first /sitemap/ viewer")
     sitemap_locations = [
         node.text or ""
         for node in sitemap_tree.getroot()
@@ -75,21 +77,20 @@ try:
 except Exception as exc:
     errors.append(f"invalid sitemap.xml: {exc}")
 
-try:
-    ET.parse(root / "sitemap.xsl")
-except Exception as exc:
-    errors.append(f"invalid sitemap.xsl: {exc}")
-
 for required in (
     "sitemap/index.html",
-    "sitemap.xsl",
+    "llms/index.html",
     "assets/sitemap.js",
     "assets/sitemap.css",
-    "assets/vendor/xslt-polyfill.min.js",
-    "assets/vendor/LICENSE-xslt-polyfill.txt",
+    "assets/resources.css",
+    "assets/resources.js",
 ):
     if not (root / required).is_file():
-        errors.append(f"missing required sitemap presentation asset: {required}")
+        errors.append(f"missing required presentation asset: {required}")
+
+sitemap_script = (root / "assets/sitemap.js").read_text(encoding="utf-8")
+if "XSLTProcessor" in sitemap_script or "sitemap.xsl" in sitemap_script:
+    errors.append("assets/sitemap.js: visual sitemap must not use XSLT")
 
 if errors:
     print("\n".join(errors))
