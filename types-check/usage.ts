@@ -12,7 +12,7 @@ import { retry, createConcurrencyLimit, createRateLimiter, createCircuitBreaker 
 import { createLogger, createMetrics, attachEventHub, publishToDiagnosticsChannel } from '@foulfoxhacks/ametherian-observability';
 import { createHttpClient, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
-import { normalizeOsv, auditLockfile, compareSemver } from '@foulfoxhacks/ametherian-security';
+import { normalizeOsv, auditLockfile, compareSemver, createOsvClient } from '@foulfoxhacks/ametherian-security';
 import * as ametherian from '@foulfoxhacks/ametherian';
 
 export async function usage(): Promise<void> {
@@ -92,6 +92,8 @@ export async function usage(): Promise<void> {
   const adv = normalizeOsv({}, { source: 's', retrievedAt: '2026-01-01T00:00:00Z' });
   auditLockfile('{}', [adv]).findings[0]?.requiresHumanReview satisfies true | undefined;
   compareSemver('1.0.0', '2.0.0') satisfies -1 | 0 | 1;
+  const osv = createOsvClient({ transport });
+  (await osv.queryPackage({ ecosystem: 'npm', name: 'x', version: '1.0.0' }))[0]?.provenance.source satisfies string | undefined;
 
   ametherian.http.createHttpClient satisfies typeof createHttpClient;
   void [code, limit, bytes, safe, u, url, cat, blocked, name, role, v, data];

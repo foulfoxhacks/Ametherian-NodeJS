@@ -8,4 +8,17 @@ Vulnerability-intelligence building blocks, following the workflow in [docs/secu
 - **`checkAffected(advisory, ecosystem, name, version)`** evaluates OSV `introduced` / `fixed` / `last_affected` / `limit` events and explicit version lists with SemVer precedence. It also reports the first fixed version.
 - **`auditLockfile(lockfile, advisories, { maxAgeMs })`** reads npm `package-lock.json` v2/v3 with size and depth limits. Every finding carries provenance, a **`stale`** flag when the intelligence is older than `maxAgeMs` (default 24 h), and **`requiresHumanReview: true`**.
 
-There is no network access and no automatic remediation: fetching advisories (for example from `api.osv.dev`) and acting on findings stay with the caller and a human reviewer, as `docs/security.md` requires.
+- **`createOsvClient()`** fetches from the OSV API through `ametherian-http`:
+  - `queryPackage({ ecosystem, name, version })` follows pagination.
+  - `queryBatch([...])` sends one batch query, then fetches each unique advisory.
+  - `getVuln(id)` fetches a single advisory.
+  - Only HTTPS to the advisory host is allowed: other hosts, redirects elsewhere and http are blocked. Responses are size- and depth-limited, and every record gets provenance.
+  - Querying tells the service which packages and versions you use.
+
+```js
+const osv = createOsvClient();
+const advisories = await osv.queryBatch(packagesFromLockfile(lockText).map((p) => ({ ecosystem: 'npm', name: p.name, version: p.version })));
+const report = auditLockfile(lockText, advisories);   // findings for human review
+```
+
+There is no automatic remediation: acting on findings stays with a human reviewer, as `docs/security.md` requires. The lockfile audit itself is offline.
