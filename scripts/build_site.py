@@ -57,7 +57,7 @@ def sitemap_page() -> str:
 <head>
 {head(current)}
 </head>
-<body class="page-home" data-root="../">
+<body class="page-home" data-root="{root_prefix(current)}">
 <a class="skip-link" href="#main">Skip to content</a>
 {site_header(current, "")}
 <main id="main" class="sitemap-main">
