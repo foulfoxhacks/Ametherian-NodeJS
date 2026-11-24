@@ -550,7 +550,8 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
     if path == "sitemap/index.html":
         extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
     elif path == "llms/index.html":
-        extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/resources.css", path)}">
+        resource_css = url_for("assets/resources.css", path)
+        extra_stylesheet = f'<link rel="stylesheet" href="{resource_css}>'
     return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
