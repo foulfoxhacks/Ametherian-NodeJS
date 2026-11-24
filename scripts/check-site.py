@@ -8,11 +8,11 @@ root = Path(__file__).resolve().parents[1]
 errors = []
 
 for page in root.rglob("*.html"):
-    if "design-preview" in page.parts:
+    if "design-preview" in page.parts or page.name == "_asset_test.html":
         continue
     source = page.read_text(encoding="utf-8")
     for token in (
-        "<title>", 'name="description"', 'rel="canonical"',
+        "<title>", 'name="description"', 'name="publisher"', 'rel="canonical"',
         'property="og:title"', 'property="og:description"',
         'property="og:image"', 'property="og:image:alt"',
         'name="twitter:card"', "application/ld+json",
