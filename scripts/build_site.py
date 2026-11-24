@@ -114,9 +114,9 @@ def llms_page() -> str:
       <h2 id="resources-principles">Format and compatibility</h2>
       <ul>
         <li><code>llms.txt</code> and <code>llms-full.txt</code> remain plain Markdown text files.</li>
-        <li><code>sitemap.xml</code> remains standard XML without a stylesheet processing instruction.</li>
+        <li><code>sitemap.xml</code> remains standard XML and links directly to a dedicated CSS stylesheet for browser presentation.</li>
         <li>JSON and crawler directives remain raw machine-readable files.</li>
-        <li>CSS is applied only to this human-facing HTML directory and the visual sitemap.</li>
+        <li>The XML sitemap uses a browser-native CSS stylesheet; no XSLT or JavaScript is required to display it.</li>
       </ul>
     </section>
   </div>
@@ -235,6 +235,7 @@ def sitemap() -> str:
         )
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "\n".join(rows)
         + "\n</urlset>\n"

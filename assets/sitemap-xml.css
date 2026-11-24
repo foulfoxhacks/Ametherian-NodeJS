@@ -1,0 +1,51 @@
+/* Ametherian — browser-native styling for the raw XML sitemap.
+   Loaded directly by sitemap.xml through an xml-stylesheet CSS processing instruction.
+   Keep selectors namespace-agnostic for the sitemap.org default namespace. */
+* { box-sizing: border-box; }
+urlset {
+  display: block; min-height: 100vh; padding: clamp(24px, 5vw, 64px);
+  color: #f5f2fb;
+  background: radial-gradient(ellipse at 12% 0%, rgba(139,83,254,.22), transparent 42%), linear-gradient(145deg,#0b0812,#120e1c 58%,#0b0812);
+  font-family: Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  counter-reset: sitemap-entry;
+}
+urlset::before {
+  display: block; max-width: 1080px; margin: 0 auto 12px; color: #b9a0ff;
+  content: "AMETHERIAN  /  SEARCH DISCOVERY";
+  font: 700 .75rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .16em;
+}
+urlset::after {
+  display: block; max-width: 1080px; margin: 28px auto 0; padding-top: 18px;
+  border-top: 1px solid rgba(196,181,253,.2); color: #a99dbb;
+  content: "Machine-readable XML sitemap · Styled directly with CSS · No XSLT or JavaScript required";
+  font-size: .82rem;
+}
+url {
+  display: block; max-width: 1080px; margin: 0 auto; padding: 18px 22px;
+  border: 1px solid rgba(196,181,253,.16); border-bottom: 0;
+  background: rgba(29,22,44,.76); counter-increment: sitemap-entry;
+}
+url:first-of-type { margin-top: 24px; border-radius: 16px 16px 0 0; }
+url:last-of-type { border-bottom: 1px solid rgba(196,181,253,.16); border-radius: 0 0 16px 16px; }
+url::before {
+  display: block; margin-bottom: 8px; color: #a78bfa;
+  content: "PAGE  /  " counter(sitemap-entry,decimal-leading-zero);
+  font: 700 .68rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing: .12em;
+}
+loc { display: block; color: #f5f2fb; font-size: clamp(.92rem,2vw,1.05rem); font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+lastmod { display: block; margin-top: 7px; color: #b9b0c9; font: .76rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; }
+lastmod::before { color: #8b53fe; content: "LAST MODIFIED  "; font-weight: 700; letter-spacing: .06em; }
+@media (min-width: 900px) {
+  urlset { padding-top: 48px; padding-bottom: 48px; }
+  url { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; column-gap: 24px; }
+  url::before { grid-column: 1 / -1; }
+  loc { grid-column: 1; }
+  lastmod { grid-column: 2; grid-row: 2; margin-top: 0; text-align: right; }
+}
+@media (prefers-color-scheme: light) {
+  urlset { color: #241b35; background: linear-gradient(145deg,#f7f4ff,#eee8ff); }
+  url { border-color: rgba(77,54,116,.18); background: rgba(255,255,255,.82); }
+  loc { color: #241b35; }
+  lastmod { color: #655777; }
+  urlset::after { border-color: rgba(77,54,116,.2); color: #655777; }
+}
