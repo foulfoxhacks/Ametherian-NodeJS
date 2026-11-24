@@ -1,6 +1,6 @@
 # Ametherian code audit
 
-Audit date: 2026-11-24 · Audited commit: `798c70e` (main) · Branch for new work: `dev/core-foundation`
+Audit date: 2026-11-24 · First audited commit: `798c70e` (main, before any package code) · Statuses below updated through branch `dev/modules` (PR #12)
 
 ## Blueprint sources
 
@@ -60,9 +60,9 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-observability` | packages: observability | Missing | Done | Redacting structured logger, bounded-cardinality metrics + Prometheus text, event hub and diagnostics_channel bridges |
 | `ametherian-testing` | packages: observability & DX | Missing | Done | Mock transport, test server, fake clock, deterministic adversarial fuzz corpus (used to fuzz schema and guard) |
 | `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Partial | OSV normalisation with provenance, SemVer range matching, lockfile audit with staleness + human-review flag. No fetching, GHSA/NVD/KEV adapters or provenance attestation yet |
-| `@foulfoxhacks/ametherian` meta package | brief | Missing | Missing | Only after several packages exist |
-| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; others pending |
-| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | Core declares Node ≥ 20, ESM only, bundled `.d.ts` |
+| `@foulfoxhacks/ametherian` meta package | brief | Missing | Done | Re-exports packages as namespaces (testing excluded) |
+| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; http, schema, cache, security still need their own |
+| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | All packages: Node ≥ 20, ESM only, hand-written `.d.ts`, CI on Node 20/22/24. No written semver/deprecation policy, no `tsc` type check yet |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
 ## Repository hygiene findings (not fixed here)
