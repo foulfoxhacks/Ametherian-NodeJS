@@ -42,7 +42,7 @@ and canonical URLs, `sitemap.xml` and `robots.txt` are unchanged.
 
 Status key: **Missing** = no code; **Partial** = some code exists but not to spec; **Done** = implemented with tests; **Doc only** = described in the blueprint, no code expected yet.
 
-| Module / area | Blueprint source | Status before this branch | Status on `dev/core-foundation` | Notes |
+| Module / area | Blueprint source | Status at first audit | Current status | Notes |
 |---|---|---|---|---|
 | Monorepo tooling (npm workspaces, test runner, CI for Node) | architecture: compatibility & releases | Missing | Done | No runtime deps; Node ≥ 20 |
 | `@foulfoxhacks/ametherian-core` — typed errors | architecture: shared contracts | Missing | Done | `AmetherianError` + subclasses, stable `code`, `retryable`, `cause` |
@@ -53,16 +53,19 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-core` — config validation | architecture: shared contracts | Missing | Done | `validateOptions`: collects all problems, rejects unknown keys, ignores inherited keys |
 | `ametherian-core` — lifecycle / logging hooks | architecture: shared contracts | Missing | Done | `createResourceScope` (LIFO, once, all failures reported), `createEventHub` (isolated listeners) |
 | `ametherian-guard` — destination policy (SSRF, redirects, DNS rebinding) | security: threat-model areas | Missing | Done | `classifyAddress`, `createDestinationPolicy` (`checkUrl`, `checkRedirect`, `lookup`); threat model in `docs/threat-models/guard.md` |
-| `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Done (http); transport is an interface inside http | Guarded destinations incl. DNS time, credential stripping on cross-origin redirects, decompression-safe body limits, deadlines, idempotent-only retries. No proxy/HTTP2/streaming yet |
+| `ametherian-http` / `ametherian-transport` | brief, packages: networking | Missing | Done (http); transport is an interface inside http | Guarded destinations incl. DNS time, credential stripping on cross-origin redirects (plus configurable extras), decompression-safe body limits, deadlines, idempotent-only retries, streaming response bodies, HTTP proxy (absolute-form + CONNECT), opt-in HTTP/2, custom CA. Threat model `docs/threat-models/http.md`. No streaming request bodies, cookies or SOCKS |
 | `ametherian-schema` | packages: data & serialization | Missing | Done | Composable validators, all-issues errors, pollution-safe objects, bounded `parseJson` |
 | `ametherian-cache` | packages: app infrastructure | Missing | Done | Bounded LRU/TTL, size budget, load de-duplication, collision-free scopes |
 | `ametherian-resilience` (retries, concurrency, rate limits, circuit breaker) | packages: app infrastructure; brief: queues, retries, rate limiting | Missing | Done | Not in the brief's example names; added as its own focused package |
 | `ametherian-observability` | packages: observability | Missing | Done | Redacting structured logger, bounded-cardinality metrics + Prometheus text, event hub and diagnostics_channel bridges |
 | `ametherian-testing` | packages: observability & DX | Missing | Done | Mock transport, test server, fake clock, deterministic adversarial fuzz corpus (used to fuzz schema and guard) |
-| `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Partial | OSV normalisation with provenance, SemVer range matching, lockfile audit with staleness + human-review flag. No fetching, GHSA/NVD/KEV adapters or provenance attestation yet |
+| `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Partial | OSV fetch (HTTPS-only, host-locked) and normalisation with provenance, SemVer range matching, lockfile audit with staleness + human-review flag. Not yet: GHSA/NVD/CISA KEV adapters, build provenance/attestation checks |
 | `@foulfoxhacks/ametherian` meta package | brief | Missing | Done | Re-exports packages as namespaces (testing excluded) |
-| Threat models (per package family) | roadmap: specs & threat models | Doc only | Partial | `docs/threat-models/guard.md` written; http, schema, cache, security still need their own |
-| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Partial | All packages: Node ≥ 20, ESM only, hand-written `.d.ts`, CI on Node 20/22/24. No written semver/deprecation policy, no `tsc` type check yet |
+| Threat models (per package family) | roadmap: specs & threat models | Doc only | Done for shipped security-sensitive packages | `docs/threat-models/`: guard, http, schema, cache, security. Resilience/observability not modelled separately |
+| Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Done (draft) | `docs/compatibility.md`; CI on Node 20/22/24 plus strict `tsc` check of all `.d.ts` (`types-check/`). Needs maintainer sign-off |
+| Vulnerability prevention model (axios/undici advisories vs OSV + NIST NVD) | security: vulnerability intelligence; regression tests for confirmed vulnerabilities | Missing | Done | `docs/vulnerability-model.md`, `docs/vulnerability-baseline.json` (111 advisories: 64 prevented with named tests, 47 not applicable), daily `advisory-watch.yml` |
+| undici-style `fetch()` and pooled transport | brief: Axios/Undici comparison | Missing | Done | `createFetch` returns standard `Response`; per-origin and total socket limits |
+| License | LICENSE-STATUS.md | Not chosen | Not chosen | Maintainer decision; blocks publishing. Packages are `private`/`UNLICENSED` |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
 ## Repository hygiene findings (not fixed here)

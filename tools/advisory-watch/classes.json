@@ -1,0 +1,166 @@
+{
+  "$comment": "Curated mapping of every known axios/undici advisory (GHSA id) to a weakness class. Edit this file when the watcher reports a new advisory, then rebuild docs/vulnerability-baseline.json with `node tools/advisory-watch/build-baseline.mjs <osv-cache.json>`.",
+  "classes": {
+    "ssrf-base-url-escape": {
+      "status": "prevented",
+      "cwe": "CWE-918",
+      "control": "http: baseUrl origin lock (allowAbsoluteUrls=false) + guard destination policy",
+      "tests": ["packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-jr5f-v2jv-69x6", "GHSA-8hc4-vh64-cxmj", "GHSA-8qr4-xgw6-wmr3"]
+    },
+    "ssrf-redirect": {
+      "status": "prevented",
+      "cwe": "CWE-918",
+      "control": "guard.checkRedirect on every hop; maxRedirects enforced including 0",
+      "tests": ["packages/http/test/cve-regressions.test.js", "packages/http/test/client.test.js"],
+      "advisories": ["GHSA-4w2v-q235-vp99", "GHSA-r4gj-5m52-g5wh"]
+    },
+    "header-injection": {
+      "status": "prevented",
+      "cwe": "CWE-93",
+      "control": "RFC 9110 header name/value validation; strict method token; request option allow-list; WHATWG URL encoding",
+      "tests": ["packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-3cvr-822r-rqcc", "GHSA-f772-66g8-q5h3", "GHSA-5r9g-qh6m-jxff", "GHSA-fvcv-3m26-pcqx", "GHSA-xhjh-pmcv-23jw", "GHSA-4992-7rv2-5pvq"]
+    },
+    "redirect-credential-leak": {
+      "status": "prevented",
+      "cwe": "CWE-200",
+      "control": "Authorization, Cookie, Proxy-Authorization (+ stripHeadersOnRedirect) removed on any origin change; proxy credentials only ever sent to the proxy",
+      "tests": ["packages/http/test/cve-regressions.test.js", "packages/http/test/advanced.test.js"],
+      "advisories": ["GHSA-q768-x9m6-m9qp", "GHSA-wqq4-5wpv-mx2g", "GHSA-3787-6prv-h9w3", "GHSA-m4v8-wqvr-p9f7", "GHSA-p92q-9vqr-4j8v", "GHSA-j5f8-grm9-p9fc"]
+    },
+    "unbounded-response": {
+      "status": "prevented",
+      "cwe": "CWE-770",
+      "control": "maxResponseBytes enforced while reading, buffered and streamed; data: URLs refused by guard",
+      "tests": ["packages/http/test/cve-regressions.test.js", "packages/http/test/advanced.test.js"],
+      "advisories": ["GHSA-4hjh-wcwx-xvwj", "GHSA-42xw-2xvc-qx8m", "GHSA-777c-7fjr-54vf", "GHSA-vf2m-468p-8v99"]
+    },
+    "decompression-abuse": {
+      "status": "prevented",
+      "cwe": "CWE-409",
+      "control": "single content-coding only (no chains), limit counted after decompression, decoder errors typed",
+      "tests": ["packages/http/test/cve-regressions.test.js", "packages/http/test/client.test.js"],
+      "advisories": ["GHSA-g9mf-h72j-4rw9", "GHSA-3xpg-4rpp-hhhm", "GHSA-xjj6-f33q-929c", "GHSA-55wc-3pg8-jfw6"]
+    },
+    "unbounded-request": {
+      "status": "prevented",
+      "cwe": "CWE-770",
+      "control": "maxRequestBytes checked before sending on every transport",
+      "tests": ["packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-5c9x-8gcm-mpgx", "GHSA-jqh4-m9w3-8hp9", "GHSA-mwf2-3pr3-8698"]
+    },
+    "redos": {
+      "status": "prevented",
+      "cwe": "CWE-1333",
+      "control": "no regex over attacker-controlled data except linear anchored patterns; parsing delegated to WHATWG URL and llhttp",
+      "tests": ["packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-cph5-m8f7-6c5x", "GHSA-r6ch-mqf9-qc9w", "GHSA-hfxv-24rg-xrqf", "GHSA-c29m-xwm3-cm6r", "GHSA-mghh-pgcx-3jjj"]
+    },
+    "prototype-pollution-gadget": {
+      "status": "prevented",
+      "cwe": "CWE-1321",
+      "control": "own-property-only option reading; all security-relevant node:http/https/tls/http2 options pinned as own values; no URL objects passed to Node; bounded parseJson drops pollution keys",
+      "tests": ["packages/http/test/prototype-pollution.test.js", "packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-pf86-5x62-jrwf", "GHSA-q8qp-cvcw-x6jj", "GHSA-6chq-wfr3-2hj9", "GHSA-35jp-ww65-95wh", "GHSA-3g43-6gmg-66jw", "GHSA-654m-c8p4-x5fp", "GHSA-898c-q2cr-xwhg", "GHSA-w9j2-pvgh-6h63", "GHSA-7q8q-rj6j-mhjq", "GHSA-gcfj-64vw-6mp9", "GHSA-mmx7-hfxf-jppx", "GHSA-xj6q-8x83-jv6g", "GHSA-9fr6-4gfg-395g", "GHSA-j8rh-479h-cp32", "GHSA-m8m8-qj5v-23w3", "GHSA-vh66-26gq-q6x8", "GHSA-3w6x-2g7m-8v23", "GHSA-43fc-jf86-j433"]
+    },
+    "unbounded-recursion-request-data": {
+      "status": "prevented",
+      "cwe": "CWE-674",
+      "control": "request data serialised with JSON.stringify only; cyclic/unsupported data fails with ConfigError; no recursive form serialiser exists",
+      "tests": ["packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-62hf-57xw-28j9"]
+    },
+    "tls-validation-bypass": {
+      "status": "prevented",
+      "cwe": "CWE-295",
+      "control": "TLS verification always on, no option to disable; rejectUnauthorized/checkServerIdentity pinned; ca carried through CONNECT tunnels and HTTP/2",
+      "tests": ["packages/http/test/advanced.test.js", "packages/http/test/prototype-pollution.test.js"],
+      "advisories": ["GHSA-pgw7-wx7w-2w33", "GHSA-w293-vg96-wgc3", "GHSA-2m5v-pch6-74hx"]
+    },
+    "http2-control-bypass-and-errors": {
+      "status": "prevented",
+      "cwe": "CWE-693",
+      "control": "HTTP/2 transport uses the guard lookup, refuses proxy combination, typed session errors, per-origin session cleanup",
+      "tests": ["packages/http/test/advanced.test.js", "packages/http/test/cve-regressions.test.js"],
+      "advisories": ["GHSA-3pq3-5fj3-cg6v", "GHSA-542g-h47m-68v8", "GHSA-qj83-cq47-w5f8"]
+    },
+    "response-smuggling-desync": {
+      "status": "prevented",
+      "cwe": "CWE-444",
+      "control": "strict llhttp parser (insecureHTTPParser pinned false); failed connections are destroyed, never reused; retries re-issue whole requests and discard earlier bodies",
+      "tests": ["packages/http/test/cve-regressions.test.js", "packages/http/test/client.test.js"],
+      "advisories": ["GHSA-2mjp-6q6p-2qxm", "GHSA-35p6-xmwp-9g52", "GHSA-8xcm-r25x-g524", "GHSA-r53p-7pc4-xj5r", "GHSA-pmjh-fq2x-6v4x"]
+    },
+    "supply-chain-compromise": {
+      "status": "prevented",
+      "cwe": "CWE-506",
+      "control": "zero third-party runtime dependencies, no install scripts, dev-only lockfile entries with sha512 integrity, enforced by test",
+      "tests": ["packages/ametherian/test/supply-chain.test.js"],
+      "advisories": ["GHSA-fw8c-xr5c-95f9"]
+    },
+    "no-proxy-bypass": {
+      "status": "not-applicable",
+      "cwe": "CWE-918",
+      "control": "Ametherian never reads HTTP_PROXY/NO_PROXY; the destination policy is applied to the target with or without a proxy (advanced.test.js: 'guard still checks the target URL')",
+      "tests": ["packages/http/test/advanced.test.js"],
+      "advisories": ["GHSA-3p68-rc4w-qgx5", "GHSA-m7pr-hjqh-92cm", "GHSA-pmwg-cvhr-8vh7", "GHSA-pjwm-pj3p-43mv", "GHSA-f4gw-2p7v-4548", "GHSA-44g4-m2mj-wpvx"]
+    },
+    "socks-proxy": {
+      "status": "not-applicable",
+      "cwe": "CWE-295",
+      "control": "no SOCKS support",
+      "tests": [],
+      "advisories": ["GHSA-vmh5-mc38-953g", "GHSA-hm92-r4w5-c3mj"]
+    },
+    "browser-xsrf": {
+      "status": "not-applicable",
+      "cwe": "CWE-352",
+      "control": "Node-only client; no XSRF cookie-to-header feature",
+      "tests": [],
+      "advisories": ["GHSA-wf5p-g6vw-rhxx", "GHSA-xx6v-rp6x-q39c"]
+    },
+    "form-data": {
+      "status": "not-applicable",
+      "cwe": "CWE-674",
+      "control": "no FormData/multipart/Blob body support",
+      "tests": [],
+      "advisories": ["GHSA-445q-vr5w-6q77", "GHSA-42h9-826w-cgv3", "GHSA-hcpx-6fm6-wx23", "GHSA-pmv8-rq9r-6j72", "GHSA-x97p-jq2g-jp4f", "GHSA-4hqw-qxg8-jxx2", "GHSA-m8rv-5g2x-5cg5", "GHSA-c76h-2ccp-4975"]
+    },
+    "websocket": {
+      "status": "not-applicable",
+      "cwe": "CWE-400",
+      "control": "no WebSocket client",
+      "tests": [],
+      "advisories": ["GHSA-f269-vfmq-vjvj", "GHSA-v9p9-hfj2-hcw8", "GHSA-vrm6-8vpv-qv8q", "GHSA-38rv-x7px-6hhq", "GHSA-vxpw-j846-p89q", "GHSA-3wwx-pv8p-q78v", "GHSA-rfgv-xxqx-mfg5", "GHSA-rx4f-c7p8-82vq", "GHSA-9fm3-97px-rjf6", "GHSA-qq8j-7v2v-3rwp"]
+    },
+    "http-cache": {
+      "status": "not-applicable",
+      "cwe": "CWE-524",
+      "control": "no HTTP response cache; ametherian-cache is a generic in-process cache with collision-free scopes",
+      "tests": [],
+      "advisories": ["GHSA-pr7r-676h-xcf6", "GHSA-4cwx-7wf7-3272", "GHSA-jr45-8vmc-qm54", "GHSA-2jfj-6hjv-fm6j", "GHSA-8436-99hf-9mmv", "GHSA-vp8m-p9jh-q5pm", "GHSA-4w7w-5xrc-9h26", "GHSA-phc3-fgpg-7m6h"]
+    },
+    "cookie-jar": {
+      "status": "not-applicable",
+      "cwe": "CWE-113",
+      "control": "no cookie jar or Set-Cookie parsing",
+      "tests": [],
+      "advisories": ["GHSA-g8m3-5g58-fq7m", "GHSA-p88m-4jfj-68fv", "GHSA-v3r7-h72x-cjcm"]
+    },
+    "fetch-implementation-specific": {
+      "status": "not-applicable",
+      "cwe": "CWE-401",
+      "control": "behaviour specific to undici's fetch/body mixins, SRI, EventSource and interceptors, which Ametherian does not implement",
+      "tests": [],
+      "advisories": ["GHSA-9f24-jqhm-jfcw", "GHSA-3g92-w8c5-73pq", "GHSA-9qxr-qj54-h672", "GHSA-f72v-6w45-q472", "GHSA-4qv8-2p9j-2685", "GHSA-2gqq-gqf2-x968"]
+    },
+    "runtime-tls-dos": {
+      "status": "not-applicable",
+      "cwe": "CWE-400",
+      "control": "TLS handshake/certificate parsing is done by Node's TLS stack; track Node.js security releases",
+      "tests": [],
+      "advisories": ["GHSA-cxrh-j4jr-qwg3", "GHSA-qrxm-fqhp-jwvm"]
+    }
+  }
+}

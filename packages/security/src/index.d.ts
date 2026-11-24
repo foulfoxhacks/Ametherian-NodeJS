@@ -52,3 +52,21 @@ export declare function auditLockfile(
   advisories: Advisory[],
   options?: { now?: () => number; maxAgeMs?: number; ecosystem?: string },
 ): { scanned: number; advisories: number; findings: readonly Finding[]; generatedAt: string };
+
+export declare const OSV_API: 'https://api.osv.dev';
+export interface PackageQuery { ecosystem: string; name: string; version: string }
+export interface OsvClient {
+  queryPackage(pkg: PackageQuery): Promise<Advisory[]>;
+  queryBatch(packages: PackageQuery[]): Promise<Advisory[]>;
+  getVuln(id: string): Promise<Advisory>;
+  close(): void;
+}
+export declare function createOsvClient(options?: {
+  baseUrl?: string;
+  client?: import('@foulfoxhacks/ametherian-http').HttpClient;
+  transport?: import('@foulfoxhacks/ametherian-http').Transport;
+  now?: () => number;
+  timeoutMs?: number;
+  maxResponseBytes?: number;
+  maxPages?: number;
+}): OsvClient;

@@ -9,7 +9,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 - Merged so far: #9 (audit, core), #10 (config validation, guard, CI fix), #11 (Node 20 fix, lifecycle/events, schema).
 - Open: #12 from `dev/modules` (cache, resilience, observability, http, testing, security, meta package).
 - Audit: `docs/AUDIT.md`. Threat model: `docs/threat-models/guard.md`.
-- Tests: `npm ci && npm test` at repo root (Node ≥ 20.6; no third-party dependencies). 185 tests across 10 packages.
+- Tests: `npm ci && npm test` at repo root (Node ≥ 20.6). 231 tests across 10 packages. Types: `npm run typecheck`.
 - Site checks (must keep passing): `python scripts/build_site.py && python scripts/check-site.py`
 
 ## Packages (`packages/*`, all `private`, `UNLICENSED`, unpublished)
@@ -22,10 +22,10 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 | `ametherian-cache` | 8 | core |
 | `ametherian-resilience` | 15 | core |
 | `ametherian-observability` | 10 | core |
-| `ametherian-http` | 17 | core, guard, resilience, schema |
+| `ametherian-http` | 50 | core, guard, resilience, schema |
 | `ametherian-testing` | 8 | core (dev: http, guard, schema, cache) |
-| `ametherian-security` | 8 | core, schema |
-| `ametherian` (meta) | 2 | all except testing |
+| `ametherian-security` | 18 | core, schema, guard, http, resilience (dev: testing) |
+| `ametherian` (meta) | 5 | all except testing |
 
 ## Done
 
@@ -35,17 +35,38 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 4. [x] guard threat model + destination policy (URL, redirect, DNS-time checks).
 5. [x] schema, cache, resilience, observability, http, testing, security, meta package.
 
+## Done in the gap-fixing pass
+
+6. [x] Strict `tsc` check of every `.d.ts` in CI (`types-check/`, TypeScript as a root devDependency only).
+7. [x] Threat models for http, schema, cache, security (`docs/threat-models/`).
+8. [x] Compatibility policy draft (`docs/compatibility.md`).
+9. [x] http: streaming response bodies, proxy (absolute-form + CONNECT), opt-in HTTP/2, custom CA, `stripHeadersOnRedirect`.
+10. [x] security: OSV API adapter with provenance.
+
+## Done: axios/undici vulnerability pass
+
+10a. [x] Pulled all 111 published axios/undici advisories (OSV/GHSA + NVD CVE ids). Fixed the gaps they exposed: baseUrl escape, prototype-pollution gadgets incl. Node URL detection and TLS options, header control chars, missing request-body limit.
+10b. [x] `cve-regressions.test.js`, `prototype-pollution.test.js`, supply-chain policy test.
+10c. [x] `docs/vulnerability-baseline.json` + `tools/advisory-watch/` (classes, builder, watcher) + daily workflow; NVD client.
+10d. [x] undici-style `createFetch()`; socket pool limits.
+
+**When the advisory watch fails:**
+1. Read the job summary (new GHSA, CVE, NVD CVSS/CWE).
+2. Write a regression test, or record a not-applicable reason.
+3. Add the GHSA ID to `tools/advisory-watch/classes.json`.
+4. Run `node tools/advisory-watch/watch.mjs --write-cache osv.json` and then `node tools/advisory-watch/build-baseline.mjs osv.json`.
+5. Commit.
+
 ## Next steps (in order)
 
-6. [ ] Get #12 reviewed and merged. Check Node CI on all three versions.
-7. [ ] Type-check the hand-written `.d.ts` files: add a CI job running `tsc --noEmit` against a small usage file (TypeScript as a devDependency only).
-8. [ ] Threat models for `http`, `schema`, `cache` and `security` in `docs/threat-models/`, using the same table format as `guard.md`.
-9. [ ] Write the compatibility policy (`docs/compatibility.md`): Node versions, ESM-only decision, semver and deprecation windows.
-10. [ ] Choose a license (see `LICENSE-STATUS.md`). This is the maintainer's decision. Publishing is blocked until then.
-11. [ ] http: proxy support (with guard running at the proxy boundary), streaming bodies, HTTP/2 evaluation.
-12. [ ] security: fetch adapters (OSV API, GHSA) through `ametherian-http`, keeping provenance. Findings stay report-only.
-13. [ ] Repo hygiene PR (separate): move root scratch scripts and `_pylibs/` out of the served tree; remove the dead `build-clean-urls.yml`. Say clearly in the PR that it changes publicly reachable files.
-14. [ ] Update `PROJECT_STATUS.md` / site copy to mention preview packages, but only once the maintainer agrees on wording. It is public text.
+11. [ ] Get #12 reviewed and merged. Check CI on all Node versions plus typecheck.
+12. [ ] **Maintainer decision:** choose a license (`LICENSE-STATUS.md`). Publishing is blocked until then.
+13. [ ] **Maintainer decision:** sign off `docs/compatibility.md` and the threat models.
+14. [ ] http: streaming request bodies; cookie jar (opt-in); SOCKS proxy evaluation.
+15. [ ] security: CISA KEV adapter (same provenance model); CLI wrapper that prints an audit report; consider watching more HTTP stacks (got, node-fetch).
+15b. [ ] Optional: add an `NVD_API_KEY` repository secret to speed up the advisory watch.
+16. [ ] Repo hygiene PR (separate): move root scratch scripts and `_pylibs/` out of the served tree; remove the dead `build-clean-urls.yml`. Say clearly in the PR that it changes publicly reachable files.
+17. [ ] Update `PROJECT_STATUS.md` / site copy to mention preview packages, but only once the maintainer agrees on wording. It is public text.
 
 ## Conventions
 

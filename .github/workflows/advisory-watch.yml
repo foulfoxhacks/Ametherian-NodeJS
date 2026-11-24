@@ -1,0 +1,29 @@
+name: Advisory watch (axios, undici)
+# Fails when OSV / GitHub Advisory Database lists an axios or undici advisory
+# that docs/vulnerability-baseline.json does not cover yet. New advisories
+# are enriched with NIST NVD data in the job summary. Never changes code.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+  pull_request:
+    paths: ["tools/advisory-watch/**", "docs/vulnerability-baseline.json", ".github/workflows/advisory-watch.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: advisory-watch
+  cancel-in-progress: false
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --no-audit --no-fund
+      - name: Compare live advisories with the baseline
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+        run: node tools/advisory-watch/watch.mjs
