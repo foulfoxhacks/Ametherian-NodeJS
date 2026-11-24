@@ -85,7 +85,8 @@ for required in (
     "sitemap/index.html",
     "llms/index.html",
     "assets/sitemap.js",
-    "assets/sitemap.css",\n    "assets/sitemap-xml.css",
+    "assets/sitemap.css",
+    "assets/sitemap-xml.css",
     "assets/resources.css",
     "assets/resources.js",
 ):
