@@ -63,8 +63,12 @@ try:
     if not sitemap_tree.getroot().tag.endswith("urlset"):
         errors.append("sitemap.xml: root element must be urlset")
     sitemap_source = (root / "sitemap.xml").read_text(encoding="utf-8")
-    if "xml-stylesheet" in sitemap_source or "sitemap.xsl" in sitemap_source:
-        errors.append("sitemap.xml: must not depend on XSLT; use the CSS-first /sitemap/ viewer")
+    if "sitemap.xsl" in sitemap_source or "text/xsl" in sitemap_source:
+        errors.append("sitemap.xml: XSLT is not permitted; use a CSS stylesheet")
+    if '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>' not in sitemap_source:
+        errors.append("sitemap.xml: missing direct CSS stylesheet reference")
+    if not (root / "assets/sitemap-xml.css").is_file():
+        errors.append("sitemap.xml: referenced CSS stylesheet is missing")
     sitemap_locations = [
         node.text or ""
         for node in sitemap_tree.getroot()
@@ -81,7 +85,7 @@ for required in (
     "sitemap/index.html",
     "llms/index.html",
     "assets/sitemap.js",
-    "assets/sitemap.css",
+    "assets/sitemap.css",\n    "assets/sitemap-xml.css",
     "assets/resources.css",
     "assets/resources.js",
 ):
