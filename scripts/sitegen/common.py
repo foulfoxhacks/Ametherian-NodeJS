@@ -659,8 +659,10 @@ def site_footer(current: str) -> str:
       <a href="{REPO}" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
       <a href="{FOULFOX}" target="_blank" rel="noopener noreferrer">FoulFoxHacks <span aria-hidden="true">↗</span></a>
       <a href="{url_for('sitemap/index.html', current)}">Visual sitemap</a>
+      <a href="{url_for('llms/index.html', current)}">AI resource directory</a>
       <a href="{url_for('sitemap.xml', current)}">XML sitemap</a>
       <a href="{url_for('llms.txt', current)}">llms.txt</a>
+      <a href="{url_for('llms-full.txt', current)}">llms-full.txt</a>
     </div>
   </div>
   <div class="footer-social">
@@ -692,6 +694,7 @@ def canonical_path_script(path: str) -> str:
         "index.html": ("/index.html", "/"),
         "docs/index.html": ("/docs/index.html", "/docs/"),
         "sitemap/index.html": ("/sitemap/index.html", "/sitemap/"),
+        "llms/index.html": ("/llms/index.html", "/llms/"),
     }
     alias = aliases.get(path)
     if not alias:
