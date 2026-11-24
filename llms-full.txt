@@ -8,13 +8,13 @@ The project is at the public proposal and planning stage. No packages are publis
 
 - Home: https://ametherian.foulfoxhacks.dev/
 - Documentation: https://ametherian.foulfoxhacks.dev/docs/
-- Vision: https://ametherian.foulfoxhacks.dev/docs/vision.html
-- Package map: https://ametherian.foulfoxhacks.dev/docs/packages.html
-- Architecture: https://ametherian.foulfoxhacks.dev/docs/architecture.html
-- Security approach: https://ametherian.foulfoxhacks.dev/docs/security.html
-- Roadmap: https://ametherian.foulfoxhacks.dev/docs/roadmap.html
-- Security policy: https://ametherian.foulfoxhacks.dev/SECURITY.html
-- Contributing: https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html
+- Vision: https://ametherian.foulfoxhacks.dev/docs/vision/
+- Package map: https://ametherian.foulfoxhacks.dev/docs/packages/
+- Architecture: https://ametherian.foulfoxhacks.dev/docs/architecture/
+- Security approach: https://ametherian.foulfoxhacks.dev/docs/security/
+- Roadmap: https://ametherian.foulfoxhacks.dev/docs/roadmap/
+- Security policy: https://ametherian.foulfoxhacks.dev/security/
+- Contributing: https://ametherian.foulfoxhacks.dev/contributing/
 
 ## Vision
 

@@ -10,43 +10,43 @@
   "lastReviewed": "2026-11-24",
   "pages": [
     {
-      "path": "index.html",
+      "path": "/",
       "url": "https://ametherian.foulfoxhacks.dev/"
     },
     {
-      "path": "docs/index.html",
+      "path": "/docs/",
       "url": "https://ametherian.foulfoxhacks.dev/docs/"
     },
     {
-      "path": "docs/vision.html",
-      "url": "https://ametherian.foulfoxhacks.dev/docs/vision.html"
+      "path": "/docs/vision/",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/vision/"
     },
     {
-      "path": "docs/packages.html",
-      "url": "https://ametherian.foulfoxhacks.dev/docs/packages.html"
+      "path": "/docs/packages/",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/packages/"
     },
     {
-      "path": "docs/architecture.html",
-      "url": "https://ametherian.foulfoxhacks.dev/docs/architecture.html"
+      "path": "/docs/architecture/",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/architecture/"
     },
     {
-      "path": "docs/security.html",
-      "url": "https://ametherian.foulfoxhacks.dev/docs/security.html"
+      "path": "/docs/security/",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/security/"
     },
     {
-      "path": "docs/roadmap.html",
-      "url": "https://ametherian.foulfoxhacks.dev/docs/roadmap.html"
+      "path": "/docs/roadmap/",
+      "url": "https://ametherian.foulfoxhacks.dev/docs/roadmap/"
     },
     {
-      "path": "SECURITY.html",
-      "url": "https://ametherian.foulfoxhacks.dev/SECURITY.html"
+      "path": "/security/",
+      "url": "https://ametherian.foulfoxhacks.dev/security/"
     },
     {
-      "path": "CONTRIBUTING.html",
-      "url": "https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
+      "path": "/contributing/",
+      "url": "https://ametherian.foulfoxhacks.dev/contributing/"
     },
     {
-      "path": "sitemap/index.html",
+      "path": "/sitemap/",
       "url": "https://ametherian.foulfoxhacks.dev/sitemap/"
     }
   ],

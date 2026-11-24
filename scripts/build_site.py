@@ -33,6 +33,7 @@ from sitegen.common import (  # noqa: E402
     head,
     site_header,
     site_footer,
+    root_prefix,
     url_for,
 )
 from sitegen.docs_pages import (  # noqa: E402
@@ -57,7 +58,7 @@ def sitemap_page() -> str:
 <head>
 {head(current)}
 </head>
-<body class="page-home" data-root="../">
+<body class="page-home" data-root="{root_prefix(current)}">
 <a class="skip-link" href="#main">Skip to content</a>
 {site_header(current, "")}
 <main id="main" class="sitemap-main">

@@ -30,12 +30,48 @@ for name in ("robots.txt", "sitemap.xml", "llms.txt"):
     if not (root / name).exists():
         errors.append(f"missing required root file: {name}")
 
+clean_routes = {
+    "/": "index.html",
+    "/docs/": "docs/index.html",
+    "/docs/vision/": "docs/vision/index.html",
+    "/docs/packages/": "docs/packages/index.html",
+    "/docs/architecture/": "docs/architecture/index.html",
+    "/docs/security/": "docs/security/index.html",
+    "/docs/roadmap/": "docs/roadmap/index.html",
+    "/security/": "security/index.html",
+    "/contributing/": "contributing/index.html",
+    "/sitemap/": "sitemap/index.html",
+}
+for route, output in clean_routes.items():
+    if not (root / output).is_file():
+        errors.append(f"missing clean route {route}: expected {output}")
+
+for page in root.rglob("*.html"):
+    if "design-preview" in page.parts or page.name == "_asset_test.html":
+        continue
+    source = page.read_text(encoding="utf-8")
+    for href in re.findall(r'href="([^"]+)"', source, flags=re.I):
+        if href.startswith(("http://", "https://", "mailto:", "tel:", "#")):
+            continue
+        path = href.split("#", 1)[0].split("?", 1)[0]
+        if path.lower().endswith(".html") and path.lower() != "/404.html":
+            errors.append(f"{page.relative_to(root)}: internal link uses legacy .html URL: {href}")
+
 try:
     sitemap_tree = ET.parse(root / "sitemap.xml")
     if not sitemap_tree.getroot().tag.endswith("urlset"):
         errors.append("sitemap.xml: root element must be urlset")
     if "xml-stylesheet" in (root / "sitemap.xml").read_text(encoding="utf-8"):
         errors.append("sitemap.xml: remove XSLT processing instructions; use the /sitemap/ viewer")
+    sitemap_locations = [
+        node.text or ""
+        for node in sitemap_tree.getroot()
+        if node.tag.endswith("url")
+        for node in node
+        if node.tag.endswith("loc")
+    ]
+    if any(location.lower().endswith(".html") for location in sitemap_locations):
+        errors.append("sitemap.xml: public locations must use clean URLs without .html")
 except Exception as exc:
     errors.append(f"invalid sitemap.xml: {exc}")
 

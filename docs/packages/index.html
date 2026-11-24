@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Package map — Ametherian</title>
+<meta name="description" content="The Ametherian package map: networking, data and serialization, application infrastructure, security engineering, and observability research areas.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="FoulFoxHacks">
+<meta name="publisher" content="FoulFoxHacks">
+<meta name="theme-color" content="#0b0812">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://ametherian.foulfoxhacks.dev/docs/packages/">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ametherian">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Package map — Ametherian">
+<meta property="og:description" content="The Ametherian package map: networking, data and serialization, application infrastructure, security engineering, and observability research areas.">
+<meta property="og:url" content="https://ametherian.foulfoxhacks.dev/docs/packages/">
+<meta property="og:image" content="https://ametherian.foulfoxhacks.dev/assets/og/packages.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ametherian package map social card.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Package map — Ametherian">
+<meta name="twitter:description" content="The Ametherian package map: networking, data and serialization, application infrastructure, security engineering, and observability research areas.">
+<meta name="twitter:image" content="https://ametherian.foulfoxhacks.dev/assets/og/packages.png">
+<meta name="twitter:image:alt" content="Ametherian package map social card.">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ametherian.foulfoxhacks.dev/#website","url":"https://ametherian.foulfoxhacks.dev/","name":"Ametherian","description":"An independent Node.js library ecosystem.","publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"inLanguage":"en"},{"@type":"Organization","@id":"https://ametherian.foulfoxhacks.dev/#organization","name":"Ametherian","url":"https://ametherian.foulfoxhacks.dev/","parentOrganization":{"@type":"Organization","name":"FoulFoxHacks"}},{"@type":"TechArticle","@id":"https://ametherian.foulfoxhacks.dev/docs/packages/#page","url":"https://ametherian.foulfoxhacks.dev/docs/packages/","headline":"Package map","description":"The Ametherian package map: networking, data and serialization, application infrastructure, security engineering, and observability research areas.","isPartOf":{"@id":"https://ametherian.foulfoxhacks.dev/#website"},"publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"dateModified":"2026-11-24","inLanguage":"en","primaryImageOfPage":"https://ametherian.foulfoxhacks.dev/assets/og/packages.png"},{"@type":"BreadcrumbList","@id":"https://ametherian.foulfoxhacks.dev/docs/packages/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ametherian.foulfoxhacks.dev/"},{"@type":"ListItem","position":2,"name":"Documentation","item":"https://ametherian.foulfoxhacks.dev/docs/"},{"@type":"ListItem","position":3,"name":"Package map","item":"https://ametherian.foulfoxhacks.dev/docs/packages/"}]}]}</script>
+</head>
+<body class="page-docs" data-root="">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="docs-header" data-site-header>
+  <div class="docs-header__inner">
+    <a class="brand" href="/">
+      <img src="/assets/ametherian-mark.svg" alt="" width="28" height="29">
+      <span>Ametherian</span>
+    </a>
+    <div class="docs-header__actions">
+      <button class="search-trigger" type="button" data-search-open>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><span>Search</span><kbd>/</kbd>
+      </button>
+      <a class="header-link" href="/">Project home</a>
+      <a class="icon-link" href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer" aria-label="Ametherian source repository on GitHub (opens in a new tab)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.23 2.68.12 2.96.71.78 1.14 1.78 1.14 3 0 4.29-2.61 5.23-5.1 5.5.4.35.75 1.03.75 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg></a>
+    </div>
+  </div>
+</header>
+<div class="docs-layout">
+<aside class="docs-sidebar" aria-label="Documentation navigation">
+  <div class="docs-sidebar__head">
+    <p class="eyebrow">Documentation</p>
+    <button class="search-trigger search-trigger--sidebar" type="button" data-search-open>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><span>Search docs</span><kbd>/</kbd>
+    </button>
+  </div>
+  <nav class="docs-nav">
+    <div class="docs-nav-group"><p class="docs-nav-title">Overview</p><a href="/docs/">Documentation home</a><a href="/docs/vision/">Project vision</a></div><div class="docs-nav-group"><p class="docs-nav-title">Architecture</p><a href="/docs/packages/" aria-current="page">Package map</a><a href="/docs/architecture/">Architecture direction</a><a href="/docs/security/">Security approach</a><a href="/docs/roadmap/">Roadmap</a></div><div class="docs-nav-group"><p class="docs-nav-title">Policies</p><a href="/security/">Security policy</a><a href="/contributing/">Contributing</a></div><div class="docs-nav-group"><p class="docs-nav-title">Project records</p><a href="/PROJECT_STATUS.md">Project status</a><a href="/AMETHERIAN-PROJECT-BRIEF.txt">Project brief</a><a href="/REFERENCES.md">Technical references</a><a href="/LICENSE-STATUS.md">License status</a><a href="/NOTICE.md">Notice</a></div>
+  </nav>
+  <div class="docs-sidebar__note">
+    <p><strong>Status:</strong> Planning and specification stage.</p>
+    <p><a href="/PROJECT_STATUS.md">Project status</a> · <a href="/NOTICE.md">Notice</a> · <a href="/LICENSE-STATUS.md">License</a></p>
+  </div>
+</aside>
+<main id="main" class="docs-content">
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/docs/">Documentation</a><span aria-hidden="true">/</span><span aria-current="page">Package map</span></nav>
+  <div class="doc-head">
+    <p class="eyebrow">Document</p>
+    <h1>Package map</h1>
+    <p class="doc-lead">Five research areas. Candidate packages, not released software.</p>
+    <div class="doc-meta">
+      <span>Reviewed November 2026</span>
+      <span class="doc-meta__dot" aria-hidden="true">·</span>
+      <span><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a></span>
+    </div>
+  </div>
+  <div class="prose">
+    
+<p>The package map is a research agenda. Candidate names and capabilities remain provisional until specifications, threat models, maintenance costs, and implementation feasibility are reviewed.</p>
+
+<h2 id="networking-and-protocols">Networking and protocols<a class="heading-anchor" href="#networking-and-protocols" aria-label="Link to this section">#</a></h2>
+<p>HTTP clients, transports, connection pools, proxies, streaming, retries, deadlines, and cancellation.</p>
+
+<h2 id="data-and-serialization">Data and serialization<a class="heading-anchor" href="#data-and-serialization" aria-label="Link to this section">#</a></h2>
+<p>Validation, schemas, parsing, serialization, conversion, structured data, and safe handling of untrusted input.</p>
+
+<h2 id="application-infrastructure">Application infrastructure<a class="heading-anchor" href="#application-infrastructure" aria-label="Link to this section">#</a></h2>
+<p>Caching, queues, concurrency, rate limiting, configuration, lifecycle management, and resilience.</p>
+
+<h2 id="security-engineering">Security engineering<a class="heading-anchor" href="#security-engineering" aria-label="Link to this section">#</a></h2>
+<p>Security policy helpers, secure configuration, dependency review, test fixtures, and regression tooling.</p>
+
+<h2 id="observability-and-developer-experience">Observability and developer experience<a class="heading-anchor" href="#observability-and-developer-experience" aria-label="Link to this section">#</a></h2>
+<p>Logging, diagnostics, metrics, tracing, typed errors, test utilities, fuzzing helpers, and documentation tooling.</p>
+
+  </div>
+  <div class="doc-end">
+    <p><strong>Independent project.</strong> Ametherian is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. Node.js is a trademark of the OpenJS Foundation.</p>
+  </div>
+  <nav class="doc-pager" aria-label="Documentation pagination"><a href="/docs/vision/"><span>Previous</span><strong><span aria-hidden="true">←</span> Project vision</strong></a><a href="/docs/architecture/" class="doc-pager__next"><span>Next</span><strong>Architecture <span aria-hidden="true">→</span></strong></a></nav>
+</main>
+<aside class="docs-toc" aria-label="On this page">
+  <p class="docs-nav-title">On this page</p>
+  <a href="#networking-and-protocols">Networking and protocols</a><a href="#data-and-serialization">Data and serialization</a><a href="#application-infrastructure">Application infrastructure</a><a href="#security-engineering">Security engineering</a><a href="#observability-and-developer-experience">Observability and developer experience</a>
+  <a class="toc-top" href="#main">Top of page <span aria-hidden="true">↑</span></a>
+</aside>
+</div>
+<footer class="docs-footer">
+  <div class="docs-footer__inner">
+    <p>© 2026 FoulFoxHacks · Ametherian is an independent project.</p>
+    <div class="docs-footer__links">
+      <a href="/docs/">Documentation</a>
+      <a href="/security/">Security policy</a>
+      <a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</footer>
+<dialog class="search-dialog" data-search-dialog aria-labelledby="search-title">
+  <h2 class="visually-hidden" id="search-title">Search documentation</h2>
+  <div class="search-dialog__form" role="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+    <label class="visually-hidden" for="search-input">Search documentation</label>
+    <input class="search-dialog__input" id="search-input" type="search" placeholder="Search…" autocomplete="off" spellcheck="false" data-search-input>
+    <button class="search-dialog__close" type="button" data-search-close>Esc</button>
+  </div>
+  <p class="search-empty" data-search-status aria-live="polite">Type to search titles, sections, and descriptions.</p>
+  <ul class="search-results" data-search-results></ul>
+</dialog>
+<script src="/assets/search-index.js" defer></script>
+<script src="/assets/site.js" defer></script>
+
+</body>
+</html>

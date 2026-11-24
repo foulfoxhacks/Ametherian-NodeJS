@@ -1,0 +1,35 @@
+name: Build clean URL output
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/clean-public-urls]
+    paths:
+      - "scripts/build_site.py"
+      - "scripts/sitegen/**"
+      - "scripts/check-site.py"
+      - ".github/workflows/build-clean-urls.yml"
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/clean-public-urls
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Generate clean routes and legacy aliases
+        run: python scripts/build_site.py
+      - name: Validate generated site
+        run: python scripts/check-site.py
+      - name: Commit generated site output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate clean public URL pages"
+            git push origin HEAD:fix/clean-public-urls
+          fi

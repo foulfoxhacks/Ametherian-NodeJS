@@ -28,7 +28,7 @@ FAQS = [
     (
         "Is Ametherian production-ready or audited?",
         "No. The planning repository makes no production-readiness or "
-        "security-audit claim. The <a href=\"docs/security.html\">security "
+        "security-audit claim. The <a href=\"/docs/security/\">security "
         "approach</a> describes how future packages should be threat-modeled "
         "and reviewed; it is not a guarantee that any implementation is secure.",
         "No. The planning repository makes no production-readiness or "
@@ -63,9 +63,9 @@ FAQS = [
         "Can I contribute?",
         "Early feedback on scope, package boundaries, security requirements, "
         "runtime compatibility, and developer experience is welcome. The "
-        "<a href=\"CONTRIBUTING.html\">contributing guide</a> explains "
+        "<a href=\"/contributing/\">contributing guide</a> explains "
         "expectations. Security-sensitive details must not be posted publicly; "
-        "follow the <a href=\"SECURITY.html\">security policy</a>.",
+        "follow the <a href=\"/security/\">security policy</a>.",
         "Early feedback on scope, package boundaries, security requirements, "
         "runtime compatibility, and developer experience is welcome. The "
         "contributing guide explains expectations. Security-sensitive "
@@ -73,7 +73,7 @@ FAQS = [
     ),
     (
         "Is there a release timeline?",
-        "No. The <a href=\"docs/roadmap.html\">roadmap</a> is staged and "
+        "No. The <a href=\"/docs/roadmap/\">roadmap</a> is staged and "
         "deliberately avoids dates until scope, ownership, and capacity are "
         "established. Release readiness requires an explicit API, support "
         "matrix, documentation, tests, security review, release process, and "
@@ -259,8 +259,8 @@ server.listen(3000, () => {{
       {doc_map_item(current, 'docs/vision.html', 'Project vision', 'Why an ecosystem, what is in scope, and what the project will not promise.')}
       {doc_map_item(current, 'docs/packages.html', 'Package map', 'Five research areas, candidate names, and provisional boundaries.')}
       {doc_map_item(current, 'docs/architecture.html', 'Architecture', 'Modular packages, shared contracts, runtime boundaries, and resource safety.')}
-      {doc_map_item(current, 'docs/security.html', 'Security approach', 'Threat modeling, secure engineering practices, and vulnerability intelligence.')}
-      {doc_map_item(current, 'docs/roadmap.html', 'Roadmap', 'The staged path from research to release readiness, without invented dates.')}
+      {doc_map_item(current, '/docs/security/', 'Security approach', 'Threat modeling, secure engineering practices, and vulnerability intelligence.')}
+      {doc_map_item(current, '/docs/roadmap/', 'Roadmap', 'The staged path from research to release readiness, without invented dates.')}
     </div>
   </div>
 </section>

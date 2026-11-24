@@ -18,49 +18,49 @@
     "title": "Project vision",
     "subtitle": "A cohesive ecosystem of focused packages — not one oversized dependency.",
     "label": "DOCUMENT",
-    "url": "ametherian.foulfoxhacks.dev/docs/vision.html"
+    "url": "ametherian.foulfoxhacks.dev/docs/vision"
   },
   {
     "key": "packages",
     "title": "Package map",
     "subtitle": "Five research areas. Candidate packages.",
     "label": "DOCUMENT",
-    "url": "ametherian.foulfoxhacks.dev/docs/packages.html"
+    "url": "ametherian.foulfoxhacks.dev/docs/packages"
   },
   {
     "key": "architecture",
     "title": "Architecture direction",
     "subtitle": "Modular packages, explicit runtime boundaries, shared contracts.",
     "label": "DOCUMENT",
-    "url": "ametherian.foulfoxhacks.dev/docs/architecture.html"
+    "url": "ametherian.foulfoxhacks.dev/docs/architecture"
   },
   {
     "key": "security-approach",
     "title": "Security approach",
     "subtitle": "Threat models, bounded resources, and evidence-backed claims.",
     "label": "DOCUMENT",
-    "url": "ametherian.foulfoxhacks.dev/docs/security.html"
+    "url": "ametherian.foulfoxhacks.dev/docs/security"
   },
   {
     "key": "roadmap",
     "title": "Roadmap",
     "subtitle": "Research, specifications, implementation, and release readiness.",
     "label": "DOCUMENT",
-    "url": "ametherian.foulfoxhacks.dev/docs/roadmap.html"
+    "url": "ametherian.foulfoxhacks.dev/docs/roadmap"
   },
   {
     "key": "security-policy",
     "title": "Security policy",
     "subtitle": "Reporting status and the intended security process.",
     "label": "POLICY",
-    "url": "ametherian.foulfoxhacks.dev/SECURITY.html"
+    "url": "ametherian.foulfoxhacks.dev/security"
   },
   {
     "key": "contributing",
     "title": "Contributing",
     "subtitle": "How to give feedback on the direction and architecture.",
     "label": "POLICY",
-    "url": "ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
+    "url": "ametherian.foulfoxhacks.dev/contributing"
   },
   {
     "key": "home",

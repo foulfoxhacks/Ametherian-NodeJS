@@ -13,13 +13,13 @@
 ## Documentation
 
 - [Documentation hub](https://ametherian.foulfoxhacks.dev/docs/)
-- [Project vision](https://ametherian.foulfoxhacks.dev/docs/vision.html)
-- [Proposed package map](https://ametherian.foulfoxhacks.dev/docs/packages.html)
-- [Architecture direction](https://ametherian.foulfoxhacks.dev/docs/architecture.html)
-- [Security approach](https://ametherian.foulfoxhacks.dev/docs/security.html)
-- [Proposed roadmap](https://ametherian.foulfoxhacks.dev/docs/roadmap.html)
-- [Security policy](https://ametherian.foulfoxhacks.dev/SECURITY.html)
-- [Contributing](https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html)
+- [Project vision](https://ametherian.foulfoxhacks.dev/docs/vision/)
+- [Proposed package map](https://ametherian.foulfoxhacks.dev/docs/packages/)
+- [Architecture direction](https://ametherian.foulfoxhacks.dev/docs/architecture/)
+- [Security approach](https://ametherian.foulfoxhacks.dev/docs/security/)
+- [Proposed roadmap](https://ametherian.foulfoxhacks.dev/docs/roadmap/)
+- [Security policy](https://ametherian.foulfoxhacks.dev/security/)
+- [Contributing](https://ametherian.foulfoxhacks.dev/contributing/)
 
 ## Project files
 
