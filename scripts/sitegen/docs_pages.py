@@ -271,12 +271,27 @@ def contributing_page() -> str:
 
 
 def not_found_page() -> str:
-    return f"""<main id="main" class="error-main">
+    current = "404.html"
+    meta = PAGES[current]
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+{head(current)}
+</head>
+<body class="{meta['body_class']}" data-root="{root_prefix(current)}">
+<a class="skip-link" href="#main">Skip to content</a>
+{site_header(current, "")}
+<main id="main" class="error-main">
   <p class="error-code" aria-hidden="true">404</p>
   <h1>Page not found</h1>
   <p>The requested page is not part of the Ametherian site.</p>
   <div class="error-actions">
-    <a class="button button--primary" href="{url_for('index.html', '404.html')}">Back to home</a>
-    <a class="button button--ghost" href="{url_for('docs/index.html', '404.html')}">Open documentation</a>
+    <a class="button button--primary" href="{url_for('index.html', current)}">Back to home</a>
+    <a class="button button--ghost" href="{url_for('docs/index.html', current)}">Open documentation</a>
   </div>
-</main>"""
+</main>
+{site_footer(current)}
+<script src="{url_for('assets/site.js', current)}" defer></script>
+</body>
+</html>
+"""
