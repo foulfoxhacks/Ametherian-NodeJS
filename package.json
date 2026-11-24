@@ -1,0 +1,12 @@
+{
+  "name": "ametherian-workspace",
+  "private": true,
+  "description": "Ametherian package workspace. Packages here are unpublished previews.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "npm test --workspaces --if-present"
+  }
+}

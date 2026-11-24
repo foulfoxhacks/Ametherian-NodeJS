@@ -1,0 +1,17 @@
+{
+  "name": "@foulfoxhacks/ametherian-core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared contracts for Ametherian packages: typed errors, cancellation, limits, redaction, runtime capabilities. Unpublished preview.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "default": "./src/index.js" }
+  },
+  "files": ["src"],
+  "sideEffects": false,
+  "scripts": {
+    "test": "node --test test/"
+  }
+}
