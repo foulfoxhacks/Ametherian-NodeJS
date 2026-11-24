@@ -33,6 +33,7 @@ jobs:
           tar -xzf xslt-polyfill-1.0.37.tgz
           cp package/xslt-polyfill.min.js assets/vendor/xslt-polyfill.min.js
           cp package/LICENSE assets/vendor/LICENSE-xslt-polyfill.txt
+          rm -rf package xslt-polyfill-1.0.37.tgz
           cat > assets/vendor/README.md <<'EOF'
           # Vendored XSLT polyfill
 
@@ -45,11 +46,13 @@ jobs:
           This browser-side compatibility engine is bundled locally for the Ametherian sitemap viewer.
           Review upstream release notes and security advisories before updating the pinned version.
           EOF
-      - name: Commit vendored runtime
+      - name: Regenerate committed site output
+        run: python scripts/build_site.py
+      - name: Commit vendored runtime and generated site
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/vendor/xslt-polyfill.min.js assets/vendor/LICENSE-xslt-polyfill.txt assets/vendor/README.md
+          git add -A
           if ! git diff --cached --quiet; then
             git commit -m "Vendor pinned XSLT compatibility runtime"
             git push origin HEAD:fix/bundled-xslt-sitemap
