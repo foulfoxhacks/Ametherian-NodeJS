@@ -57,7 +57,7 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `ametherian-schema` | packages: data & serialization | Missing | Done | Composable validators, all-issues errors, pollution-safe objects, bounded `parseJson` |
 | `ametherian-cache` | packages: app infrastructure | Missing | Done | Bounded LRU/TTL, size budget, load de-duplication, collision-free scopes |
 | `ametherian-resilience` (retries, concurrency, rate limits, circuit breaker) | packages: app infrastructure; brief: queues, retries, rate limiting | Missing | Done | Not in the brief's example names; added as its own focused package |
-| `ametherian-observability` | packages: observability | Missing | Missing | |
+| `ametherian-observability` | packages: observability | Missing | Done | Redacting structured logger, bounded-cardinality metrics + Prometheus text, event hub and diagnostics_channel bridges |
 | `ametherian-testing` | packages: observability & DX | Missing | Missing | |
 | `ametherian-security` (vuln intelligence, supply chain) | security: vulnerability intelligence | Missing | Missing | Ingestion must keep provenance; no unreviewed code changes |
 | `@foulfoxhacks/ametherian` meta package | brief | Missing | Missing | Only after several packages exist |
