@@ -1,0 +1,23 @@
+{
+  "name": "@foulfoxhacks/ametherian-http",
+  "version": "0.0.0",
+  "private": true,
+  "description": "HTTP client with guarded destinations, bounded bodies, deadlines and retries for Ametherian packages. Unpublished preview.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "default": "./src/index.js" }
+  },
+  "files": ["src"],
+  "sideEffects": false,
+  "dependencies": {
+    "@foulfoxhacks/ametherian-core": "0.0.0",
+    "@foulfoxhacks/ametherian-guard": "0.0.0",
+    "@foulfoxhacks/ametherian-resilience": "0.0.0",
+    "@foulfoxhacks/ametherian-schema": "0.0.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
