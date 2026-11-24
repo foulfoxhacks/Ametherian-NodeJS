@@ -68,6 +68,7 @@ const REQUEST_SCHEMA = {
   throwOnStatus: { type: 'boolean' },
   stream: { type: 'boolean', default: false },
   maxRequestBytes: { type: 'integer', min: 0 },
+  redirect: { type: 'string', oneOf: ['follow', 'manual', 'error'], default: 'follow' },
 };
 
 /** Origin of a base URL, or a ConfigError if it is not an absolute URL. */
@@ -219,8 +220,14 @@ export function createHttpClient(options) {
       emit('http.response', { method, url: redactUrl(url), status: raw.status, durationMs: performance.now() - started });
 
       const location = raw.headers.find(([k]) => k.toLowerCase() === 'location')?.[1];
-      if (REDIRECT_STATUS.has(raw.status) && location !== undefined) {
+      if (REDIRECT_STATUS.has(raw.status) && location !== undefined && req.redirect !== 'manual') {
         if (req.stream) await raw.body.cancel().catch(() => {});
+        if (req.redirect === 'error') {
+          throw new AmetherianError('Redirect not allowed (redirect: "error")', {
+            code: TOO_MANY_REDIRECTS,
+            details: { maxRedirects: 0, url: redactUrl(url) },
+          });
+        }
         if (hop >= o.maxRedirects) {
           throw new AmetherianError(`Too many redirects (max ${o.maxRedirects})`, {
             code: TOO_MANY_REDIRECTS,
@@ -301,6 +308,7 @@ export function createHttpClient(options) {
       maxResponseBytes: r.maxResponseBytes ?? o.maxResponseBytes,
       throwOnStatus: r.throwOnStatus ?? o.throwOnStatus,
       stream: r.stream,
+      redirect: r.redirect,
     };
     const timeoutMs = r.timeoutMs ?? o.timeoutMs;
     const override = checkRetryOption(retryOverride, 'request options');

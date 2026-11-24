@@ -44,6 +44,14 @@ document covers what the client itself must defend.
 | H13 | Proxy credential exposure | Proxy URL credentials sent only to the proxy as `Proxy-Authorization`, never to the target; proxy URL redacted in errors | Proxy operator sees target host (and full request for plain HTTP) |
 | H14 | HTTP/2 specific abuse (stream floods, header compression bombs) | HTTP/2 transport uses Node defaults for `maxHeaderListSize`/settings, per-request deadline and body limit; session closed with the client | HTTP/2 transport is opt-in and less exercised |
 
+| H15 | Base URL escape: absolute or protocol-relative URL overrides `baseUrl` and receives default credentials | Refused unless `allowAbsoluteUrls: true` (`AMETHERIAN_BASE_URL_ESCAPE`) | Path-prefix escapes within the same origin (`../`) are allowed |
+| H16 | Prototype-pollution gadgets (polluted `Object.prototype` changes TLS checks, sockets, proxy, headers, method) | Own-property-only option reads; security-relevant Node options pinned as own values; no URL objects passed to Node | Node-internal reads (e.g. `options.signal` in stream constructors) cannot be shadowed; prevent pollution at the application level |
+| H17 | Unbounded request bodies | `maxRequestBytes` (10 MiB) | — |
+
+Every published axios/undici advisory is mapped to these threats in
+[../vulnerability-baseline.json](../vulnerability-baseline.json) — see
+[../vulnerability-model.md](../vulnerability-model.md).
+
 ## Out of scope
 
 Cookie jars, authentication flows (OAuth), request signing, caching of

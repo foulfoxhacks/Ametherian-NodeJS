@@ -85,6 +85,8 @@ export interface RequestOptions {
   retry?: false | Omit<RetryOptions, 'signal'>;
   stream?: boolean;
   maxRequestBytes?: number;
+  /** 'follow' (default), 'manual' (return the 3xx response) or 'error'. */
+  redirect?: 'follow' | 'manual' | 'error';
 }
 export interface HttpClientOptions {
   baseUrl?: string;
@@ -134,3 +136,17 @@ export interface HttpClient {
   close(): void;
 }
 export declare function createHttpClient(options?: HttpClientOptions): HttpClient;
+
+export interface AmetherianFetchInit {
+  method?: string;
+  headers?: Record<string, string> | Headers;
+  body?: string | ArrayBuffer | ArrayBufferView | URLSearchParams | null;
+  signal?: AbortSignal;
+  redirect?: 'follow' | 'manual' | 'error';
+}
+export type AmetherianFetch = ((input: string | URL | Request, init?: AmetherianFetchInit) => Promise<Response>) & {
+  close(): void;
+  readonly client: HttpClient;
+};
+/** WHATWG-style fetch with Ametherian defaults; rejects with typed Ametherian errors. */
+export declare function createFetch(options?: HttpClientOptions): AmetherianFetch;

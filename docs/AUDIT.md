@@ -63,6 +63,8 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | `@foulfoxhacks/ametherian` meta package | brief | Missing | Done | Re-exports packages as namespaces (testing excluded) |
 | Threat models (per package family) | roadmap: specs & threat models | Doc only | Done for shipped security-sensitive packages | `docs/threat-models/`: guard, http, schema, cache, security. Resilience/observability not modelled separately |
 | Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Done (draft) | `docs/compatibility.md`; CI on Node 20/22/24 plus strict `tsc` check of all `.d.ts` (`types-check/`). Needs maintainer sign-off |
+| Vulnerability prevention model (axios/undici advisories vs OSV + NIST NVD) | security: vulnerability intelligence; regression tests for confirmed vulnerabilities | Missing | Done | `docs/vulnerability-model.md`, `docs/vulnerability-baseline.json` (111 advisories: 64 prevented with named tests, 47 not applicable), daily `advisory-watch.yml` |
+| undici-style `fetch()` and pooled transport | brief: Axios/Undici comparison | Missing | Done | `createFetch` returns standard `Response`; per-origin and total socket limits |
 | License | LICENSE-STATUS.md | Not chosen | Not chosen | Maintainer decision; blocks publishing. Packages are `private`/`UNLICENSED` |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 

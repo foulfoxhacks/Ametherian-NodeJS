@@ -10,7 +10,7 @@ import { object, string, number, literal, array, record, union, parseJson, type 
 import { createCache } from '@foulfoxhacks/ametherian-cache';
 import { retry, createConcurrencyLimit, createRateLimiter, createCircuitBreaker } from '@foulfoxhacks/ametherian-resilience';
 import { createLogger, createMetrics, attachEventHub, publishToDiagnosticsChannel } from '@foulfoxhacks/ametherian-observability';
-import { createHttpClient, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
+import { createHttpClient, createFetch, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
 import { normalizeOsv, auditLockfile, compareSemver, createOsvClient } from '@foulfoxhacks/ametherian-security';
 import * as ametherian from '@foulfoxhacks/ametherian';
@@ -86,6 +86,10 @@ export async function usage(): Promise<void> {
   (await streamed.text()) satisfies string;
   createHttpClient({ proxy: 'http://proxy:8080', ca: 'pem', stripHeadersOnRedirect: ['x-api-key'] }).close();
   createHttpClient({ http2: true }).close();
+  const fetch = createFetch({ policy });
+  const fr: Response = await fetch('https://example.com/', { method: 'POST', body: 'x', redirect: 'manual' });
+  (await fr.json()) satisfies unknown;
+  fetch.close();
   createFakeClock().advance(1);
   fuzzStrings({ seed: 1 }) satisfies string[];
 
