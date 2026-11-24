@@ -31,9 +31,29 @@ for name in ("robots.txt", "sitemap.xml", "llms.txt"):
         errors.append(f"missing required root file: {name}")
 
 try:
-    ET.parse(root / "sitemap.xml")
+    sitemap_tree = ET.parse(root / "sitemap.xml")
+    if not sitemap_tree.getroot().tag.endswith("urlset"):
+        errors.append("sitemap.xml: root element must be urlset")
+    if "xml-stylesheet" in (root / "sitemap.xml").read_text(encoding="utf-8"):
+        errors.append("sitemap.xml: remove XSLT processing instructions; use the /sitemap/ viewer")
 except Exception as exc:
     errors.append(f"invalid sitemap.xml: {exc}")
+
+try:
+    ET.parse(root / "sitemap.xsl")
+except Exception as exc:
+    errors.append(f"invalid sitemap.xsl: {exc}")
+
+for required in (
+    "sitemap/index.html",
+    "sitemap.xsl",
+    "assets/sitemap.js",
+    "assets/sitemap.css",
+    "assets/vendor/xslt-polyfill.min.js",
+    "assets/vendor/LICENSE-xslt-polyfill.txt",
+):
+    if not (root / required).is_file():
+        errors.append(f"missing required sitemap presentation asset: {required}")
 
 if errors:
     print("\n".join(errors))
