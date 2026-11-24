@@ -46,7 +46,7 @@ def page(title: str, description: str, eyebrow: str, body: str, raw_url: str) ->
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#0b0812">
 <title>{html.escape(title)} — Ametherian</title>
 <meta name="description" content="{html.escape(description, quote=True)}">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="index,follow">\n<meta name="author" content="FoulFoxHacks"><meta name="publisher" content="FoulFoxHacks">\n<meta property="og:title" content="{html.escape(title)} — Ametherian"><meta property="og:description" content="{html.escape(description, quote=True)}"><meta property="og:image" content="/assets/og/home.png"><meta property="og:image:alt" content="Ametherian resource document"><meta name="twitter:card" content="summary_large_image">\n<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":{json.dumps(title)},"url":{json.dumps(BASE + "/" + raw_url.replace(".txt", ".html"))}}</script>
 <link rel="canonical" href="{BASE}/{raw_url.replace('.txt', '.html')}">
 <link rel="stylesheet" href="/assets/site.css"><link rel="stylesheet" href="/assets/text-docs.css">
 </head><body class="page-home">
