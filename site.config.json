@@ -44,6 +44,10 @@
     {
       "path": "CONTRIBUTING.html",
       "url": "https://ametherian.foulfoxhacks.dev/CONTRIBUTING.html"
+    },
+    {
+      "path": "sitemap/index.html",
+      "url": "https://ametherian.foulfoxhacks.dev/sitemap/"
     }
   ],
   "theme": {

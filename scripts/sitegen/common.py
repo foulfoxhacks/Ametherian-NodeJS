@@ -203,6 +203,21 @@ PAGES = {
         "short": "Contributing",
         "eyebrow": "Policy",
     },
+    "sitemap/index.html": {
+        "title": "XML sitemap — Ametherian",
+        "description": "Browse the public pages and documentation in the Ametherian project.",
+        "og_title": "XML sitemap",
+        "og_subtitle": "A structured directory of Ametherian's public website.",
+        "og_label": "SITE INDEX",
+        "og_key": "home",
+        "og_alt": "Ametherian XML sitemap and public website directory.",
+        "body_class": "page-home",
+        "nav": "",
+        "kind": "website",
+        "schema": "website",
+        "short": "XML sitemap",
+        "eyebrow": "Site index",
+    },
     "404.html": {
         "title": "Page not found — Ametherian",
         "description": "The requested page is not part of the Ametherian site.",
@@ -352,6 +367,8 @@ def canonical(path: str) -> str:
         return BASE + "/"
     if path == "docs/index.html":
         return BASE + "/docs/"
+    if path == "sitemap/index.html":
+        return BASE + "/sitemap/"
     return f"{BASE}/{path}"
 
 
@@ -497,6 +514,11 @@ def head(path: str, faqs=None) -> str:
         "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     )
     image = og_image(meta["og_key"])
+    extra_stylesheet = (
+        f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
+        if path == "sitemap/index.html"
+        else ""
+    )
     return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
@@ -528,6 +550,7 @@ def head(path: str, faqs=None) -> str:
 <meta name="twitter:description" content="{esc(description)}">
 <meta name="twitter:image" content="{image}">
 <meta name="twitter:image:alt" content="{esc(meta['og_alt'])}">
+{extra_stylesheet}
 <script type="application/ld+json">{schema_graph(path, faqs)}</script>"""
 
 
@@ -601,7 +624,8 @@ def site_footer(current: str) -> str:
       <h2>Links</h2>
       <a href="{REPO}" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
       <a href="{FOULFOX}" target="_blank" rel="noopener noreferrer">FoulFoxHacks <span aria-hidden="true">↗</span></a>
-      <a href="{url_for('sitemap.xml', current)}">Sitemap</a>
+      <a href="{url_for('sitemap/index.html', current)}">Visual sitemap</a>
+      <a href="{url_for('sitemap.xml', current)}">XML sitemap</a>
       <a href="{url_for('llms.txt', current)}">llms.txt</a>
     </div>
   </div>
