@@ -85,3 +85,19 @@ export interface RuntimeCapabilities {
 export type CapabilityName = Exclude<keyof RuntimeCapabilities, 'runtime' | 'version'>;
 export declare function getRuntimeCapabilities(globalObject?: object): Readonly<RuntimeCapabilities>;
 export declare function requireCapability(...names: CapabilityName[]): void;
+
+export type OptionType = 'string' | 'number' | 'integer' | 'boolean' | 'function' | 'object' | 'array' | 'signal';
+export interface OptionSpec {
+  type: OptionType;
+  required?: boolean;
+  default?: unknown;
+  min?: number;
+  max?: number;
+  oneOf?: readonly unknown[];
+  validate?: (value: any) => string | undefined;
+}
+export declare function validateOptions<S extends Record<string, OptionSpec>>(
+  options: Record<string, unknown> | undefined | null,
+  schema: S,
+  settings?: { name?: string; allowUnknown?: boolean },
+): Readonly<{ [K in keyof S]: any }>;
