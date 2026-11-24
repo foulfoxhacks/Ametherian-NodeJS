@@ -77,8 +77,12 @@ try:
         node.text or "" for node in sitemap_tree.getroot()
         if node.tag.endswith("url") for node in node if node.tag.endswith("loc")
     ]
-    if any(location.lower().endswith(".html") for location in locations):
-        errors.append("sitemap.xml: public locations must use clean URLs without .html")
+    allowed_html_locations = {
+        "https://ametherian.foulfoxhacks.dev/llms.html",
+        "https://ametherian.foulfoxhacks.dev/robots.html",
+    }
+    if any(location.lower().endswith(".html") and location not in allowed_html_locations for location in locations):
+        errors.append("sitemap.xml: generated route locations must use clean URLs; only TXT companion pages may use .html")
     if any(location.rstrip("/").endswith("/llms") for location in locations):
         errors.append("sitemap.xml: obsolete /llms/ route must not be listed")
     for required_url in ("https://ametherian.foulfoxhacks.dev/llms.html", "https://ametherian.foulfoxhacks.dev/robots.html"):
