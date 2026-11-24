@@ -234,6 +234,21 @@ PAGES = {
     },
 }
 
+    "llms/index.html": {
+        "title": "AI & machine-readable resources — Ametherian",
+        "description": "Human-friendly directory of Ametherian machine-readable resources, including llms.txt, full project context, XML sitemap, and site configuration.",
+        "og_title": "AI & machine-readable resources",
+        "og_subtitle": "Structured project context and discovery endpoints.",
+        "og_label": "RESOURCES",
+        "og_key": "docs",
+        "og_alt": "Ametherian machine-readable resources directory.",
+        "body_class": "page-home",
+        "nav": "docs",
+        "kind": "article",
+        "schema": "doc",
+        "short": "AI resources",
+    },
+
 ROUTES = {
     "index.html": "/",
     "docs/index.html": "/docs/",
@@ -245,6 +260,7 @@ ROUTES = {
     "SECURITY.html": "/security/",
     "CONTRIBUTING.html": "/contributing/",
     "sitemap/index.html": "/sitemap/",
+    "llms/index.html": "/llms/",
     "404.html": "/404.html",
 }
 
@@ -530,11 +546,11 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
         "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     )
     image = og_image(meta["og_key"])
-    extra_stylesheet = (
-        f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
-        if path == "sitemap/index.html"
-        else ""
-    )
+    extra_stylesheet = ""
+    if path == "sitemap/index.html":
+        extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
+    elif path == "llms/index.html":
+        extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/resources.css", path)}>'
     return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
