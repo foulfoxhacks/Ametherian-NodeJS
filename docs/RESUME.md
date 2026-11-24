@@ -23,7 +23,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 9. [x] `packages/core` — runtime capabilities (`src/runtime.js`) + tests.
 10. [x] `packages/core` — config validation helper (`src/config.js`): validate an options object against a small descriptor (type, min/max, allowed values, required), throw `ConfigError` listing every problem. Tests for each rule and for unknown keys.
 11. [x] PR open: https://github.com/foulfoxhacks/Ametherian-NodeJS/pull/9 (site check passes; Node CI fixed by using plain `node --test`).
-12. [ ] Write `docs/threat-models/guard.md` (SSRF, DNS rebinding, redirect policy, private ranges, IPv6/IPv4-mapped addresses, URL parsing confusion).
+12. [x] Write `docs/threat-models/guard.md` (SSRF, DNS rebinding, redirect policy, private ranges, IPv6/IPv4-mapped addresses, URL parsing confusion).
 13. [ ] `packages/guard` — destination policy: parse URL, block private/loopback/link-local/metadata ranges by default, explicit allowlist, redirect re-check hook. Use core errors.
 14. [ ] Repo hygiene PR (separate): move root scratch scripts and `_pylibs/` out of the served tree; remove dead `build-clean-urls.yml`. Say clearly in the PR that it changes publicly reachable files.
 
