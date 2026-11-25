@@ -2,7 +2,7 @@
   "name": "ametherian-workspace",
   "private": true,
   "description": "Ametherian package workspace. Packages here are unpublished previews.",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "engines": {
     "node": ">=22"

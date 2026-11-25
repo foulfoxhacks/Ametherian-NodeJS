@@ -45,7 +45,7 @@ const sha = process.env.GITHUB_SHA ?? '';
 const repo = process.env.GITHUB_REPOSITORY ?? 'foulfoxhacks/Ametherian-NodeJS';
 
 const out = [];
-out.push(`Preview build **${tag}** of Ametherian ${version}. Unpublished, unaudited, license not chosen. Not on npm.`);
+out.push(`Preview build **${tag}** of Ametherian ${version}. Apache-2.0. Unpublished, unaudited. Not on npm.`);
 if (sha) out.push(`\nCommit: [\`${sha.slice(0, 7)}\`](https://github.com/${repo}/commit/${sha})`);
 const unreleased = section('Unreleased');
 if (unreleased) out.push(`\n## Changes since ${version}\n\n${unreleased}`);

@@ -52,7 +52,7 @@ def docs_home_page() -> str:
     <tr><td>HTTP and transport</td><td>Preview: client, fetch(), proxy, HTTP/2</td><td>Streaming request bodies; independent review</td></tr>
     <tr><td>Security model</td><td>Threat models and adversarial tests in place</td><td>Independent review of controls</td></tr>
     <tr><td>Vulnerability intelligence</td><td>Working: OSV, GitHub advisories, NIST NVD, CISA KEV, daily watch</td><td>Lockfile audit command-line tool</td></tr>
-    <tr><td>Package implementations</td><td>Preview, unpublished</td><td>License, release process, npm publication</td></tr>
+    <tr><td>Package implementations</td><td>Preview, unpublished</td><td>Release process, npm publication</td></tr>
     <tr><td>Security audit</td><td>Not performed</td><td>Independent review with scope and report</td></tr>
   </tbody>
 </table>
@@ -216,7 +216,7 @@ def roadmap_page() -> str:
 <p><strong>In progress.</strong> Ten packages are implemented with tests, fuzzing and a vulnerability model. Independent security review is still required before any package can be described as stable.</p>
 
 <h2 id="readiness">Release readiness</h2>
-<p><strong>Not started.</strong> A package is not stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit. A license must be chosen first.</p>
+<p><strong>Not started.</strong> A package is not stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit.</p>
 """
     return docs_shell(
         current,

@@ -62,3 +62,7 @@ Early feedback is welcome on project scope, package boundaries, security require
 ## Important notice
 
 Ametherian is not affiliated with, endorsed by, or an official continuation of Axios, Undici, Node.js, OpenJS, or any other project referenced in its research. Names of third-party projects are used only to identify technologies and compatibility areas under consideration.
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE). Every package ships its own copy.

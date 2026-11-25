@@ -8,11 +8,11 @@ FAQS = [
         'Not to npm yet. Ten <a href="/modules/">preview packages</a> are '
         'public in the repository with tests, and every green build is '
         'published as a numbered preview on GitHub Releases. Publishing to npm '
-        'waits for a license and an agreed release process.',
+        'waits for an agreed release process.',
         "Not to npm yet. Ten preview packages are public in the repository "
         "with tests, and every green build is published as a numbered preview "
-        "on GitHub Releases. Publishing to npm waits for a license and an "
-        "agreed release process.",
+        "on GitHub Releases. Publishing to npm waits for an agreed release "
+        "process.",
     ),
     (
         "Is Ametherian affiliated with Node.js or the OpenJS Foundation?",
@@ -49,15 +49,12 @@ FAQS = [
     ),
     (
         "What license will the project use?",
-        "A license has not been selected. The "
-        "<a href=\"LICENSE-STATUS.md\">licensing status</a> says maintainers "
-        "should choose a license and define contribution and dependency "
-        "policies before publishing implementation code. Do not assume this "
-        "repository grants a license.",
-        "A license has not been selected. The licensing status says maintainers "
-        "should choose a license and define contribution and dependency "
-        "policies before publishing implementation code. Do not assume this "
-        "repository grants a license.",
+        "The Apache License 2.0. It is a permissive license with an explicit "
+        "patent grant. The full text is in the "
+        "<a href=\"LICENSE-STATUS.md\">licensing status</a> and in every package.",
+        "The Apache License 2.0. It is a permissive license with an explicit "
+        "patent grant. The full text is in the licensing status and in every "
+        "package.",
     ),
     (
         "Can I contribute?",
@@ -76,11 +73,11 @@ FAQS = [
         "There are no dates. Every build of the main branch that passes CI is "
         "published as a numbered preview build on GitHub Releases, listed in "
         "the <a href=\"/changelog/\">changelog</a>. Publishing to npm waits for "
-        "a license and an agreed release process.",
+        "an agreed release process.",
         "There are no dates. Every build of the main branch that passes CI is "
         "published as a numbered preview build on GitHub Releases, listed in "
-        "the changelog. Publishing to npm waits for a license and an agreed "
-        "release process.",
+        "the changelog. Publishing to npm waits for an agreed release "
+        "process.",
     ),
     (
         "Does Ametherian replace Axios or Undici?",
@@ -203,7 +200,7 @@ def home_page() -> str:
     <div class="status-copy">
       <p class="eyebrow">Current Status</p>
       <h2>Preview implementation.</h2>
-      <p>Ten packages are implemented as previews in this repository, with tests, type declarations and threat models. They are not published to npm, not audited, and the license is not chosen yet. Anything beyond this needs evidence.</p>
+      <p>Ten packages are implemented as previews in this repository, with tests, type declarations and threat models. They are licensed under Apache 2.0, not yet published to npm, and not audited. Anything beyond this needs evidence.</p>
       <a class="text-link" href="{url_for('PROJECT_STATUS.md', current)}">Read the full project status <span aria-hidden="true">→</span></a>
     </div>
     <dl class="status-list">
@@ -211,7 +208,7 @@ def home_page() -> str:
       <div class="status-row"><dt>Package implementations</dt><dd><span class="badge badge--proposed">10 preview packages</span></dd></div>
       <div class="status-row"><dt>npm release</dt><dd><span class="badge badge--not">Not published</span></dd></div>
       <div class="status-row"><dt>Security audit</dt><dd><span class="badge badge--not">Not performed</span></dd></div>
-      <div class="status-row"><dt>Project license</dt><dd><span class="badge badge--not">Not selected</span></dd></div>
+      <div class="status-row"><dt>Project license</dt><dd><span class="badge badge--proposed">Apache 2.0</span></dd></div>
       <div class="status-row"><dt>Documentation</dt><dd><span class="badge badge--proposed">Published</span></dd></div>
       <div class="status-row"><dt>Repository role</dt><dd><span class="badge">Code and site</span></dd></div>
     </dl>

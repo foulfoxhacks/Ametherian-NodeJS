@@ -42,7 +42,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 
 ## Next steps
 
-1. [ ] **Owner decision:** choose a license (`LICENSE-STATUS.md`). Publishing to npm is blocked until then.
+1. [x] License chosen: Apache License 2.0. Publishing to npm now waits only for an agreed release process (remove `private`, npm provenance from CI).
 2. [ ] **Owner decision:** have a fluent speaker review each of the seven translations.
 3. [ ] Optional: add an `NVD_API_KEY` repository secret to speed up the advisory watch.
 4. [ ] security: CLI that prints an audit report for a lockfile.

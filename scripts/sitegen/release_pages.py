@@ -102,7 +102,7 @@ def modules_page() -> str:
   <div role="listitem"><strong>{total_tests}</strong><span>test definitions</span></div>
   <div role="listitem"><strong>0</strong><span>third-party runtime dependencies</span></div>
 </div>
-<p>These packages exist in the repository and pass their tests in CI. They are <strong>previews</strong>: not published to npm, not audited, and their APIs may still change. The license has not been chosen yet.</p>
+<p>These packages exist in the repository and pass their tests in CI. They are <strong>previews</strong>: not published to npm, not audited, and their APIs may still change. They are licensed under Apache 2.0.</p>
 
 <h2 id="packages">Packages</h2>
 <div class="module-grid">
@@ -119,7 +119,7 @@ def modules_page() -> str:
 <h2 id="status">What preview means</h2>
 <ul>
 <li>Code, tests, type declarations and threat models are public in the repository.</li>
-<li>Nothing is published to npm until a license is chosen and a release process is agreed.</li>
+<li>Nothing is published to npm until a release process is agreed.</li>
 <li>No independent security audit has been performed.</li>
 </ul>
 """
