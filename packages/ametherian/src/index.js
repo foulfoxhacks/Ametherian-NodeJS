@@ -10,3 +10,4 @@ export * as resilience from '@foulfoxhacks/ametherian-resilience';
 export * as observability from '@foulfoxhacks/ametherian-observability';
 export * as http from '@foulfoxhacks/ametherian-http';
 export * as security from '@foulfoxhacks/ametherian-security';
+export * as minification from '@foulfoxhacks/ametherian-minification';
