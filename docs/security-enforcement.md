@@ -25,7 +25,7 @@ The security workflow runs on pull requests, pushes to the protected development
 5. Fetch and validate the CISA KEV catalog, recording its version, release date and retrieval time.
 6. Annotate OSV findings with KEV matches.
 7. Query NVD for CVE aliases associated with affected locked packages and retain CVSS/CWE provenance.
-8. Fail closed if required intelligence cannot be retrieved or is stale.
+8. Fail closed if required intelligence cannot be retrieved or a source's published timestamp is invalid. Treat the CISA KEV catalog release date as snapshot metadata, not a freshness TTL: CISA may leave the date unchanged when no catalog additions are made.
 9. Block the gate for any KEV match or HIGH/CRITICAL affected package finding until reviewed.
 10. Preserve a machine-readable report as a CI artifact.
 
@@ -37,7 +37,7 @@ The existing advisory watcher remains a separate regression-prevention control f
 - **CRITICAL/HIGH:** block merge/release pending a documented resolution or an explicitly approved, time-limited exception.
 - **MODERATE/LOW:** review applicability, reachability, deployment exposure and fixed versions; record the decision.
 - **Unknown or unparseable version/range:** never silently mark safe. Treat the result as incomplete and investigate.
-- **Unavailable/stale source:** scan is incomplete, not clean. Retry or block the security gate; do not silently fall back to stale cached data.
+- **Unavailable or invalid source:** scan is incomplete, not clean. Retry or block the security gate; do not silently fall back to cached data. Apply freshness thresholds only where the source documents an update cadence or timestamp semantics.
 
 All findings require human review. Automated tooling must never rewrite dependency versions, suppress advisories, modify a lockfile, or claim a vulnerability is not applicable without an evidence-backed review.
 

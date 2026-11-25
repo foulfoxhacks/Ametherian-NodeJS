@@ -25,7 +25,14 @@ export function validateSource(source, maxInputBytes) {
 
 export function normalizeEngineCode(code) {
   if (typeof code === 'string') return code;
-  if (code instanceof Uint8Array) return new TextDecoder('utf-8', { fatal: true }).decode(code);
+  if (code instanceof Uint8Array) {
+    try { return new TextDecoder('utf-8', { fatal: true }).decode(code); }
+    catch (cause) {
+      throw new MinificationError('Minifier engine returned invalid UTF-8 code', {
+        code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT', cause,
+      });
+    }
+  }
   throw new MinificationError('Minifier engine returned an unsupported code value', {
     code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT',
   });

@@ -48,7 +48,7 @@ export function createMinificationEngine(options = {}) {
     });
     return Object.freeze({
       type: kind, code, map,
-      warnings: Object.freeze([...(raw?.warnings ?? [])].slice(0, 100)),
+      warnings: Object.freeze((raw?.warnings == null ? [] : Array.isArray(raw.warnings) ? raw.warnings : (() => { throw new MinificationError('Minifier engine returned invalid warnings', { code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT' }); })()).slice(0, 100)),
       engine: String(raw?.engine ?? 'custom'), stats,
     });
   }

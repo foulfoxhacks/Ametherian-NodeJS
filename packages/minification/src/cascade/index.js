@@ -14,6 +14,9 @@ export function createCascadeMinifier(options = {}) {
         code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS',
       });
     }
+    if (config.sourceMap !== undefined && typeof config.sourceMap !== 'boolean') {
+      throw new MinificationError('sourceMap must be a boolean', { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+    }
     const result = await transform({
       filename,
       code: Buffer.from(source, 'utf8'),
