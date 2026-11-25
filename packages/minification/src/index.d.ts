@@ -9,7 +9,7 @@ export interface MinificationResult {
   readonly warnings: readonly unknown[]; readonly engine: string; readonly stats: MinificationStats;
 }
 export declare class MinificationError extends AmetherianError {
-  readonly code: string; readonly retryable: false; readonly details?: Readonly<Record<string, unknown>>;
+  readonly code: string; readonly retryable: false;
 }
 export declare const DEFAULT_LIMITS: Readonly<{ maxInputBytes: number; maxOutputBytes: number; maxSourceMapBytes: number }>;
 export declare function createJavaScriptMinifier(options: { transform: (source: string, options: Record<string, unknown>) => Promise<{ code: string; map?: string | null; warnings?: unknown[] }> }): (source: string, options?: { level?: MinificationLevel; target?: 'es2020' | 'es2021' | 'es2022' | 'es2023' | 'esnext'; sourceMap?: boolean }) => Promise<{ code: string; map: unknown; warnings: unknown[]; engine: string }>;
