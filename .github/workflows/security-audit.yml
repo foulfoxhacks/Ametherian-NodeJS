@@ -1,0 +1,77 @@
+name: Dependency security audit
+
+on:
+  pull_request:
+    paths:
+      - "packages/**"
+      - "tools/security-audit/**"
+      - "package.json"
+      - "package-lock.json"
+      - "docs/security-enforcement.md"
+      - ".github/workflows/security-audit.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - "tools/security-audit/**"
+      - "package.json"
+      - "package-lock.json"
+      - "docs/security-enforcement.md"
+      - ".github/workflows/security-audit.yml"
+  schedule:
+    - cron: "43 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-security-\${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: npm, OSV, NVD and CISA KEV
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up supported Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: npm dependency audit
+        id: npm_audit
+        continue-on-error: true
+        run: npm audit --audit-level=low
+
+      - name: OSV, NIST NVD and CISA KEV lockfile audit
+        id: intelligence
+        env:
+          NVD_API_KEY: \${{ secrets.NVD_API_KEY }}
+        run: node tools/security-audit/lockfile-audit.mjs
+
+      - name: Upload machine-readable security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ametherian-security-audit-\${{ github.run_id }}
+          path: .security/lockfile-audit.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Enforce all security gates
+        if: always()
+        env:
+          NPM_AUDIT_OUTCOME: \${{ steps.npm_audit.outcome }}
+          INTELLIGENCE_OUTCOME: \${{ steps.intelligence.outcome }}
+        run: |
+          test "$NPM_AUDIT_OUTCOME" = "success"
+          test "$INTELLIGENCE_OUTCOME" = "success"
