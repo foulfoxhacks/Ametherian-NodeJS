@@ -15,6 +15,18 @@ BASE = "https://ametherian.foulfoxhacks.dev"
 REPO = "https://github.com/foulfoxhacks/Ametherian-NodeJS"
 FOULFOX = "https://github.com/foulfoxhacks"
 TODAY = date.today().isoformat()
+
+
+def lastmod(path: str) -> str:
+    """Per-page last-modified date from scripts/lastmod.json (content-hash based).
+
+    Falls back to today only for pages that have never been built.
+    """
+    try:
+        data = json.loads((ROOT / "scripts" / "lastmod.json").read_text(encoding="utf-8"))
+        return data.get(path, {}).get("date", TODAY)
+    except FileNotFoundError:
+        return TODAY
 YEAR = 2026
 
 PAGES = {
@@ -90,7 +102,7 @@ PAGES = {
         ),
         "og_title": "Package map",
         "og_subtitle": (
-            "Five research areas. Candidate packages."
+            "Five areas, each with preview packages."
         ),
         "og_label": "DOCUMENT",
         "og_key": "packages",
@@ -219,19 +231,41 @@ PAGES = {
         "eyebrow": "Site index",
     },
 
-    "llms/index.html": {
-        "title": "AI & machine-readable resources — Ametherian",
-        "description": "Human-friendly directory of Ametherian machine-readable resources, including llms.txt, full project context, XML sitemap, and site configuration.",
-        "og_title": "AI & machine-readable resources",
-        "og_subtitle": "Structured project context and discovery endpoints.",
-        "og_label": "RESOURCES",
+    "modules/index.html": {
+        "title": "Modules — Ametherian",
+        "description": (
+            "The Ametherian preview modules: what each package does, its tests, "
+            "its security model, and the Node.js versions it supports."
+        ),
+        "og_title": "Modules",
+        "og_subtitle": "Ten preview packages, tested and unpublished.",
+        "og_label": "MODULES",
         "og_key": "docs",
-        "og_alt": "Ametherian machine-readable resources directory.",
-        "body_class": "page-home",
-        "nav": "resources",
+        "og_alt": "Ametherian modules overview social card.",
+        "body_class": "page-docs",
+        "nav": "modules",
         "kind": "article",
-        "schema": "doc",
-        "short": "AI resources",
+        "schema": "docs",
+        "short": "Modules",
+        "eyebrow": "Implementation status",
+    },
+    "changelog/index.html": {
+        "title": "Changelog — Ametherian",
+        "description": (
+            "Release notes and build history for Ametherian: versions, module "
+            "changes, security fixes, and site updates."
+        ),
+        "og_title": "Changelog",
+        "og_subtitle": "Versions, builds, and release notes.",
+        "og_label": "CHANGELOG",
+        "og_key": "docs",
+        "og_alt": "Ametherian changelog social card.",
+        "body_class": "page-docs",
+        "nav": "changelog",
+        "kind": "article",
+        "schema": "docs",
+        "short": "Changelog",
+        "eyebrow": "Releases",
     },
 
     "404.html": {
@@ -261,7 +295,8 @@ ROUTES = {
     "SECURITY.html": "/security/",
     "CONTRIBUTING.html": "/contributing/",
     "sitemap/index.html": "/sitemap/",
-    "llms/index.html": "/llms/",
+    "modules/index.html": "/modules/",
+    "changelog/index.html": "/changelog/",
     "404.html": "/404.html",
 }
 
@@ -275,6 +310,8 @@ DOC_ORDER = [
     ("docs/roadmap.html", "Roadmap"),
     ("SECURITY.html", "Security policy"),
     ("CONTRIBUTING.html", "Contributing"),
+    ("modules/index.html", "Modules"),
+    ("changelog/index.html", "Changelog"),
 ]
 
 DOC_NAV = [
@@ -292,6 +329,13 @@ DOC_NAV = [
             ("Architecture direction", "docs/architecture.html", "architecture"),
             ("Security approach", "docs/security.html", "security"),
             ("Roadmap", "docs/roadmap.html", "roadmap"),
+        ],
+    ),
+    (
+        "Releases",
+        [
+            ("Modules", "modules/index.html", "modules"),
+            ("Changelog", "changelog/index.html", "changelog"),
         ],
     ),
     (
@@ -499,7 +543,7 @@ def schema_graph(path: str, faqs=None) -> str:
                 "description": meta["description"],
                 "isPartOf": {"@id": website_id},
                 "publisher": {"@id": org_id},
-                "dateModified": TODAY,
+                "dateModified": lastmod(path),
                 "inLanguage": "en",
                 "primaryImageOfPage": og_image(meta["og_key"]),
             }
@@ -550,9 +594,6 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
     extra_stylesheet = ""
     if path == "sitemap/index.html":
         extra_stylesheet = f'<link rel="stylesheet" href="{url_for("assets/sitemap.css", path)}">'
-    elif path == "llms/index.html":
-        resource_css = url_for("assets/resources.css", path)
-        extra_stylesheet = f'<link rel="stylesheet" href="{resource_css}">'
     return f"""<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
@@ -560,9 +601,12 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
 <meta name="robots" content="{robots}">
 <meta name="author" content="FoulFoxHacks">
 <meta name="publisher" content="FoulFoxHacks">
-<meta name="theme-color" content="#0b0812">
+<meta name="theme-color" content="#0b0812" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f4fc" media="(prefers-color-scheme: light)">
 <meta name="color-scheme" content="dark light">
+<script>(function(){{try{{var m=localStorage.getItem("ametherian-theme"),t=m;if(t!=="light"&&t!=="dark"){{m="system";t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}}document.documentElement.dataset.theme=t;document.documentElement.dataset.themeMode=m;}}catch(e){{document.documentElement.dataset.theme="dark";}}}})();</script>
 <link rel="canonical" href="{canonical(path)}">
+<!--HREFLANG-->
 <link rel="icon" href="{url_for('assets/favicon.ico', path)}" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="{url_for('assets/favicon.svg', path)}">
 <link rel="apple-touch-icon" href="{url_for('assets/apple-touch-icon.png', path)}">
@@ -590,9 +634,9 @@ def head(path: str, faqs=None, *, robots: str | None = None) -> str:
 
 NAV_ITEMS = [
     ("Docs", "docs/index.html", "docs"),
-    ("Resources", "llms/index.html", "resources"),
+    ("Modules", "modules/index.html", "modules"),
+    ("Changelog", "changelog/index.html", "changelog"),
     ("Vision", "docs/vision.html", "vision"),
-    ("Packages", "docs/packages.html", "packages"),
     ("Architecture", "docs/architecture.html", "architecture"),
     ("Security", "docs/security.html", "security"),
     ("Roadmap", "docs/roadmap.html", "roadmap"),
@@ -618,6 +662,12 @@ def site_header(current: str, active: str) -> str:
       {''.join(links)}
     </nav>
     <div class="header-actions">
+      <!--LANG-SWITCH-->
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Colour theme: system" title="Colour theme">
+        <svg class="theme-icon theme-icon--system" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+        <svg class="theme-icon theme-icon--light" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="theme-icon theme-icon--dark" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+      </button>
       <a class="icon-link" href="{REPO}" target="_blank" rel="noopener noreferrer" aria-label="Ametherian source repository on GitHub (opens in a new tab)">{github_icon()}</a>
     </div>
   </div>
@@ -644,6 +694,8 @@ def site_footer(current: str) -> str:
     <div class="footer-col">
       <h2>Project</h2>
       <a href="{url_for('docs/vision.html', current)}">Project vision</a>
+      <a href="{url_for('modules/index.html', current)}">Modules</a>
+      <a href="{url_for('changelog/index.html', current)}">Changelog</a>
       <a href="{url_for('docs/packages.html', current)}">Package map</a>
       <a href="{url_for('docs/architecture.html', current)}">Architecture</a>
       <a href="{url_for('docs/roadmap.html', current)}">Roadmap</a>
@@ -660,9 +712,9 @@ def site_footer(current: str) -> str:
       <a href="{REPO}" target="_blank" rel="noopener noreferrer">Source repository <span aria-hidden="true">↗</span></a>
       <a href="{FOULFOX}" target="_blank" rel="noopener noreferrer">FoulFoxHacks <span aria-hidden="true">↗</span></a>
       <a href="{url_for('sitemap/index.html', current)}">Visual sitemap</a>
-      <a href="{url_for('llms/index.html', current)}">AI resource directory</a>
       <a href="{url_for('sitemap.xml', current)}">XML sitemap</a>
-      <a href="{url_for('llms.txt', current)}">llms.txt</a>
+      <a href="/llms.html">llms.txt (readable)</a>
+      <a href="/robots.html">robots.txt (readable)</a>
       <a href="{url_for('llms-full.txt', current)}">llms-full.txt</a>
     </div>
   </div>
@@ -695,7 +747,8 @@ def canonical_path_script(path: str) -> str:
         "index.html": ("/index.html", "/"),
         "docs/index.html": ("/docs/index.html", "/docs/"),
         "sitemap/index.html": ("/sitemap/index.html", "/sitemap/"),
-        "llms/index.html": ("/llms/index.html", "/llms/"),
+        "modules/index.html": ("/modules/index.html", "/modules/"),
+        "changelog/index.html": ("/changelog/index.html", "/changelog/"),
     }
     alias = aliases.get(path)
     if not alias:
@@ -768,11 +821,14 @@ def docs_sidebar(path: str) -> str:
       {search_icon()}<span>Search docs</span><kbd>/</kbd>
     </button>
   </div>
-  <nav class="docs-nav">
-    {''.join(groups)}
-  </nav>
+  <details class="docs-nav-details" data-docs-nav open>
+    <summary><span>Browse documentation</span><strong>{esc(PAGES[path].get("short", ""))}</strong></summary>
+    <nav class="docs-nav">
+      {''.join(groups)}
+    </nav>
+  </details>
   <div class="docs-sidebar__note">
-    <p><strong>Status:</strong> Planning and specification stage.</p>
+    <p><strong>Status:</strong> Ten preview packages, unpublished and unaudited.</p>
     <p><a href="{url_for('PROJECT_STATUS.md', path)}">Project status</a> · <a href="{url_for('NOTICE.md', path)}">Notice</a> · <a href="{url_for('LICENSE-STATUS.md', path)}">License</a></p>
   </div>
 </aside>"""
@@ -790,6 +846,12 @@ def docs_header(path: str) -> str:
         {search_icon()}<span>Search</span><kbd>/</kbd>
       </button>
       <a class="header-link" href="{url_for('index.html', path)}">Project home</a>
+      <!--LANG-SWITCH-->
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Colour theme: system" title="Colour theme">
+        <svg class="theme-icon theme-icon--system" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+        <svg class="theme-icon theme-icon--light" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="theme-icon theme-icon--dark" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+      </button>
       <a class="icon-link" href="{REPO}" target="_blank" rel="noopener noreferrer" aria-label="Ametherian source repository on GitHub (opens in a new tab)">{github_icon()}</a>
     </div>
   </div>

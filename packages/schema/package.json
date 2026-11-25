@@ -1,6 +1,6 @@
 {
   "name": "@foulfoxhacks/ametherian-schema",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Validation and bounded parsing of untrusted input for Ametherian packages. Unpublished preview.",
   "license": "UNLICENSED",
@@ -19,7 +19,7 @@
   ],
   "sideEffects": false,
   "dependencies": {
-    "@foulfoxhacks/ametherian-core": "0.0.0"
+    "@foulfoxhacks/ametherian-core": "0.1.0"
   },
   "scripts": {
     "test": "node --test"

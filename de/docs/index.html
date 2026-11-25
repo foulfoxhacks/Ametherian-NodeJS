@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dokumentation — Ametherian</title>
+<meta name="description" content="Lies die Ametherian-Dokumentation: Projektvision, Paketübersicht, Architekturrichtung, Sicherheitsansatz und Roadmap.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="FoulFoxHacks">
+<meta name="publisher" content="FoulFoxHacks">
+<meta name="theme-color" content="#0b0812" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f4fc" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+<script>(function(){try{var m=localStorage.getItem("ametherian-theme"),t=m;if(t!=="light"&&t!=="dark"){m="system";t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.dataset.theme=t;document.documentElement.dataset.themeMode=m;}catch(e){document.documentElement.dataset.theme="dark";}})();</script>
+<link rel="canonical" href="https://ametherian.foulfoxhacks.dev/de/docs/">
+<link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/">
+<link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/">
+<link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/">
+<link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/">
+<link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/">
+<link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/">
+<link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/">
+<link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/">
+<link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ametherian">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Dokumentation — Ametherian">
+<meta property="og:description" content="Lies die Ametherian-Dokumentation: Projektvision, Paketübersicht, Architekturrichtung, Sicherheitsansatz und Roadmap.">
+<meta property="og:url" content="https://ametherian.foulfoxhacks.dev/de/docs/">
+<meta property="og:image" content="https://ametherian.foulfoxhacks.dev/assets/og/docs.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Social-Media-Karte des Ametherian-Dokumentationszentrums.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dokumentation — Ametherian">
+<meta name="twitter:description" content="Lies die Ametherian-Dokumentation: Projektvision, Paketübersicht, Architekturrichtung, Sicherheitsansatz und Roadmap.">
+<meta name="twitter:image" content="https://ametherian.foulfoxhacks.dev/assets/og/docs.png">
+<meta name="twitter:image:alt" content="Social-Media-Karte des Ametherian-Dokumentationszentrums.">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ametherian.foulfoxhacks.dev/#website","url":"https://ametherian.foulfoxhacks.dev/","name":"Ametherian","description":"An independent Node.js library ecosystem.","publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"inLanguage":"de"},{"@type":"Organization","@id":"https://ametherian.foulfoxhacks.dev/#organization","name":"Ametherian","url":"https://ametherian.foulfoxhacks.dev/","parentOrganization":{"@type":"Organization","name":"FoulFoxHacks"}},{"@type":"TechArticle","@id":"https://ametherian.foulfoxhacks.dev/docs/#page","url":"https://ametherian.foulfoxhacks.dev/de/docs/","headline":"Documentation","description":"Read the Ametherian documentation: project vision, package map, architecture direction, security approach, and roadmap.","isPartOf":{"@id":"https://ametherian.foulfoxhacks.dev/#website"},"publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"dateModified":"2026-11-24","inLanguage":"de","primaryImageOfPage":"https://ametherian.foulfoxhacks.dev/assets/og/docs.png"},{"@type":"BreadcrumbList","@id":"https://ametherian.foulfoxhacks.dev/docs/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ametherian.foulfoxhacks.dev/"},{"@type":"ListItem","position":2,"name":"Documentation","item":"https://ametherian.foulfoxhacks.dev/docs/"},{"@type":"ListItem","position":3,"name":"Documentation","item":"https://ametherian.foulfoxhacks.dev/docs/"}]}]}</script>
+</head>
+<body class="page-docs" data-root="">
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="docs-header" data-site-header>
+  <div class="docs-header__inner">
+    <a class="brand" href="/de/">
+      <img src="/assets/ametherian-mark.svg" alt="" width="28" height="29">
+      <span>Ametherian</span>
+    </a>
+    <div class="docs-header__actions">
+      <button class="search-trigger" type="button" data-search-open>
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg><span>Suchen</span><kbd>/</kbd>
+      </button>
+      <a class="header-link" href="/de/">Projektstartseite</a>
+      <details class="lang-switch" data-lang-switch><summary aria-label="Language"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg><span>DE</span></summary><ul translate="no"><li><a href="/docs/" hreflang="en" lang="en">English</a></li><li><a href="/es/docs/" hreflang="es" lang="es">Español</a></li><li><a href="/pt-br/docs/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li><li><a href="/de/docs/" hreflang="de" lang="de" aria-current="true">Deutsch</a></li><li><a href="/fr/docs/" hreflang="fr" lang="fr">Français</a></li><li><a href="/ru/docs/" hreflang="ru" lang="ru">Русский</a></li><li><a href="/ja/docs/" hreflang="ja" lang="ja">日本語</a></li><li><a href="/zh-cn/docs/" hreflang="zh-CN" lang="zh-Hans">简体中文</a></li></ul></details>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Farbschema: System" title="Farbschema">
+        <svg class="theme-icon theme-icon--system" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></svg>
+        <svg class="theme-icon theme-icon--light" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+        <svg class="theme-icon theme-icon--dark" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+      </button>
+      <a class="icon-link" href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer" aria-label="Ametherian-Quellcode-Repository auf GitHub (öffnet in einem neuen Tab)"><svg viewbox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.23 2.68.12 2.96.71.78 1.14 1.78 1.14 3 0 4.29-2.61 5.23-5.1 5.5.4.35.75 1.03.75 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z" /></svg></a>
+    </div>
+  </div>
+</header>
+<div class="docs-layout">
+<aside class="docs-sidebar" aria-label="Dokumentationsnavigation">
+  <div class="docs-sidebar__head">
+    <p class="eyebrow">Dokumentation</p>
+    <button class="search-trigger search-trigger--sidebar" type="button" data-search-open>
+      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg><span>Dokumentation durchsuchen</span><kbd>/</kbd>
+    </button>
+  </div>
+  <details class="docs-nav-details" data-docs-nav open>
+    <summary><span>Dokumentation durchblättern</span><strong>Dokumentation</strong></summary>
+    <nav class="docs-nav">
+      <div class="docs-nav-group"><p class="docs-nav-title">Überblick</p><a href="/de/docs/" aria-current="page">Dokumentationsstart</a><a href="/de/docs/vision/">Projektvision</a></div><div class="docs-nav-group"><p class="docs-nav-title">Architektur</p><a href="/de/docs/packages/">Paketübersicht</a><a href="/de/docs/architecture/">Architekturrichtung</a><a href="/de/docs/security/">Sicherheitsansatz</a><a href="/de/docs/roadmap/">Roadmap</a></div><div class="docs-nav-group"><p class="docs-nav-title">Releases</p><a href="/de/modules/">Module</a><a href="/de/changelog/">Änderungsprotokoll</a></div><div class="docs-nav-group"><p class="docs-nav-title">Richtlinien</p><a href="/de/security/">Sicherheitsrichtlinie</a><a href="/de/contributing/">Mitwirken</a></div><div class="docs-nav-group"><p class="docs-nav-title">Projektunterlagen</p><a href="/PROJECT_STATUS.md">Projektstatus</a><a href="/AMETHERIAN-PROJECT-BRIEF.txt">Projektkurzbeschreibung</a><a href="/REFERENCES.md">Technische Referenzen</a><a href="/LICENSE-STATUS.md">Lizenzstatus</a><a href="/NOTICE.md">Hinweis</a></div>
+    </nav>
+  </details>
+  <div class="docs-sidebar__note">
+    <p><strong>Status:</strong> Zehn Vorschaupakete, unveröffentlicht und nicht auditiert.</p>
+    <p><a href="/PROJECT_STATUS.md">Projektstatus</a> · <a href="/NOTICE.md">Hinweis</a> · <a href="/LICENSE-STATUS.md">Lizenz</a></p>
+  </div>
+</aside>
+<main id="main" class="docs-content">
+  <nav class="breadcrumbs" aria-label="Brotkrumennavigation"><a href="/de/">Start</a><span aria-hidden="true">/</span><span aria-current="page">Dokumentation</span></nav>
+  <div class="doc-head">
+    <p class="eyebrow">Dokumentation</p>
+    <h1>Dokumentation</h1>
+    <p class="doc-lead">Vision, Paketübersicht, Architektur, Sicherheit und Roadmap.</p>
+    <div class="doc-meta">
+      <span>Geprüft im November 2026</span>
+      <span class="doc-meta__dot" aria-hidden="true">·</span>
+      <span><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Quellcode-Repository <span aria-hidden="true">↗</span></a></span>
+    </div>
+  </div>
+  <div class="prose">
+    <div class="callout"><p><strong>Status.</strong> Zehn Ametherian-Pakete existieren als getestete Vorschauversionen im Repository. Sie sind nicht auf npm veröffentlicht und wurden nicht auditiert. Nichts in dieser Dokumentation ist eine Release-Ankündigung.</p></div>
+
+<h2 id="start">Hier beginnen<a class="heading-anchor" href="#start" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Lies die Dokumentation der Reihe nach, wenn du die Richtung bewertest. Jedes Dokument sagt, was geplant ist, was noch unbekannt ist und welche Belege als Fortschritt zählen würden.</p>
+<div class="doc-grid">
+  <a class="doc-card" href="/de/docs/vision/">
+  <span class="doc-card__label">Dokument</span>
+  <span class="doc-card__title">Projektvision</span>
+  <span class="doc-card__desc">Warum ein Ökosystem, was dazugehört und welche Grenzen das Projekt einhält.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+  <a class="doc-card" href="/de/docs/packages/">
+  <span class="doc-card__label">Dokument</span>
+  <span class="doc-card__title">Paketübersicht</span>
+  <span class="doc-card__desc">Fünf Bereiche und die Vorschaupakete in jedem davon.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+  <a class="doc-card" href="/de/docs/architecture/">
+  <span class="doc-card__label">Dokument</span>
+  <span class="doc-card__title">Architekturrichtung</span>
+  <span class="doc-card__desc">Modulare Pakete, gemeinsame Verträge, Laufzeitgrenzen und Ressourcensicherheit.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+  <a class="doc-card" href="/de/docs/security/">
+  <span class="doc-card__label">Dokument</span>
+  <span class="doc-card__title">Sicherheitsansatz</span>
+  <span class="doc-card__desc">Bedrohungsmodellierung, sichere Entwicklungspraktiken und Schwachstellen-Informationen.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+  <a class="doc-card" href="/de/docs/roadmap/">
+  <span class="doc-card__label">Dokument</span>
+  <span class="doc-card__title">Roadmap</span>
+  <span class="doc-card__desc">Der gestufte Weg von der Forschung zur Veröffentlichungsreife.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+</div>
+
+<h2 id="policy">Projektrichtlinien<a class="heading-anchor" href="#policy" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Die Richtlinien beschreiben, wie das Projekt mit Sicherheitsmeldungen und Beiträgen umgeht.</p>
+<div class="doc-grid doc-grid--two">
+  <a class="doc-card" href="/de/security/">
+  <span class="doc-card__label">Richtlinie</span>
+  <span class="doc-card__title">Sicherheitsrichtlinie</span>
+  <span class="doc-card__desc">Aktueller Meldestatus, koordinierte Offenlegung und der vorgesehene Sicherheitsprozess.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+  <a class="doc-card" href="/de/contributing/">
+  <span class="doc-card__label">Richtlinie</span>
+  <span class="doc-card__title">Mitwirken</span>
+  <span class="doc-card__desc">Wie du Feedback gibst, Standards und Erwartungen an Pull Requests.</span>
+  <span class="doc-card__link">Lesen <span aria-hidden="true">→</span></span>
+</a>
+</div>
+
+<h2 id="status">Status auf einen Blick<a class="heading-anchor" href="#status" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Die folgende Tabelle ist der eigene Statusbericht des Projekts. Eine Zeile rückt nur vor, wenn es öffentliche Belege gibt.</p>
+<div class="table-scroll">
+<table>
+  <caption class="visually-hidden">Ametherian-Projektstatus nach Bereich</caption>
+  <thead><tr><th scope="col">Bereich</th><th scope="col">Aktueller Status</th><th scope="col">Was Fortschritt belegen würde</th></tr></thead>
+  <tbody>
+    <tr><td>Projektvision</td><td>Veröffentlicht</td><td>Review durch die Maintainer und Feedback aus der Community</td></tr>
+    <tr><td>Paketgliederung</td><td>Als zehn Vorschaupakete umgesetzt</td><td>Review der Paketgrenzen durch die Maintainer</td></tr>
+    <tr><td>HTTP und Transport</td><td>Vorschau: Client, fetch(), Proxy, HTTP/2</td><td>Gestreamte Request-Bodys; unabhängiges Review</td></tr>
+    <tr><td>Sicherheitsmodell</td><td>Bedrohungsmodelle und Angriffstests vorhanden</td><td>Unabhängiges Review der Kontrollen</td></tr>
+    <tr><td>Schwachstellen-Informationen</td><td>In Betrieb: OSV, GitHub-Sicherheitsmeldungen, NIST NVD, tägliche Überwachung</td><td>Adapter für CISA KEV</td></tr>
+    <tr><td>Paketimplementierungen</td><td>Vorschau, unveröffentlicht</td><td>Lizenz, Release-Prozess, Veröffentlichung auf npm</td></tr>
+    <tr><td>Sicherheitsaudit</td><td>Nicht durchgeführt</td><td>Unabhängiges Review mit Umfang und Bericht</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="table-note">Quelle: <a href="/PROJECT_STATUS.md">Projektstatus</a>.</p>
+
+<h2 id="conventions">So liest du die Dokumentation<a class="heading-anchor" href="#conventions" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<ul class="spec-list">
+  <li><strong>Planung ist keine Umsetzung.</strong> Eine beschriebene Fähigkeit, ein Paketname oder eine Sicherheitskontrolle ist eine Richtung, bis es Code, Tests, Dokumentation und ein Release gibt.</li>
+  <li><strong>Aussagen brauchen Belege.</strong> Aussagen zu Kompatibilität, Leistung, Zuverlässigkeit und Sicherheit müssen reproduzierbar oder ausdrücklich als Ziel gekennzeichnet sein.</li>
+  <li><strong>Termine sind keine Versprechen.</strong> Die Roadmap ist gestuft. Release-Zusagen werden erst veröffentlicht, wenn Umfang, Verantwortung und Kapazität feststehen.</li>
+  <li><strong>Namen Dritter nennen den Kontext.</strong> Axios, Undici, Node.js und OpenJS werden genannt, um das Ökosystem und seine Rahmenbedingungen zu beschreiben, nicht um eine Verbindung oder Unterstützung anzudeuten.</li>
+</ul>
+
+<h2 id="records">Projektunterlagen<a class="heading-anchor" href="#records" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Diese Repository-Dokumente sind die Klartextquellen der Website. Sie sind beim Prüfen des Status nützlich.</p>
+
+  </div>
+  <div class="doc-end">
+    <p><strong>Unabhängiges Projekt.</strong> Ametherian ist weder mit Node.js, der OpenJS Foundation, Axios, Undici noch einem anderen genannten Projekt verbunden oder von ihnen unterstützt. Node.js ist eine Marke der OpenJS Foundation.</p>
+  </div>
+  <nav class="doc-pager" aria-label="Seitennavigation der Dokumentation"><span></span><a href="/de/docs/vision/" class="doc-pager__next"><span>Weiter</span><strong>Projektvision <span aria-hidden="true">→</span></strong></a></nav>
+</main>
+<aside class="docs-toc" aria-label="Auf dieser Seite">
+  <p class="docs-nav-title">Auf dieser Seite</p>
+  <a href="#start">Hier beginnen</a><a href="#policy">Projektrichtlinien</a><a href="#status">Status auf einen Blick</a><a href="#conventions">So liest du die Dokumentation</a><a href="#records">Projektunterlagen</a>
+  <a class="toc-top" href="#main">Seitenanfang <span aria-hidden="true">↑</span></a>
+</aside>
+</div>
+<footer class="docs-footer">
+  <div class="docs-footer__inner">
+    <p>© 2026 FoulFoxHacks · Ametherian ist ein unabhängiges Projekt.</p>
+    <div class="docs-footer__links">
+      <a href="/de/docs/">Dokumentation</a>
+      <a href="/de/security/">Sicherheitsrichtlinie</a>
+      <a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Quelle <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</footer>
+<dialog class="search-dialog" data-search-dialog aria-labelledby="search-title">
+  <h2 class="visually-hidden" id="search-title">Dokumentation durchsuchen</h2>
+  <div class="search-dialog__form" role="search">
+    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>
+    <label class="visually-hidden" for="search-input">Dokumentation durchsuchen</label>
+    <input class="search-dialog__input" id="search-input" type="search" placeholder="Suchen…" autocomplete="off" spellcheck="false" data-search-input>
+    <button class="search-dialog__close" type="button" data-search-close>Esc</button>
+  </div>
+  <p class="search-empty" data-search-status aria-live="polite">Tippe, um Titel, Abschnitte und Beschreibungen zu durchsuchen.</p>
+  <ul class="search-results" data-search-results></ul>
+</dialog>
+<script src="/assets/search-index.de.js" defer></script>
+<script src="/assets/site.js" defer></script>
+<script>if (window.location.pathname === "/docs/index.html") window.location.replace("/docs/" + window.location.search + window.location.hash);</script>
+</body>
+</html>

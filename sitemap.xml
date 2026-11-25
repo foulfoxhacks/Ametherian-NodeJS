@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ametherian.foulfoxhacks.dev/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/vision/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/packages/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/architecture/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/security/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/docs/roadmap/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/security/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/contributing/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/sitemap/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/llms.html</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://ametherian.foulfoxhacks.dev/robots.html</loc><lastmod>2026-11-24</lastmod></url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/en.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/es.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/pt-br.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/de.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/fr.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/ru.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/ja.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+  <sitemap><loc>https://ametherian.foulfoxhacks.dev/sitemaps/zh-cn.xml</loc><lastmod>2026-11-24</lastmod></sitemap>
+</sitemapindex>

@@ -253,7 +253,7 @@ server.listen(3000, () => {{
     </div>
     <div class="docs-map">
       {doc_map_item(current, 'docs/vision.html', 'Project vision', 'Why an ecosystem, what is in scope, and what the project will not promise.')}
-      {doc_map_item(current, 'docs/packages.html', 'Package map', 'Five research areas, candidate names, and provisional boundaries.')}
+      {doc_map_item(current, 'docs/packages.html', 'Package map', 'Five areas and the preview packages in each.')}
       {doc_map_item(current, 'docs/architecture.html', 'Architecture', 'Modular packages, shared contracts, runtime boundaries, and resource safety.')}
       {doc_map_item(current, 'docs/security.html', 'Security approach', 'Threat modeling, secure engineering practices, and vulnerability intelligence.')}
       {doc_map_item(current, 'docs/roadmap.html', 'Roadmap', 'The staged path from research to release readiness, without invented dates.')}

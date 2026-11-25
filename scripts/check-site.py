@@ -8,7 +8,7 @@ root = Path(__file__).resolve().parents[1]
 errors = []
 
 for page in root.rglob("*.html"):
-    if "design-preview" in page.parts or page.name == "_asset_test.html":
+    if "design-preview" in page.parts or page.name == "_asset_test.html" or "node_modules" in page.parts:
         continue
     source = page.read_text(encoding="utf-8")
     for token in (
@@ -45,13 +45,15 @@ clean_routes = {
     "/security/": "security/index.html",
     "/contributing/": "contributing/index.html",
     "/sitemap/": "sitemap/index.html",
+    "/modules/": "modules/index.html",
+    "/changelog/": "changelog/index.html",
 }
 for route, output in clean_routes.items():
     if not (root / output).is_file():
         errors.append(f"missing clean route {route}: expected {output}")
 
 for page in root.rglob("*.html"):
-    if "design-preview" in page.parts or page.name == "_asset_test.html":
+    if "design-preview" in page.parts or page.name == "_asset_test.html" or "node_modules" in page.parts:
         continue
     source = page.read_text(encoding="utf-8")
     for href in re.findall(r'href="([^"]+)"', source, flags=re.I):
@@ -62,34 +64,111 @@ for page in root.rglob("*.html"):
             if not (root / path.lstrip("/")).exists():
                 errors.append(f"{page.relative_to(root)}: broken internal HTML link: {href}")
 
+sys.path.insert(0, str(root / "scripts"))
+from sitegen import i18n  # noqa: E402
+
+BASE = "https://ametherian.foulfoxhacks.dev"
+NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+CSS_PI = '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>'
+all_locations = []
 try:
-    sitemap_tree = ET.parse(root / "sitemap.xml")
-    if not sitemap_tree.getroot().tag.endswith("urlset"):
-        errors.append("sitemap.xml: root element must be urlset")
-    sitemap_source = (root / "sitemap.xml").read_text(encoding="utf-8")
-    if "sitemap.xsl" in sitemap_source or "text/xsl" in sitemap_source:
+    index_source = (root / "sitemap.xml").read_text(encoding="utf-8")
+    index_tree = ET.parse(root / "sitemap.xml")
+    if index_tree.getroot().tag != NS + "sitemapindex":
+        errors.append("sitemap.xml: root element must be sitemapindex")
+    if "text/xsl" in index_source:
         errors.append("sitemap.xml: XSLT is not permitted; use a CSS stylesheet")
-    if '<?xml-stylesheet type="text/css" href="/assets/sitemap-xml.css"?>' not in sitemap_source:
+    if CSS_PI not in index_source:
         errors.append("sitemap.xml: missing direct CSS stylesheet reference")
-    if not (root / "assets/sitemap-xml.css").is_file():
-        errors.append("sitemap.xml: referenced CSS stylesheet is missing")
-    locations = [
-        node.text or "" for node in sitemap_tree.getroot()
-        if node.tag.endswith("url") for node in node if node.tag.endswith("loc")
-    ]
-    allowed_html_locations = {
-        "https://ametherian.foulfoxhacks.dev/llms.html",
-        "https://ametherian.foulfoxhacks.dev/robots.html",
-    }
-    if any(location.lower().endswith(".html") and location not in allowed_html_locations for location in locations):
-        errors.append("sitemap.xml: generated route locations must use clean URLs; only TXT companion pages may use .html")
-    if any(location.rstrip("/").endswith("/llms") for location in locations):
-        errors.append("sitemap.xml: obsolete /llms/ route must not be listed")
-    for required_url in ("https://ametherian.foulfoxhacks.dev/llms.html", "https://ametherian.foulfoxhacks.dev/robots.html"):
-        if required_url not in locations:
-            errors.append(f"sitemap.xml: missing companion page {required_url}")
+    children = [n.findtext(NS + "loc") for n in index_tree.getroot().findall(NS + "sitemap")]
+    expected = [f"{BASE}/sitemaps/{l['code']}.xml" for l in i18n.ALL]
+    if children != expected:
+        errors.append(f"sitemap.xml: index must list exactly one sitemap per language: {expected}")
+    for child in expected:
+        rel = child.replace(BASE + "/", "")
+        if not (root / rel).is_file():
+            errors.append(f"{rel}: missing language sitemap")
+            continue
+        source = (root / rel).read_text(encoding="utf-8")
+        if CSS_PI not in source:
+            errors.append(f"{rel}: missing CSS stylesheet reference")
+        tree = ET.parse(root / rel)
+        if tree.getroot().tag != NS + "urlset":
+            errors.append(f"{rel}: root element must be urlset")
+        for url in tree.getroot().findall(NS + "url"):
+            loc = url.findtext(NS + "loc") or ""
+            all_locations.append(loc)
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", url.findtext(NS + "lastmod") or ""):
+                errors.append(f"{rel}: {loc} missing lastmod")
+            local = loc.replace(BASE, "")
+            target = root / (local.lstrip("/") + ("index.html" if local.endswith("/") else ""))
+            if not target.is_file():
+                errors.append(f"{rel}: {loc} does not exist in the build")
+    if len(set(all_locations)) != len(all_locations):
+        errors.append("sitemaps: duplicate URLs across language sitemaps")
+    allowed_html = {f"{BASE}/llms.html", f"{BASE}/robots.html"}
+    if any(l.endswith(".html") and l not in allowed_html for l in all_locations):
+        errors.append("sitemaps: only the TXT companion pages may use .html URLs")
+    if any(l.rstrip("/").endswith("/llms") for l in all_locations):
+        errors.append("sitemaps: obsolete /llms/ route must not be listed")
+    for required_url in allowed_html:
+        if required_url not in all_locations:
+            errors.append(f"sitemaps: missing companion page {required_url}")
 except Exception as exc:
-    errors.append(f"invalid sitemap.xml: {exc}")
+    errors.append(f"invalid sitemaps: {exc}")
+
+robots_txt = (root / "robots.txt").read_text(encoding="utf-8")
+if f"Sitemap: {BASE}/sitemap.xml" not in robots_txt:
+    errors.append("robots.txt: must point to the sitemap index")
+
+# Every localized page: lang, canonical, hreflang set, language switcher.
+for loc in all_locations:
+    local = loc.replace(BASE, "")
+    if local.endswith(".html"):
+        continue
+    page = root / (local.lstrip("/") + "index.html")
+    if not page.is_file():
+        continue
+    source = page.read_text(encoding="utf-8")
+    locale = next((l for l in i18n.LOCALES if local.startswith(l["prefix"] + "/")), i18n.DEFAULT)
+    if f'<html lang="{locale["lang"]}"' not in source:
+        errors.append(f"{local}: html lang must be {locale['lang']}")
+    if f'<link rel="canonical" href="{loc}">' not in source:
+        errors.append(f"{local}: canonical must be {loc}")
+    for l in i18n.ALL:
+        if f'hreflang="{l["hreflang"]}"' not in source:
+            errors.append(f"{local}: missing hreflang {l['hreflang']}")
+    if 'hreflang="x-default"' not in source:
+        errors.append(f"{local}: missing hreflang x-default")
+    if "data-lang-switch" not in source or "data-theme-toggle" not in source:
+        errors.append(f"{local}: missing language switcher or theme toggle")
+    if "<!--HREFLANG-->" in source or "<!--LANG-SWITCH-->" in source:
+        errors.append(f"{local}: unreplaced build marker")
+
+# Companion pages use the real site header and footer.
+for name in ("llms.html", "robots.html"):
+    source = (root / name).read_text(encoding="utf-8")
+    if 'class="site-header"' not in source or 'class="site-footer"' not in source:
+        errors.append(f"{name}: must use the site header and footer")
+
+# No page may link the removed /llms/ route.
+for page in root.rglob("*.html"):
+    if any(part in {"node_modules", ".git"} for part in page.parts):
+        continue
+    if 'href="/llms/"' in page.read_text(encoding="utf-8"):
+        errors.append(f"{page.relative_to(root)}: links the removed /llms/ route")
+
+# Translation coverage: every translatable English segment must exist in every catalog.
+english = sorted({p for p in all_locations if not any(p.startswith(BASE + l["prefix"] + "/") for l in i18n.LOCALES) and not p.endswith(".html")})
+segments = set()
+for loc in english:
+    local = loc.replace(BASE, "")
+    segments.update(i18n.extract((root / (local.lstrip("/") + "index.html")).read_text(encoding="utf-8")))
+for l in i18n.LOCALES:
+    table = i18n.catalog(l["code"])
+    missing = sorted(seg for seg in segments if seg not in table)
+    if missing:
+        errors.append(f"i18n/{l['code']}.json: {len(missing)} untranslated segment(s), e.g. {missing[0][:80]!r}")
 
 for required in (
     "sitemap/index.html",

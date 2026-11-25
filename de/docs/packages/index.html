@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paketübersicht — Ametherian</title>
+<meta name="description" content="Die Ametherian-Paketübersicht: Netzwerk, Daten und Serialisierung, Anwendungsinfrastruktur, Sicherheitstechnik und Observability.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="FoulFoxHacks">
+<meta name="publisher" content="FoulFoxHacks">
+<meta name="theme-color" content="#0b0812" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f4fc" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+<script>(function(){try{var m=localStorage.getItem("ametherian-theme"),t=m;if(t!=="light"&&t!=="dark"){m="system";t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";}document.documentElement.dataset.theme=t;document.documentElement.dataset.themeMode=m;}catch(e){document.documentElement.dataset.theme="dark";}})();</script>
+<link rel="canonical" href="https://ametherian.foulfoxhacks.dev/de/docs/packages/">
+<link rel="alternate" hreflang="en" href="https://ametherian.foulfoxhacks.dev/docs/packages/">
+<link rel="alternate" hreflang="es" href="https://ametherian.foulfoxhacks.dev/es/docs/packages/">
+<link rel="alternate" hreflang="pt-BR" href="https://ametherian.foulfoxhacks.dev/pt-br/docs/packages/">
+<link rel="alternate" hreflang="de" href="https://ametherian.foulfoxhacks.dev/de/docs/packages/">
+<link rel="alternate" hreflang="fr" href="https://ametherian.foulfoxhacks.dev/fr/docs/packages/">
+<link rel="alternate" hreflang="ru" href="https://ametherian.foulfoxhacks.dev/ru/docs/packages/">
+<link rel="alternate" hreflang="ja" href="https://ametherian.foulfoxhacks.dev/ja/docs/packages/">
+<link rel="alternate" hreflang="zh-CN" href="https://ametherian.foulfoxhacks.dev/zh-cn/docs/packages/">
+<link rel="alternate" hreflang="x-default" href="https://ametherian.foulfoxhacks.dev/docs/packages/">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ametherian">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Paketübersicht — Ametherian">
+<meta property="og:description" content="Die Ametherian-Paketübersicht: Netzwerk, Daten und Serialisierung, Anwendungsinfrastruktur, Sicherheitstechnik und Observability.">
+<meta property="og:url" content="https://ametherian.foulfoxhacks.dev/de/docs/packages/">
+<meta property="og:image" content="https://ametherian.foulfoxhacks.dev/assets/og/packages.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Social-Media-Karte der Ametherian-Paketübersicht.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Paketübersicht — Ametherian">
+<meta name="twitter:description" content="Die Ametherian-Paketübersicht: Netzwerk, Daten und Serialisierung, Anwendungsinfrastruktur, Sicherheitstechnik und Observability.">
+<meta name="twitter:image" content="https://ametherian.foulfoxhacks.dev/assets/og/packages.png">
+<meta name="twitter:image:alt" content="Social-Media-Karte der Ametherian-Paketübersicht.">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://ametherian.foulfoxhacks.dev/#website","url":"https://ametherian.foulfoxhacks.dev/","name":"Ametherian","description":"An independent Node.js library ecosystem.","publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"inLanguage":"de"},{"@type":"Organization","@id":"https://ametherian.foulfoxhacks.dev/#organization","name":"Ametherian","url":"https://ametherian.foulfoxhacks.dev/","parentOrganization":{"@type":"Organization","name":"FoulFoxHacks"}},{"@type":"TechArticle","@id":"https://ametherian.foulfoxhacks.dev/docs/packages/#page","url":"https://ametherian.foulfoxhacks.dev/de/docs/packages/","headline":"Package map","description":"The Ametherian package map: networking, data and serialization, application infrastructure, security engineering, and observability research areas.","isPartOf":{"@id":"https://ametherian.foulfoxhacks.dev/#website"},"publisher":{"@id":"https://ametherian.foulfoxhacks.dev/#organization"},"dateModified":"2026-11-24","inLanguage":"de","primaryImageOfPage":"https://ametherian.foulfoxhacks.dev/assets/og/packages.png"},{"@type":"BreadcrumbList","@id":"https://ametherian.foulfoxhacks.dev/docs/packages/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://ametherian.foulfoxhacks.dev/"},{"@type":"ListItem","position":2,"name":"Documentation","item":"https://ametherian.foulfoxhacks.dev/docs/"},{"@type":"ListItem","position":3,"name":"Package map","item":"https://ametherian.foulfoxhacks.dev/docs/packages/"}]}]}</script>
+</head>
+<body class="page-docs" data-root="">
+<a class="skip-link" href="#main">Zum Inhalt springen</a>
+<header class="docs-header" data-site-header>
+  <div class="docs-header__inner">
+    <a class="brand" href="/de/">
+      <img src="/assets/ametherian-mark.svg" alt="" width="28" height="29">
+      <span>Ametherian</span>
+    </a>
+    <div class="docs-header__actions">
+      <button class="search-trigger" type="button" data-search-open>
+        <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg><span>Suchen</span><kbd>/</kbd>
+      </button>
+      <a class="header-link" href="/de/">Projektstartseite</a>
+      <details class="lang-switch" data-lang-switch><summary aria-label="Language"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/></svg><span>DE</span></summary><ul translate="no"><li><a href="/docs/packages/" hreflang="en" lang="en">English</a></li><li><a href="/es/docs/packages/" hreflang="es" lang="es">Español</a></li><li><a href="/pt-br/docs/packages/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li><li><a href="/de/docs/packages/" hreflang="de" lang="de" aria-current="true">Deutsch</a></li><li><a href="/fr/docs/packages/" hreflang="fr" lang="fr">Français</a></li><li><a href="/ru/docs/packages/" hreflang="ru" lang="ru">Русский</a></li><li><a href="/ja/docs/packages/" hreflang="ja" lang="ja">日本語</a></li><li><a href="/zh-cn/docs/packages/" hreflang="zh-CN" lang="zh-Hans">简体中文</a></li></ul></details>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Farbschema: System" title="Farbschema">
+        <svg class="theme-icon theme-icon--system" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" /></svg>
+        <svg class="theme-icon theme-icon--light" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+        <svg class="theme-icon theme-icon--dark" viewbox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+      </button>
+      <a class="icon-link" href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer" aria-label="Ametherian-Quellcode-Repository auf GitHub (öffnet in einem neuen Tab)"><svg viewbox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.53v-2.05c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.92.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.12-1.44 3.05-1.14 3.05-1.14.61 1.54.23 2.68.12 2.96.71.78 1.14 1.78 1.14 3 0 4.29-2.61 5.23-5.1 5.5.4.35.75 1.03.75 2.08V22c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z" /></svg></a>
+    </div>
+  </div>
+</header>
+<div class="docs-layout">
+<aside class="docs-sidebar" aria-label="Dokumentationsnavigation">
+  <div class="docs-sidebar__head">
+    <p class="eyebrow">Dokumentation</p>
+    <button class="search-trigger search-trigger--sidebar" type="button" data-search-open>
+      <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg><span>Dokumentation durchsuchen</span><kbd>/</kbd>
+    </button>
+  </div>
+  <details class="docs-nav-details" data-docs-nav open>
+    <summary><span>Dokumentation durchblättern</span><strong>Paketübersicht</strong></summary>
+    <nav class="docs-nav">
+      <div class="docs-nav-group"><p class="docs-nav-title">Überblick</p><a href="/de/docs/">Dokumentationsstart</a><a href="/de/docs/vision/">Projektvision</a></div><div class="docs-nav-group"><p class="docs-nav-title">Architektur</p><a href="/de/docs/packages/" aria-current="page">Paketübersicht</a><a href="/de/docs/architecture/">Architekturrichtung</a><a href="/de/docs/security/">Sicherheitsansatz</a><a href="/de/docs/roadmap/">Roadmap</a></div><div class="docs-nav-group"><p class="docs-nav-title">Releases</p><a href="/de/modules/">Module</a><a href="/de/changelog/">Änderungsprotokoll</a></div><div class="docs-nav-group"><p class="docs-nav-title">Richtlinien</p><a href="/de/security/">Sicherheitsrichtlinie</a><a href="/de/contributing/">Mitwirken</a></div><div class="docs-nav-group"><p class="docs-nav-title">Projektunterlagen</p><a href="/PROJECT_STATUS.md">Projektstatus</a><a href="/AMETHERIAN-PROJECT-BRIEF.txt">Projektkurzbeschreibung</a><a href="/REFERENCES.md">Technische Referenzen</a><a href="/LICENSE-STATUS.md">Lizenzstatus</a><a href="/NOTICE.md">Hinweis</a></div>
+    </nav>
+  </details>
+  <div class="docs-sidebar__note">
+    <p><strong>Status:</strong> Zehn Vorschaupakete, unveröffentlicht und nicht auditiert.</p>
+    <p><a href="/PROJECT_STATUS.md">Projektstatus</a> · <a href="/NOTICE.md">Hinweis</a> · <a href="/LICENSE-STATUS.md">Lizenz</a></p>
+  </div>
+</aside>
+<main id="main" class="docs-content">
+  <nav class="breadcrumbs" aria-label="Brotkrumennavigation"><a href="/de/">Start</a><span aria-hidden="true">/</span><a href="/de/docs/">Dokumentation</a><span aria-hidden="true">/</span><span aria-current="page">Paketübersicht</span></nav>
+  <div class="doc-head">
+    <p class="eyebrow">Dokument</p>
+    <h1>Paketübersicht</h1>
+    <p class="doc-lead">Fünf Bereiche, jeder mit Vorschaupaketen.</p>
+    <div class="doc-meta">
+      <span>Geprüft im November 2026</span>
+      <span class="doc-meta__dot" aria-hidden="true">·</span>
+      <span><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Quellcode-Repository <span aria-hidden="true">↗</span></a></span>
+    </div>
+  </div>
+  <div class="prose">
+    
+<p>Die Paketübersicht gliedert Ametherian in fünf Bereiche. Jeder Bereich hat jetzt Vorschaupakete mit Tests, Typdeklarationen und Bedrohungsmodellen; Details unter <a href="/de/modules/">Module</a> . Die Paket-APIs können sich bis zum ersten stabilen Release noch ändern.</p>
+
+<h2 id="networking-and-protocols">Netzwerk und Protokolle<a class="heading-anchor" href="#networking-and-protocols" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>HTTP-Clients, Transporte, Verbindungspools, Proxys, Streaming, Wiederholungen, Fristen und Abbruch.</p>
+<p>Vorschaupakete: <code>ametherian-http</code>, <code>ametherian-guard</code>.</p>
+
+<h2 id="data-and-serialization">Daten und Serialisierung<a class="heading-anchor" href="#data-and-serialization" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Validierung, Schemata, Parsing, Serialisierung, Konvertierung, strukturierte Daten und sicherer Umgang mit nicht vertrauenswürdigen Eingaben.</p>
+<p>Vorschaupaket: <code>ametherian-schema</code>.</p>
+
+<h2 id="application-infrastructure">Anwendungsinfrastruktur<a class="heading-anchor" href="#application-infrastructure" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Caching, Warteschlangen, Nebenläufigkeit, Ratenbegrenzung, Konfiguration, Lebenszyklusverwaltung und Ausfallsicherheit.</p>
+<p>Vorschaupakete: <code>ametherian-core</code>, <code>ametherian-cache</code>, <code>ametherian-resilience</code>.</p>
+
+<h2 id="security-engineering">Sicherheitstechnik<a class="heading-anchor" href="#security-engineering" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Hilfen für Sicherheitsrichtlinien, sichere Konfiguration, Abhängigkeitsprüfung, Testdaten und Regressionswerkzeuge.</p>
+<p>Vorschaupaket: <code>ametherian-security</code>.</p>
+
+<h2 id="observability-and-developer-experience">Observability und Entwicklererfahrung<a class="heading-anchor" href="#observability-and-developer-experience" aria-label="Link zu diesem Abschnitt">#</a></h2>
+<p>Logging, Diagnose, Metriken, Tracing, typisierte Fehler, Testwerkzeuge, Fuzzing-Hilfen und Dokumentationswerkzeuge.</p>
+<p>Vorschaupakete: <code>ametherian-observability</code>, <code>ametherian-testing</code>.</p>
+
+  </div>
+  <div class="doc-end">
+    <p><strong>Unabhängiges Projekt.</strong> Ametherian ist weder mit Node.js, der OpenJS Foundation, Axios, Undici noch einem anderen genannten Projekt verbunden oder von ihnen unterstützt. Node.js ist eine Marke der OpenJS Foundation.</p>
+  </div>
+  <nav class="doc-pager" aria-label="Seitennavigation der Dokumentation"><a href="/de/docs/vision/"><span>Zurück</span><strong><span aria-hidden="true">←</span> Projektvision</strong></a><a href="/de/docs/architecture/" class="doc-pager__next"><span>Weiter</span><strong>Architektur <span aria-hidden="true">→</span></strong></a></nav>
+</main>
+<aside class="docs-toc" aria-label="Auf dieser Seite">
+  <p class="docs-nav-title">Auf dieser Seite</p>
+  <a href="#networking-and-protocols">Netzwerk und Protokolle</a><a href="#data-and-serialization">Daten und Serialisierung</a><a href="#application-infrastructure">Anwendungsinfrastruktur</a><a href="#security-engineering">Sicherheitstechnik</a><a href="#observability-and-developer-experience">Observability und Entwicklererfahrung</a>
+  <a class="toc-top" href="#main">Seitenanfang <span aria-hidden="true">↑</span></a>
+</aside>
+</div>
+<footer class="docs-footer">
+  <div class="docs-footer__inner">
+    <p>© 2026 FoulFoxHacks · Ametherian ist ein unabhängiges Projekt.</p>
+    <div class="docs-footer__links">
+      <a href="/de/docs/">Dokumentation</a>
+      <a href="/de/security/">Sicherheitsrichtlinie</a>
+      <a href="https://github.com/foulfoxhacks/Ametherian-NodeJS" target="_blank" rel="noopener noreferrer">Quelle <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</footer>
+<dialog class="search-dialog" data-search-dialog aria-labelledby="search-title">
+  <h2 class="visually-hidden" id="search-title">Dokumentation durchsuchen</h2>
+  <div class="search-dialog__form" role="search">
+    <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>
+    <label class="visually-hidden" for="search-input">Dokumentation durchsuchen</label>
+    <input class="search-dialog__input" id="search-input" type="search" placeholder="Suchen…" autocomplete="off" spellcheck="false" data-search-input>
+    <button class="search-dialog__close" type="button" data-search-close>Esc</button>
+  </div>
+  <p class="search-empty" data-search-status aria-live="polite">Tippe, um Titel, Abschnitte und Beschreibungen zu durchsuchen.</p>
+  <ul class="search-results" data-search-results></ul>
+</dialog>
+<script src="/assets/search-index.de.js" defer></script>
+<script src="/assets/site.js" defer></script>
+
+</body>
+</html>

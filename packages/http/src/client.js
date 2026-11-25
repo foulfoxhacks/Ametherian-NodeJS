@@ -43,7 +43,7 @@ const CLIENT_SCHEMA = {
   policy: { type: 'object' },
   hooks: { type: 'object' },
   transport: { type: 'function' },
-  userAgent: { type: 'string', default: 'ametherian-http/0.0.0' },
+  userAgent: { type: 'string', default: 'ametherian-http/0.1.0' },
   proxy: { type: 'string' },
   http2: { type: 'boolean', default: false },
   // With baseUrl set, absolute or protocol-relative request URLs to another origin are refused

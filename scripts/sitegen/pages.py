@@ -5,14 +5,14 @@ from .common import *
 FAQS = [
     (
         "Is Ametherian released?",
-        'No. Ametherian is a public planning project. No Ametherian '
-        'packages are published, and this site does not describe completed '
-        'software. The <a href="/docs/packages/">package names</a> '
-        'and capabilities are research directions.',
-        "No. Ametherian is a public planning project. No Ametherian "
-        "packages are published, and this site does not describe completed "
-        "software. The package names and capabilities are research "
-        "directions.",
+        'Not to npm yet. Ten <a href="/modules/">preview packages</a> are '
+        'public in the repository with tests, and every green build is '
+        'published as a numbered preview on GitHub Releases. Publishing to npm '
+        'waits for a license and an agreed release process.',
+        "Not to npm yet. Ten preview packages are public in the repository "
+        "with tests, and every green build is published as a numbered preview "
+        "on GitHub Releases. Publishing to npm waits for a license and an "
+        "agreed release process.",
     ),
     (
         "Is Ametherian affiliated with Node.js or the OpenJS Foundation?",
@@ -27,25 +27,25 @@ FAQS = [
     ),
     (
         "Is Ametherian production-ready or audited?",
-        "No. The planning repository makes no production-readiness or "
-        "security-audit claim. The <a href=\"/docs/security/\">security "
-        "approach</a> describes how future packages should be threat-modeled "
-        "and reviewed; it is not a guarantee that any implementation is secure.",
-        "No. The planning repository makes no production-readiness or "
-        "security-audit claim. The security approach describes how future "
-        "packages should be threat-modeled and reviewed; it is not a guarantee "
-        "that any implementation is secure.",
+        "No. Ten packages exist as tested previews, but none is published to "
+        "npm and no independent security audit has been performed. The "
+        "<a href=\"/docs/security/\">security approach</a> and the vulnerability "
+        "model describe how the code is threat-modelled and tested; they are "
+        "not a guarantee that it is secure.",
+        "No. Ten packages exist as tested previews, but none is published to "
+        "npm and no independent security audit has been performed. The "
+        "security approach and the vulnerability model describe how the code "
+        "is threat-modelled and tested; they are not a guarantee that it is "
+        "secure.",
     ),
     (
         "What runtime does Ametherian target?",
-        "Node.js is the initial target, with JavaScript and TypeScript as the "
-        "intended languages. Runtime assumptions, module formats, supported "
-        "versions, and compatibility policy are not yet published and must be "
-        "defined before stable packages.",
-        "Node.js is the initial target, with JavaScript and TypeScript as the "
-        "intended languages. Runtime assumptions, module formats, supported "
-        "versions, and compatibility policy are not yet published and must be "
-        "defined before stable packages.",
+        "Node.js 22, 24 and 26, each at its latest security release. Packages "
+        "are ES modules with TypeScript declarations. Node.js 20 is not "
+        "supported: it reached end of life in April 2026.",
+        "Node.js 22, 24 and 26, each at its latest security release. Packages "
+        "are ES modules with TypeScript declarations. Node.js 20 is not "
+        "supported: it reached end of life in April 2026.",
     ),
     (
         "What license will the project use?",
@@ -53,11 +53,11 @@ FAQS = [
         "<a href=\"LICENSE-STATUS.md\">licensing status</a> says maintainers "
         "should choose a license and define contribution and dependency "
         "policies before publishing implementation code. Do not assume this "
-        "planning repository grants a license.",
+        "repository grants a license.",
         "A license has not been selected. The licensing status says maintainers "
         "should choose a license and define contribution and dependency "
         "policies before publishing implementation code. Do not assume this "
-        "planning repository grants a license.",
+        "repository grants a license.",
     ),
     (
         "Can I contribute?",
@@ -73,26 +73,25 @@ FAQS = [
     ),
     (
         "Is there a release timeline?",
-        "No. The <a href=\"/docs/roadmap/\">roadmap</a> is staged and "
-        "deliberately avoids dates until scope, ownership, and capacity are "
-        "established. Release readiness requires an explicit API, support "
-        "matrix, documentation, tests, security review, release process, and "
-        "maintenance ownership.",
-        "No. The roadmap is staged and deliberately avoids dates until scope, "
-        "ownership, and capacity are established. Release readiness requires an "
-        "explicit API, support matrix, documentation, tests, security review, "
-        "release process, and maintenance ownership.",
+        "There are no dates. Every build of the main branch that passes CI is "
+        "published as a numbered preview build on GitHub Releases, listed in "
+        "the <a href=\"/changelog/\">changelog</a>. Publishing to npm waits for "
+        "a license and an agreed release process.",
+        "There are no dates. Every build of the main branch that passes CI is "
+        "published as a numbered preview build on GitHub Releases, listed in "
+        "the changelog. Publishing to npm waits for a license and an agreed "
+        "release process.",
     ),
     (
         "Does Ametherian replace Axios or Undici?",
-        "No. Axios and Undici informed initial research into HTTP client "
-        "ergonomics and transport architecture. Ametherian is not a drop-in "
-        "replacement and makes no compatibility or performance claim without "
-        "reproducible evidence.",
-        "No. Axios and Undici informed initial research into HTTP client "
-        "ergonomics and transport architecture. Ametherian is not a drop-in "
-        "replacement and makes no compatibility or performance claim without "
-        "reproducible evidence.",
+        "No. The Ametherian HTTP client and fetch() are its own code, checked "
+        "against every published Axios and Undici advisory. It is not a "
+        "drop-in replacement and makes no compatibility or performance claim "
+        "without reproducible evidence.",
+        "No. The Ametherian HTTP client and fetch() are its own code, checked "
+        "against every published Axios and Undici advisory. It is not a "
+        "drop-in replacement and makes no compatibility or performance claim "
+        "without reproducible evidence.",
     ),
 ]
 
@@ -138,10 +137,10 @@ def home_page() -> str:
     <div class="hero-copy">
       <p class="eyebrow">Independent Node.js Ecosystem</p>
       <h1>A new kind of <span>Node library</span> ecosystem.</h1>
-      <p class="hero-lead">Ametherian is a proposed family of modular JavaScript and TypeScript libraries under the <code>@foulfoxhacks</code> npm scope. The direction: focused packages, shared contracts, and security considered from the first design decision.</p>
+      <p class="hero-lead">Ametherian is a family of modular JavaScript and TypeScript libraries under the <code>@foulfoxhacks</code> npm scope. Ten packages exist as tested previews: focused packages, shared contracts, and security considered from the first design decision.</p>
       <div class="hero-actions">
         <a class="button button--primary" href="{url_for('docs/vision.html', current)}">Read the vision <span class="button__icon" aria-hidden="true">→</span></a>
-        <a class="button button--ghost" href="{url_for('docs/packages.html', current)}">Explore packages</a>
+        <a class="button button--ghost" href="{url_for('modules/index.html', current)}">Explore the modules</a>
       </div>
     </div>
     <div class="hero-brand">
@@ -152,8 +151,8 @@ def home_page() -> str:
         <div class="brand-card__status">
           <p class="brand-card__status-label">Project status</p>
           <ul>
-            <li><span>Packages</span><strong>Proposed</strong></li>
-            <li><span>Implementations</span><strong>Not published</strong></li>
+            <li><span>Packages</span><strong>10 in preview</strong></li>
+            <li><span>npm release</span><strong>Not published</strong></li>
             <li><span>Security audit</span><strong>Not performed</strong></li>
           </ul>
         </div>
@@ -174,7 +173,7 @@ def home_page() -> str:
     </div>
     <div class="intro-copy">
       <p>Node.js developers assemble networking, validation, caching, concurrency, observability, and application infrastructure from many packages. Ametherian investigates where consistent contracts and well-defined package boundaries could make that work easier to understand and maintain.</p>
-      <p>Each future package should have a clear purpose, documented behavior, explicit limits, and the freedom to be adopted on its own. The ambition is broader than replacing a single HTTP client.</p>
+      <p>Each package has a clear purpose, documented behavior, explicit limits, and the freedom to be adopted on its own. The ambition is broader than replacing a single HTTP client.</p>
       <a class="text-link" href="{url_for('docs/vision.html', current)}">Read the project vision <span aria-hidden="true">→</span></a>
     </div>
   </div>
@@ -187,7 +186,7 @@ def home_page() -> str:
         <p class="eyebrow">Package Map</p>
         <h2>Five core areas.</h2>
       </div>
-      <p class="section-intro">The package map is a research agenda. Each family describes work worth investigating. <a href="{url_for('docs/packages.html', current)}">Read the package map</a>.</p>
+      <p class="section-intro">Each family now has preview packages with tests and threat models. <a href="{url_for('modules/index.html', current)}">See the modules</a>.</p>
     </div>
     <div class="ecosystem-grid">
       {area_card(url_for('docs/packages.html#networking-and-protocols', current), 'network', 'Networking and protocols', 'HTTP clients, transports, connection pools, proxies, streaming, retries, deadlines, and cancellation.')}
@@ -203,17 +202,18 @@ def home_page() -> str:
   <div class="shell status-grid">
     <div class="status-copy">
       <p class="eyebrow">Current Status</p>
-      <h2>Planning and Specification.</h2>
-      <p>The repository is a public notice and planning site, not the implementation repository for completed packages. The status below is the honest baseline; anything beyond it needs published source, tests, and review.</p>
+      <h2>Preview implementation.</h2>
+      <p>Ten packages are implemented as previews in this repository, with tests, type declarations and threat models. They are not published to npm, not audited, and the license is not chosen yet. Anything beyond this needs evidence.</p>
       <a class="text-link" href="{url_for('PROJECT_STATUS.md', current)}">Read the full project status <span aria-hidden="true">→</span></a>
     </div>
     <dl class="status-list">
-      <div class="status-row"><dt>Current stage</dt><dd><span class="badge badge--proposed">Specification</span></dd></div>
-      <div class="status-row"><dt>Package implementations</dt><dd><span class="badge badge--not">Not published</span></dd></div>
+      <div class="status-row"><dt>Current stage</dt><dd><span class="badge badge--proposed">Preview</span></dd></div>
+      <div class="status-row"><dt>Package implementations</dt><dd><span class="badge badge--proposed">10 preview packages</span></dd></div>
+      <div class="status-row"><dt>npm release</dt><dd><span class="badge badge--not">Not published</span></dd></div>
       <div class="status-row"><dt>Security audit</dt><dd><span class="badge badge--not">Not performed</span></dd></div>
       <div class="status-row"><dt>Project license</dt><dd><span class="badge badge--not">Not selected</span></dd></div>
-      <div class="status-row"><dt>Documentation</dt><dd><span class="badge badge--proposed">Drafted</span></dd></div>
-      <div class="status-row"><dt>Repository role</dt><dd><span class="badge">Planning site</span></dd></div>
+      <div class="status-row"><dt>Documentation</dt><dd><span class="badge badge--proposed">Published</span></dd></div>
+      <div class="status-row"><dt>Repository role</dt><dd><span class="badge">Code and site</span></dd></div>
     </dl>
   </div>
 </section>
@@ -257,7 +257,7 @@ server.listen(3000, () => {{
     </div>
     <div class="docs-map">
       {doc_map_item(current, 'docs/vision.html', 'Project vision', 'Why an ecosystem, what is in scope, and what the project will not promise.')}
-      {doc_map_item(current, 'docs/packages.html', 'Package map', 'Five research areas, candidate names, and provisional boundaries.')}
+      {doc_map_item(current, 'docs/packages.html', 'Package map', 'Five areas and the preview packages in each.')}
       {doc_map_item(current, 'docs/architecture.html', 'Architecture', 'Modular packages, shared contracts, runtime boundaries, and resource safety.')}
       {doc_map_item(current, '/docs/security/', 'Security approach', 'Threat modeling, secure engineering practices, and vulnerability intelligence.')}
       {doc_map_item(current, '/docs/roadmap/', 'Roadmap', 'The staged path from research to release readiness, without invented dates.')}
@@ -272,7 +272,7 @@ server.listen(3000, () => {{
         <p class="eyebrow">Guiding Principles</p>
         <h2>Development guidelines.</h2>
       </div>
-      <p class="section-intro">These principles are requirements for future work, not evidence that the work is complete. They apply to package boundaries, documentation, tests, and review.</p>
+      <p class="section-intro">These principles are requirements for every package; tests, threat models and review check them. They apply to package boundaries, documentation, tests, and review.</p>
     </div>
     <div class="principles-grid">
       {principle_card('package', 'Focused packages', 'A package should have one understandable responsibility and remain useful without unrelated modules.')}

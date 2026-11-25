@@ -16,3 +16,13 @@ jobs:
       - run: python scripts/build_site.py
       - run: python scripts/build_text_pages.py
       - run: python scripts/check-site.py
+      - name: Committed site matches a fresh build
+        run: |
+          # The site is generated from packages/, CHANGELOG.md and i18n/. If anything
+          # changed without rebuilding (and translating), the published site would be stale.
+          if ! git diff --quiet; then
+            echo "::error::The committed site is out of date. Run: python scripts/build_site.py && python scripts/build_text_pages.py, translate any new segments (python scripts/i18n_extract.py), and commit the result."
+            git status --short | head -50
+            git diff --stat | tail -5
+            exit 1
+          fi
