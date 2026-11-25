@@ -16,6 +16,23 @@ jobs:
       - run: python scripts/build_site.py
       - run: python scripts/build_text_pages.py
       - run: python scripts/check-site.py
+      - name: Collect generated site changes
+        if: always()
+        run: |
+          { git diff --name-only --diff-filter=ACMRTUXB -z; git ls-files --others --exclude-standard -z; } | sort -zu > /tmp/site-generated-files
+          if [ -s /tmp/site-generated-files ]; then
+            tar --null -T /tmp/site-generated-files -czf /tmp/site-generated-diff.tar.gz
+          else
+            tar -czf /tmp/site-generated-diff.tar.gz --files-from /dev/null
+          fi
+      - name: Upload generated site diff
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: site-build-diff-${{ github.run_id }}
+          path: /tmp/site-generated-diff.tar.gz
+          if-no-files-found: error
+          retention-days: 7
       - name: Committed site matches a fresh build
         run: |
           # The site is generated from packages/, CHANGELOG.md and i18n/. If anything
