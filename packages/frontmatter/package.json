@@ -1,0 +1,28 @@
+{
+  "name": "@foulfoxhacks/ametherian-frontmatter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Strict, bounded YAML frontmatter parser (gray-matter compatible shape, no anchors, tags or code evaluation) for Ametherian packages. Unpublished preview.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "NOTICE"
+  ],
+  "sideEffects": false,
+  "dependencies": {
+    "@foulfoxhacks/ametherian-core": "0.1.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
