@@ -21,7 +21,7 @@ def doc_card(current: str, target: str, label: str, title: str, description: str
 
 def docs_home_page() -> str:
     current = "docs/index.html"
-    body = f"""{callout('Status.', 'Ten Ametherian packages exist as tested previews in the repository. They are not published to npm and have not been audited. Nothing in this documentation is a release announcement.')}
+    body = f"""{callout('Status.', 'Ametherian packages exist as tested previews in the repository. They are not published to npm and have not been audited. Nothing in this documentation is a release announcement.')}
 
 <h2 id="start">Start here</h2>
 <p>Read the documentation in order if you are evaluating the direction. Each document states what is planned, what is not yet known, and what evidence would count as progress.</p>
@@ -48,7 +48,7 @@ def docs_home_page() -> str:
   <thead><tr><th scope="col">Area</th><th scope="col">Current status</th><th scope="col">What would establish progress</th></tr></thead>
   <tbody>
     <tr><td>Project vision</td><td>Published</td><td>Maintainer review and community feedback</td></tr>
-    <tr><td>Package taxonomy</td><td>Implemented as ten preview packages</td><td>Maintainer review of package boundaries</td></tr>
+    <tr><td>Package taxonomy</td><td>Implemented as preview packages</td><td>Maintainer review of package boundaries</td></tr>
     <tr><td>HTTP and transport</td><td>Preview: client, fetch(), proxy, HTTP/2</td><td>Streaming request bodies; independent review</td></tr>
     <tr><td>Security model</td><td>Threat models and adversarial tests in place</td><td>Independent review of controls</td></tr>
     <tr><td>Vulnerability intelligence</td><td>Working: OSV, GitHub advisories, NIST NVD, CISA KEV, daily watch</td><td>Lockfile audit command-line tool</td></tr>
@@ -120,7 +120,7 @@ def packages_page() -> str:
 
 <h2 id="data-and-serialization">Data and serialization</h2>
 <p>Validation, schemas, parsing, serialization, conversion, structured data, and safe handling of untrusted input.</p>
-<p>Preview package: <code>ametherian-schema</code>.</p>
+<p>Preview packages: <code>ametherian-schema</code>, <code>ametherian-frontmatter</code>.</p>
 
 <h2 id="application-infrastructure">Application infrastructure</h2>
 <p>Caching, queues, concurrency, rate limiting, configuration, lifecycle management, and resilience.</p>
@@ -213,7 +213,7 @@ def roadmap_page() -> str:
 <p><strong>Done for the preview packages.</strong> Write explicit specifications. Define threat models, resource bounds, failure modes, and support matrices.</p>
 
 <h2 id="implementation">Implementation and verification</h2>
-<p><strong>In progress.</strong> Ten packages are implemented with tests, fuzzing and a vulnerability model. Independent security review is still required before any package can be described as stable.</p>
+<p><strong>In progress.</strong> The packages are implemented with tests, fuzzing and a vulnerability model. Independent security review is still required before any package can be described as stable.</p>
 
 <h2 id="readiness">Release readiness</h2>
 <p><strong>Not started.</strong> A package is not stable or production-ready until its API, support matrix, documentation, tests, security review, release process, and maintenance ownership are explicit.</p>

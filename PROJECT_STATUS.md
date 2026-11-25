@@ -2,12 +2,12 @@
 
 Ametherian is at the **preview implementation** stage.
 
-Ten packages are implemented in `packages/` with tests, TypeScript declarations and threat models, and pass CI on Node.js 22, 24 and 26. They are licensed under the **Apache License 2.0**, are **not published to npm**, and have **not been independently audited**. Every green build of `main` is published as a numbered preview build on GitHub Releases (see `CHANGELOG.md`).
+Eleven packages are implemented in `packages/` with tests, TypeScript declarations and threat models, and pass CI on Node.js 22, 24 and 26. They are licensed under the **Apache License 2.0**, are **not published to npm**, and have **not been independently audited**. Every green build of `main` is published as a numbered preview build on GitHub Releases (see `CHANGELOG.md`).
 
 | Area | Current status | What would establish further progress |
 |---|---|---|
 | Project vision | Published | Maintainer review and community feedback |
-| Package taxonomy | Implemented as ten preview packages | Maintainer review of package boundaries |
+| Package taxonomy | Implemented as eleven preview packages | Maintainer review of package boundaries |
 | HTTP and transport | Preview: client, `fetch()`, proxy, HTTP/2 | Streaming request bodies; independent review |
 | Security model | Threat models (`docs/threat-models/`) and adversarial tests in place | Independent review of controls |
 | Vulnerability intelligence | Working: OSV, GitHub advisories, NIST NVD, CISA KEV, Node.js releases; daily watch | Lockfile audit command-line tool |

@@ -1,6 +1,6 @@
 # Ametherian
 
-> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. 11 packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
 
 ## Important status
 
@@ -18,7 +18,8 @@
 - `@foulfoxhacks/ametherian-cache` 0.1.0: Bounded LRU/TTL cache with load de-duplication and collision-free scopes.
 - `@foulfoxhacks/ametherian-resilience` 0.1.0: Retries with backoff, concurrency and rate limits, circuit breaker.
 - `@foulfoxhacks/ametherian-observability` 0.1.0: Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.
-- `@foulfoxhacks/ametherian-http` 0.1.0: HTTP client and undici-style fetch(): guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.
+- `@foulfoxhacks/ametherian-http` 0.1.0: HTTP client and undici-style fetch() for Node.js and Cloudflare Workers: guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.
+- `@foulfoxhacks/ametherian-frontmatter` 0.1.0: Strict, bounded YAML frontmatter parser: a gray-matter replacement that refuses anchors, tags and code evaluation.
 - `@foulfoxhacks/ametherian-testing` 0.1.0: Mock transport, test server, fake clock and an adversarial fuzz corpus.
 - `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.
 - `@foulfoxhacks/ametherian` 0.1.0: Umbrella package re-exporting the others as namespaces.

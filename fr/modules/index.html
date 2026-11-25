@@ -84,7 +84,7 @@
     </nav>
   </details>
   <div class="docs-sidebar__note">
-    <p><strong>État :</strong> Dix paquets en préversion, non publiés et non audités.</p>
+    <p><strong>État :</strong> Paquets en préversion, non publiés et non audités.</p>
     <p><a href="/PROJECT_STATUS.md">État du projet</a> · <a href="/NOTICE.md">Avis</a> · <a href="/LICENSE-STATUS.md">Licence</a></p>
   </div>
 </aside>
@@ -93,7 +93,7 @@
   <div class="doc-head">
     <p class="eyebrow">État de l’implémentation</p>
     <h1>Modules</h1>
-    <p class="doc-lead">Dix paquets en préversion, testés et non publiés.</p>
+    <p class="doc-lead">Paquets en préversion, testés et non publiés.</p>
     <div class="doc-meta">
       <span>Relu en novembre 2026</span>
       <span class="doc-meta__dot" aria-hidden="true">·</span>
@@ -103,8 +103,8 @@
   <div class="prose">
     
 <div class="module-summary" role="list">
-  <div role="listitem"><strong>10</strong><span>paquets</span></div>
-  <div role="listitem"><strong>234</strong><span>définitions de test</span></div>
+  <div role="listitem"><strong>11</strong><span>paquets</span></div>
+  <div role="listitem"><strong>257</strong><span>définitions de test</span></div>
   <div role="listitem"><strong>0</strong><span>dépendances tierces à l’exécution</span></div>
 </div>
 <p>Ces paquets existent dans le dépôt et passent leurs tests dans la CI. Ce sont des <strong>préversions</strong>: non publiées sur npm, non auditées, et leurs API peuvent encore changer. Elles sont sous licence Apache 2.0.</p>
@@ -118,7 +118,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-guard"><code>@foulfoxhacks/ametherian-guard</code><a class="heading-anchor" href="#ametherian-guard" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
   <p>Politique des destinations sortantes : bloque les SSRF vers les adresses privées, de boucle locale et de métadonnées, avec une nouvelle vérification à chaque redirection et lors de la résolution DNS.</p>
-  <dl class="module-facts"><div><dt>Tests</dt><dd>25</dd></div><div><dt>Dépend de</dt><dd translate="no">core</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>Tests</dt><dd>28</dd></div><div><dt>Dépend de</dt><dd translate="no">core</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-schema"><code>@foulfoxhacks/ametherian-schema</code><a class="heading-anchor" href="#ametherian-schema" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
   <p>Validation et analyse bornée des entrées non fiables, protégées contre la pollution de prototype.</p>
@@ -137,8 +137,12 @@
   <dl class="module-facts"><div><dt>Tests</dt><dd>10</dd></div><div><dt>Dépend de</dt><dd translate="no">core</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/observability" target="_blank" rel="noopener noreferrer">packages/observability <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-http"><code>@foulfoxhacks/ametherian-http</code><a class="heading-anchor" href="#ametherian-http" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
-  <p>Client HTTP et fetch() à la manière d’undici : destinations protégées, corps bornés, délais, proxy, HTTP/2, renforcé contre les classes de vulnérabilités publiées d’axios et d’undici.</p>
-  <dl class="module-facts"><div><dt>Tests</dt><dd>51</dd></div><div><dt>Dépend de</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <p>Client HTTP et fetch() à la manière d’undici pour Node.js et Cloudflare Workers : destinations protégées, corps bornés, délais, proxy, HTTP/2, renforcé contre les classes de vulnérabilités publiées d’axios/undici.</p>
+  <dl class="module-facts"><div><dt>Tests</dt><dd>59</dd></div><div><dt>Dépend de</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+</article><article class="module-card">
+  <div class="module-card__top"><h3 id="ametherian-frontmatter"><code>@foulfoxhacks/ametherian-frontmatter</code><a class="heading-anchor" href="#ametherian-frontmatter" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
+  <p>Analyseur de frontmatter YAML strict et borné : un remplaçant de gray-matter qui refuse les ancres, les balises et l’évaluation de code.</p>
+  <dl class="module-facts"><div><dt>Tests</dt><dd>10</dd></div><div><dt>Dépend de</dt><dd translate="no">core</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/frontmatter" target="_blank" rel="noopener noreferrer">packages/frontmatter <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-testing"><code>@foulfoxhacks/ametherian-testing</code><a class="heading-anchor" href="#ametherian-testing" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
   <p>Transport simulé, serveur de test, horloge factice et un corpus de fuzzing malveillant.</p>
@@ -150,7 +154,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian"><code>@foulfoxhacks/ametherian</code><a class="heading-anchor" href="#ametherian" aria-label="Lien vers cette section">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · préversion</span></div>
   <p>Paquet parapluie qui réexporte les autres sous forme d’espaces de noms.</p>
-  <dl class="module-facts"><div><dt>Tests</dt><dd>5</dd></div><div><dt>Dépend de</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>Tests</dt><dd>7</dd></div><div><dt>Dépend de</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>Source</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article>
 </div>
 
@@ -178,7 +182,7 @@
 </main>
 <aside class="docs-toc" aria-label="Sur cette page">
   <p class="docs-nav-title">Sur cette page</p>
-  <a href="#packages">Paquets</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">Modèle de vulnérabilités</a><a href="#runtime">Runtimes pris en charge</a><a href="#status">Ce que signifie préversion</a>
+  <a href="#packages">Paquets</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-frontmatter" class="toc-sub">@foulfoxhacks/ametherian-frontmatter</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">Modèle de vulnérabilités</a><a href="#runtime">Runtimes pris en charge</a><a href="#status">Ce que signifie préversion</a>
   <a class="toc-top" href="#main">Haut de page <span aria-hidden="true">↑</span></a>
 </aside>
 </div>

@@ -2,7 +2,7 @@
  * Connect an Ametherian event hub (from ametherian-core) to a logger,
  * metrics, and Node's diagnostics_channel so APM tools can subscribe.
  */
-import diagnostics from 'node:diagnostics_channel';
+import { UnsupportedCapabilityError } from '@foulfoxhacks/ametherian-core';
 
 /**
  * Log every hub event and count it in `ametherian_events_total{event}`.
@@ -29,6 +29,9 @@ export function attachEventHub(hub, targets = {}) {
  * @param {string} [prefix]
  */
 export function publishToDiagnosticsChannel(hub, prefix = 'ametherian:') {
+  // Loaded on demand so this package also runs where node:diagnostics_channel is absent.
+  const diagnostics = globalThis.process?.getBuiltinModule?.('node:diagnostics_channel');
+  if (!diagnostics) throw new UnsupportedCapabilityError('diagnostics_channel');
   const channels = new Map();
   return hub.onAny((name, payload) => {
     let ch = channels.get(name);

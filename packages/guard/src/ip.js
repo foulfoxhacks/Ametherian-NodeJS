@@ -2,7 +2,45 @@
  * IP address parsing and classification against IANA special-purpose ranges.
  * See docs/threat-models/guard.md (T1–T3).
  */
-import { isIPv4, isIPv6 } from 'node:net';
+// Pure JavaScript IP validation (no node:net), so the guard runs on Node.js,
+// Cloudflare Workers, Deno and browsers. Matches node:net isIPv4/isIPv6, which
+// test/ip-validate.test.js checks against Node's own implementation.
+const V4 = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
+const HEX = /^[0-9a-fA-F]{1,4}$/;
+
+/** @param {string} s */
+export function isIPv4(s) {
+  return typeof s === 'string' && V4.test(s);
+}
+
+/** @param {string} s */
+export function isIPv6(s) {
+  if (typeof s !== 'string' || s.length > 64 || s.length < 2) return false;
+  let addr = s;
+  const zone = addr.indexOf('%');
+  if (zone !== -1) {
+    // Zone id: any non-empty run of characters without '%'.
+    if (zone === addr.length - 1 || addr.indexOf('%', zone + 1) !== -1) return false;
+    addr = addr.slice(0, zone);
+  }
+  let groupsNeeded = 8;
+  const lastColon = addr.lastIndexOf(':');
+  if (lastColon !== -1 && addr.indexOf('.', lastColon) !== -1) {
+    if (!isIPv4(addr.slice(lastColon + 1))) return false;
+    addr = `${addr.slice(0, lastColon + 1)}0:0`;
+  }
+  const doubles = addr.split('::').length - 1;
+  if (doubles > 1) return false;
+  if (doubles === 1) {
+    const [head, tail] = addr.split('::');
+    const h = head === '' ? [] : head.split(':');
+    const t = tail === '' ? [] : tail.split(':');
+    if (![...h, ...t].every((g) => HEX.test(g))) return false;
+    return h.length + t.length <= groupsNeeded - 1;
+  }
+  const groups = addr.split(':');
+  return groups.length === groupsNeeded && groups.every((g) => HEX.test(g));
+}
 
 /** @typedef {'public'|'unspecified'|'loopback'|'private'|'link-local'|'unique-local'|'cgnat'|'multicast'|'broadcast'|'documentation'|'benchmarking'|'reserved'} AddressCategory */
 

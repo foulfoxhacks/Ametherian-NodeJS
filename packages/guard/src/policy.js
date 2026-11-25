@@ -2,8 +2,20 @@
  * Destination policy: decide whether an outbound request may go to a URL,
  * resolved address, or redirect target. See docs/threat-models/guard.md.
  */
-import dns from 'node:dns';
-import { AmetherianError, validateOptions, redactUrl } from '@foulfoxhacks/ametherian-core';
+import { AmetherianError, UnsupportedCapabilityError, validateOptions, redactUrl } from '@foulfoxhacks/ametherian-core';
+
+/**
+ * node:dns, loaded only when a connect-time lookup actually runs, so this
+ * module also loads on runtimes without DNS access (Cloudflare Workers, browsers).
+ */
+function systemLookup(hostname, options, callback) {
+  const dns = globalThis.process?.getBuiltinModule?.('node:dns');
+  if (!dns) {
+    queueMicrotask(() => callback(new UnsupportedCapabilityError('dns.lookup')));
+    return;
+  }
+  dns.lookup(hostname, options, callback);
+}
 import { classifyAddress, unbracket, ADDRESS_CATEGORIES } from './ip.js';
 
 export const DESTINATION_BLOCKED = 'AMETHERIAN_DESTINATION_BLOCKED';
@@ -80,7 +92,7 @@ export function createDestinationPolicy(options) {
   const allowHosts = compileHostPatterns(opts.allowHosts);
   const denyHosts = compileHostPatterns(opts.denyHosts);
   const ports = opts.allowPorts ? new Set(opts.allowPorts) : null;
-  const baseLookup = opts.lookup ?? dns.lookup;
+  const baseLookup = opts.lookup ?? systemLookup;
 
   function block(reason, message, extra) {
     return new DestinationBlockedError(message, { reason, ...extra });

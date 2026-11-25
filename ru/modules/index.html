@@ -84,7 +84,7 @@
     </nav>
   </details>
   <div class="docs-sidebar__note">
-    <p><strong>Статус:</strong> Десять пакетов в предварительной версии, не опубликованы и не проходили аудит.</p>
+    <p><strong>Статус:</strong> Предварительные пакеты, не опубликованы и не проверены аудитом.</p>
     <p><a href="/PROJECT_STATUS.md">Статус проекта</a> · <a href="/NOTICE.md">Уведомление</a> · <a href="/LICENSE-STATUS.md">Лицензия</a></p>
   </div>
 </aside>
@@ -93,7 +93,7 @@
   <div class="doc-head">
     <p class="eyebrow">Состояние реализации</p>
     <h1>Модули</h1>
-    <p class="doc-lead">Десять пакетов в предварительной версии, протестированы и не опубликованы.</p>
+    <p class="doc-lead">Предварительные пакеты, протестированы и не опубликованы.</p>
     <div class="doc-meta">
       <span>Проверено в ноябре 2026 года</span>
       <span class="doc-meta__dot" aria-hidden="true">·</span>
@@ -103,8 +103,8 @@
   <div class="prose">
     
 <div class="module-summary" role="list">
-  <div role="listitem"><strong>10</strong><span>пакетов</span></div>
-  <div role="listitem"><strong>234</strong><span>определений тестов</span></div>
+  <div role="listitem"><strong>11</strong><span>пакетов</span></div>
+  <div role="listitem"><strong>257</strong><span>определений тестов</span></div>
   <div role="listitem"><strong>0</strong><span>сторонних зависимостей во время выполнения</span></div>
 </div>
 <p>Эти пакеты есть в репозитории и проходят тесты в CI. Это <strong>предварительные версии</strong>: они не опубликованы в npm, не проходили аудит, и их API ещё могут измениться. Они распространяются по лицензии Apache 2.0.</p>
@@ -118,7 +118,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-guard"><code>@foulfoxhacks/ametherian-guard</code><a class="heading-anchor" href="#ametherian-guard" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
   <p>Политика исходящих назначений: блокирует SSRF к частным, loopback-адресам и адресам метаданных с повторной проверкой при каждом перенаправлении и при разрешении DNS.</p>
-  <dl class="module-facts"><div><dt>Тесты</dt><dd>25</dd></div><div><dt>Зависит от</dt><dd translate="no">core</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>Тесты</dt><dd>28</dd></div><div><dt>Зависит от</dt><dd translate="no">core</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-schema"><code>@foulfoxhacks/ametherian-schema</code><a class="heading-anchor" href="#ametherian-schema" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
   <p>Проверка и ограниченный разбор недоверенных входных данных, защищённые от загрязнения прототипов.</p>
@@ -137,8 +137,12 @@
   <dl class="module-facts"><div><dt>Тесты</dt><dd>10</dd></div><div><dt>Зависит от</dt><dd translate="no">core</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/observability" target="_blank" rel="noopener noreferrer">packages/observability <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-http"><code>@foulfoxhacks/ametherian-http</code><a class="heading-anchor" href="#ametherian-http" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
-  <p>HTTP-клиент и fetch() в стиле undici: защищённые назначения, ограниченные тела, сроки выполнения, прокси, HTTP/2, защита от опубликованных классов уязвимостей axios и undici.</p>
-  <dl class="module-facts"><div><dt>Тесты</dt><dd>51</dd></div><div><dt>Зависит от</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <p>HTTP-клиент и fetch() в стиле undici для Node.js и Cloudflare Workers: защищённые адреса назначения, ограниченные тела, дедлайны, прокси, HTTP/2, защита от опубликованных классов уязвимостей axios/undici.</p>
+  <dl class="module-facts"><div><dt>Тесты</dt><dd>59</dd></div><div><dt>Зависит от</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+</article><article class="module-card">
+  <div class="module-card__top"><h3 id="ametherian-frontmatter"><code>@foulfoxhacks/ametherian-frontmatter</code><a class="heading-anchor" href="#ametherian-frontmatter" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
+  <p>Строгий ограниченный парсер YAML-frontmatter: замена gray-matter, отвергающая якоря, теги и выполнение кода.</p>
+  <dl class="module-facts"><div><dt>Тесты</dt><dd>10</dd></div><div><dt>Зависит от</dt><dd translate="no">core</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/frontmatter" target="_blank" rel="noopener noreferrer">packages/frontmatter <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-testing"><code>@foulfoxhacks/ametherian-testing</code><a class="heading-anchor" href="#ametherian-testing" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
   <p>Имитация транспорта, тестовый сервер, поддельные часы и корпус враждебных данных для фаззинга.</p>
@@ -150,7 +154,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian"><code>@foulfoxhacks/ametherian</code><a class="heading-anchor" href="#ametherian" aria-label="Ссылка на этот раздел">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · предварительная версия</span></div>
   <p>Сводный пакет, который реэкспортирует остальные как пространства имён.</p>
-  <dl class="module-facts"><div><dt>Тесты</dt><dd>5</dd></div><div><dt>Зависит от</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>Тесты</dt><dd>7</dd></div><div><dt>Зависит от</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>Источник</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article>
 </div>
 
@@ -178,7 +182,7 @@
 </main>
 <aside class="docs-toc" aria-label="На этой странице">
   <p class="docs-nav-title">На этой странице</p>
-  <a href="#packages">Пакеты</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">Модель уязвимостей</a><a href="#runtime">Поддерживаемые среды выполнения</a><a href="#status">Что означает предварительная версия</a>
+  <a href="#packages">Пакеты</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-frontmatter" class="toc-sub">@foulfoxhacks/ametherian-frontmatter</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">Модель уязвимостей</a><a href="#runtime">Поддерживаемые среды выполнения</a><a href="#status">Что означает предварительная версия</a>
   <a class="toc-top" href="#main">В начало страницы <span aria-hidden="true">↑</span></a>
 </aside>
 </div>

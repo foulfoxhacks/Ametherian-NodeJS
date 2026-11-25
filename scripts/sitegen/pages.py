@@ -5,11 +5,11 @@ from .common import *
 FAQS = [
     (
         "Is Ametherian released?",
-        'Not to npm yet. Ten <a href="/modules/">preview packages</a> are '
+        'Not to npm yet. The <a href="/modules/">preview packages</a> are '
         'public in the repository with tests, and every green build is '
         'published as a numbered preview on GitHub Releases. Publishing to npm '
         'waits for an agreed release process.',
-        "Not to npm yet. Ten preview packages are public in the repository "
+        "Not to npm yet. The preview packages are public in the repository "
         "with tests, and every green build is published as a numbered preview "
         "on GitHub Releases. Publishing to npm waits for an agreed release "
         "process.",
@@ -27,12 +27,12 @@ FAQS = [
     ),
     (
         "Is Ametherian production-ready or audited?",
-        "No. Ten packages exist as tested previews, but none is published to "
+        "No. The packages exist as tested previews, but none is published to "
         "npm and no independent security audit has been performed. The "
         "<a href=\"/docs/security/\">security approach</a> and the vulnerability "
         "model describe how the code is threat-modelled and tested; they are "
         "not a guarantee that it is secure.",
-        "No. Ten packages exist as tested previews, but none is published to "
+        "No. The packages exist as tested previews, but none is published to "
         "npm and no independent security audit has been performed. The "
         "security approach and the vulnerability model describe how the code "
         "is threat-modelled and tested; they are not a guarantee that it is "
@@ -134,7 +134,7 @@ def home_page() -> str:
     <div class="hero-copy">
       <p class="eyebrow">Independent Node.js Ecosystem</p>
       <h1>A new kind of <span>Node library</span> ecosystem.</h1>
-      <p class="hero-lead">Ametherian is a family of modular JavaScript and TypeScript libraries under the <code>@foulfoxhacks</code> npm scope. Ten packages exist as tested previews: focused packages, shared contracts, and security considered from the first design decision.</p>
+      <p class="hero-lead">Ametherian is a family of modular JavaScript and TypeScript libraries under the <code>@foulfoxhacks</code> npm scope. Its packages exist as tested previews: focused packages, shared contracts, and security considered from the first design decision.</p>
       <div class="hero-actions">
         <a class="button button--primary" href="{url_for('docs/vision.html', current)}">Read the vision <span class="button__icon" aria-hidden="true">→</span></a>
         <a class="button button--ghost" href="{url_for('modules/index.html', current)}">Explore the modules</a>
@@ -148,7 +148,7 @@ def home_page() -> str:
         <div class="brand-card__status">
           <p class="brand-card__status-label">Project status</p>
           <ul>
-            <li><span>Packages</span><strong>10 in preview</strong></li>
+            <li><span>Packages</span><strong>In preview</strong></li>
             <li><span>npm release</span><strong>Not published</strong></li>
             <li><span>Security audit</span><strong>Not performed</strong></li>
           </ul>
@@ -200,12 +200,12 @@ def home_page() -> str:
     <div class="status-copy">
       <p class="eyebrow">Current Status</p>
       <h2>Preview implementation.</h2>
-      <p>Ten packages are implemented as previews in this repository, with tests, type declarations and threat models. They are licensed under Apache 2.0, not yet published to npm, and not audited. Anything beyond this needs evidence.</p>
+      <p>The packages are implemented as previews in this repository, with tests, type declarations and threat models. They are licensed under Apache 2.0, not yet published to npm, and not audited. Anything beyond this needs evidence.</p>
       <a class="text-link" href="{url_for('PROJECT_STATUS.md', current)}">Read the full project status <span aria-hidden="true">→</span></a>
     </div>
     <dl class="status-list">
       <div class="status-row"><dt>Current stage</dt><dd><span class="badge badge--proposed">Preview</span></dd></div>
-      <div class="status-row"><dt>Package implementations</dt><dd><span class="badge badge--proposed">10 preview packages</span></dd></div>
+      <div class="status-row"><dt>Package implementations</dt><dd><span class="badge badge--proposed">Preview packages</span></dd></div>
       <div class="status-row"><dt>npm release</dt><dd><span class="badge badge--not">Not published</span></dd></div>
       <div class="status-row"><dt>Security audit</dt><dd><span class="badge badge--not">Not performed</span></dd></div>
       <div class="status-row"><dt>Project license</dt><dd><span class="badge badge--proposed">Apache 2.0</span></dd></div>
