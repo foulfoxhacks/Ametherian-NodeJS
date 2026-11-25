@@ -26,7 +26,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dependency-security-\${{ github.ref }}
+  group: dependency-security-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -36,10 +36,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Set up supported Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
@@ -55,14 +55,14 @@ jobs:
       - name: OSV, NIST NVD and CISA KEV lockfile audit
         id: intelligence
         env:
-          NVD_API_KEY: \${{ secrets.NVD_API_KEY }}
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: node tools/security-audit/lockfile-audit.mjs
 
       - name: Upload machine-readable security report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: ametherian-security-audit-\${{ github.run_id }}
+          name: ametherian-security-audit-${{ github.run_id }}
           path: .security/lockfile-audit.json
           if-no-files-found: warn
           retention-days: 30
@@ -70,8 +70,8 @@ jobs:
       - name: Enforce all security gates
         if: always()
         env:
-          NPM_AUDIT_OUTCOME: \${{ steps.npm_audit.outcome }}
-          INTELLIGENCE_OUTCOME: \${{ steps.intelligence.outcome }}
+          NPM_AUDIT_OUTCOME: ${{ steps.npm_audit.outcome }}
+          INTELLIGENCE_OUTCOME: ${{ steps.intelligence.outcome }}
         run: |
           test "$NPM_AUDIT_OUTCOME" = "success"
           test "$INTELLIGENCE_OUTCOME" = "success"
