@@ -40,7 +40,7 @@ test('rejects missing engines, unsupported options, invalid input and size overf
     javascript: js, cascade: async (source) => ({ code: source }),
     limits: { maxInputBytes: 4, maxOutputBytes: 8 },
   });
-  await assert.rejects(engine.minifyJavaScript('const x = 1;', { target: 'es2015' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+  await assert.rejects(engine.minifyJavaScript('x', { target: 'es2015' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
   await assert.rejects(engine.minifyJavaScript('12345'), { code: 'AMETHERIAN_MINIFICATION_INPUT_LIMIT' });
   await assert.rejects(engine.minifyJavaScript(123), { code: 'AMETHERIAN_MINIFICATION_INVALID_INPUT' });
   const oversized = createMinificationEngine({
@@ -57,7 +57,7 @@ test('wraps parser errors and rejects malformed engine output', async () => {
   });
   await assert.rejects(engine.minifyJavaScript('x'), { code: 'AMETHERIAN_MINIFICATION_FAILED' });
   await assert.rejects(engine.minifyCascade('x'), { code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT' });
-  await assert.rejects(engine.minify('wasm', 'x'), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+  assert.throws(() => engine.minify('wasm', 'x'), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
 });
 
 test('rejects invalid limits and CSS filenames', async () => {

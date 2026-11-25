@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import * as ametherian from '../src/index.js';
 
 test('exposes every package as a namespace', () => {
-  assert.deepEqual(Object.keys(ametherian).sort(), ['cache', 'core', 'guard', 'http', 'observability', 'resilience', 'schema', 'security']);
+  assert.deepEqual(Object.keys(ametherian).sort(), ['cache', 'core', 'guard', 'http', 'minification', 'observability', 'resilience', 'schema', 'security']);
   assert.equal(typeof ametherian.core.createDeadline, 'function');
   assert.equal(typeof ametherian.http.createHttpClient, 'function');
   assert.equal(typeof ametherian.guard.createDestinationPolicy, 'function');
