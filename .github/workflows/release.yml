@@ -1,0 +1,59 @@
+name: Preview build release
+# Every push to main that passes tests, type checks and site checks is published
+# as a numbered GitHub pre-release: v<version>-build.<run number>. Notes come from
+# CHANGELOG.md; assets are npm pack tarballs of every package plus SHA256SUMS.
+# Nothing is published to npm.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: preview-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run typecheck
+      - name: Site is current
+        run: |
+          python scripts/build_site.py >/dev/null
+          python scripts/build_text_pages.py
+          python scripts/check-site.py
+          git diff --quiet || { echo "::error::Committed site is stale; not releasing."; exit 1; }
+      - name: Version and tag
+        id: meta
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}-build.${GITHUB_RUN_NUMBER}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+      - name: Pack packages
+        run: |
+          mkdir -p dist
+          for dir in packages/*/; do npm pack "./${dir}" --pack-destination dist --silent; done
+          (cd dist && sha256sum *.tgz > SHA256SUMS)
+          cat dist/SHA256SUMS
+      - name: Release notes
+        run: node tools/release/notes.mjs "${{ steps.meta.outputs.tag }}" > notes.md
+      - name: Publish GitHub pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.meta.outputs.tag }}" dist/* \
+            --prerelease \
+            --target "${GITHUB_SHA}" \
+            --title "Ametherian ${{ steps.meta.outputs.version }} · build ${GITHUB_RUN_NUMBER}" \
+            --notes-file notes.md

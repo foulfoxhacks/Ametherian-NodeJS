@@ -12,11 +12,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from sitegen.common import ROOT  # noqa: E402
 from sitegen.companions import build  # noqa: E402
+from sitegen import i18n  # noqa: E402
 
 
 def main() -> None:
     for name, source in build().items():
-        (ROOT / name).write_bytes(source.replace("<!--LANG-SWITCH-->", "").encode("utf-8"))
+        (ROOT / name).write_bytes(i18n.decorate(source, "/", i18n.DEFAULT).replace("<!--HREFLANG-->", "").encode("utf-8"))
     print("Built styled llms.html and robots.html companions; raw TXT files unchanged.")
 
 
