@@ -48,3 +48,7 @@ Cascade uses the injected CSS engine's standards-aware minifier. It does not per
 - A successful result is not proof of semantic equivalence. Integrators must run application tests and browser regression checks.
 
 Run `npm test --workspace @foulfoxhacks/ametherian-minification` from the Ametherian workspace.
+
+## Validation status
+
+The package test suite must pass on all supported Node.js major lines before this preview is promoted. Production use also requires a consuming-site integration test with pinned parser engines and a fresh dependency-intelligence scan.
