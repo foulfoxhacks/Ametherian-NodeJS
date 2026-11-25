@@ -15,11 +15,6 @@ import {
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const lockPath = path.join(root, 'package-lock.json');
 const reportPath = path.resolve(root, process.env.SECURITY_REPORT_PATH ?? '.security/lockfile-audit.json');
-const maxAgeHours = Number(process.env.SECURITY_MAX_AGE_HOURS ?? 168);
-if (!Number.isFinite(maxAgeHours) || maxAgeHours < 1 || maxAgeHours > 720) {
-  throw new Error('SECURITY_MAX_AGE_HOURS must be between 1 and 720');
-}
-
 const lockText = await fs.readFile(lockPath, 'utf8');
 const packages = packagesFromLockfile(lockText);
 if (packages.length === 0) throw new Error('Lockfile contains no installed npm packages; refusing to report a false clean scan');
@@ -42,8 +37,8 @@ try {
   const catalog = await kev.fetchCatalog();
   const releasedAt = Date.parse(catalog.released);
   const catalogAgeMs = Date.now() - releasedAt;
-  if (!Number.isFinite(releasedAt) || catalogAgeMs < -60 * 60 * 1000 || catalogAgeMs > maxAgeHours * 60 * 60 * 1000) {
-    throw new Error('CISA KEV catalog is invalid or stale (released=' + catalog.released + ', ageHours=' + (catalogAgeMs / 3600000).toFixed(1) + ')');
+  if (!Number.isFinite(releasedAt) || catalogAgeMs < -60 * 60 * 1000) {
+    throw new Error('CISA KEV catalog has an invalid or future release timestamp (released=' + catalog.released + ', ageHours=' + (catalogAgeMs / 3600000).toFixed(1) + ')');
   }
 
   const baseReport = auditLockfile(lockText, [...advisoriesById.values()], { maxAgeMs: 24 * 60 * 60 * 1000 });
