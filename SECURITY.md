@@ -2,7 +2,7 @@
 
 ## Current status
 
-Ametherian is a planning repository. There are no released Ametherian packages or audited security guarantees represented here.
+Ametherian is at the preview implementation stage. Workspace packages are unpublished previews and have not been independently audited. No security guarantee is represented.
 
 ## Reporting a vulnerability
 
@@ -19,9 +19,9 @@ For future implementation repositories, the project intends to establish:
 - Severity triage based on impact, exploitability, affected configurations, and known exploitation
 - Reproducible regression tests for confirmed vulnerabilities
 - Security advisories and patched release notes
-- Dependency, secret, static-analysis, and supply-chain checks
+- Dependency, secret, static-analysis, and supply-chain checks, including npm audit, OSV, NIST NVD enrichment, CISA KEV prioritisation, and supported Node.js release checks
 - A documented emergency release and package-deprecation process
 
 ## Security claims
 
-A security feature is not considered complete merely because it appears in a roadmap or configuration example. It must have a defined threat model, implementation, tests, documentation, and review. Independent audits must be described with their actual scope and date.
+A security feature is not considered complete merely because it appears in a roadmap or configuration example. It must have a defined threat model, implementation, tests, documentation, and review. Vulnerability intelligence is evidence for triage, not proof that a component is safe. Missing or unavailable feeds must not be interpreted as a clean result. Independent audits must be described with their actual scope and date.
