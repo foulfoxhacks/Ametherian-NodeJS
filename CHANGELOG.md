@@ -20,6 +20,7 @@ with these notes. Packages are unpublished previews until a license is chosen.
 
 ### Removed
 - The obsolete `/llms/` resource directory page, nav item and footer link.
+- One-off scratch scripts (some contained a local user path), inspection dumps, test images, the vendored `_pylibs/` Python tree and two dead workflows from the published site.
 
 ## 0.1.0 — 2026-11-24
 

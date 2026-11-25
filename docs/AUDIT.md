@@ -68,16 +68,14 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | License | LICENSE-STATUS.md | Not chosen | Not chosen | Maintainer decision; blocks publishing. Packages are `private`/`UNLICENSED` |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
-## Repository hygiene findings (not fixed here)
+## Repository hygiene
 
-- Root holds many one-off scripts and scratch files from site work
-  (`_check1.py`, `_compose.py`, `_enc.py`, `_hrefs*.py`, `_inspect_*.txt`,
-  `_asset_test.*`, `_test_*.png`, `audit.py`, `contrast.py`, `db*.py`, etc.),
-  plus a vendored Python tree (`_pylibs/` with numpy/potrace) and `python/`.
-  Because the site is served from the repo root, these are publicly reachable.
-  Recommend moving them out or into an ignored folder in a separate PR.
-- `.github/workflows/build-clean-urls.yml` only triggers on the merged branch
-  `fix/clean-public-urls`; it is now dead and could be removed.
+Fixed on 2026-11-25: one-off scratch scripts (including several that read a
+local AI-assistant session database and contained a local user path), dumped
+HTML inspection files, test images, the 55 MB vendored `_pylibs/` tree and two
+workflows that only triggered on long-merged branches were removed from the
+published tree. They remain in git history. Root-level `_*.py` files are now
+ignored so scratch work cannot be published by accident.
 
 ## Wording rules carried forward
 
