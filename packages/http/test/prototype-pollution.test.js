@@ -74,9 +74,9 @@ const POLLUTION = {
   agent: false,
   insecureHTTPParser: true,
   setHost: false,
-  // `signal` is deliberately absent: Node's own stream constructors read options.signal from
-  // internal object literals, so a polluted signal aborts every stream in the process. That is a
-  // runtime-level gadget no library can shadow (see docs/vulnerability-model.md, residual risks).
+  // `signal` is tested separately below: Node's own stream constructors read options.signal from
+  // internal object literals, so no library can shadow it. The client's default pollutionCheck
+  // fails closed instead.
   // TLS
   rejectUnauthorized: false,
   checkServerIdentity: () => undefined,
@@ -143,7 +143,7 @@ after(async () => {
 });
 
 test('HTTP/1.1 requests ignore every polluted option', async () => {
-  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false });
+  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false, pollutionCheck: false });
   pollute();
   try {
     seen.length = 0;
@@ -165,7 +165,7 @@ test('HTTP/1.1 requests ignore every polluted option', async () => {
 });
 
 test('TLS verification cannot be disabled through the prototype', { skip: !cert && 'openssl not available' }, async () => {
-  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false });
+  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false, pollutionCheck: false });
   pollute();
   try {
     seen.length = 0;
@@ -183,7 +183,7 @@ test('TLS verification cannot be disabled through the prototype', { skip: !cert 
 });
 
 test('HTTP/2 requests ignore polluted options', async () => {
-  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), http2: true, retry: false });
+  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), http2: true, retry: false, pollutionCheck: false });
   pollute();
   try {
     seen.length = 0;
@@ -202,7 +202,7 @@ test('creating a client and policy while polluted uses safe defaults', async () 
   pollute();
   let client;
   try {
-    client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false });
+    client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false, pollutionCheck: false });
     seen.length = 0;
     const res = await client.post(`http://127.0.0.1:${plainPort}/post`, { body: 'mine' });
     assert.equal(res.text(), 'ok');
@@ -210,11 +210,31 @@ test('creating a client and policy while polluted uses safe defaults', async () 
     assert.equal(seen[0].body, 'mine');
     assert.equal(gadgetCalls, 0);
     // The default policy created under pollution still blocks private destinations.
-    const strict = createHttpClient({ retry: false });
+    const strict = createHttpClient({ retry: false, pollutionCheck: false });
     await assert.rejects(strict.get('http://169.254.169.254/'), { code: 'AMETHERIAN_DESTINATION_BLOCKED' });
     strict.close();
   } finally {
     cleanup();
     client?.close();
   }
+});
+
+test('default client fails closed while Object.prototype is polluted (incl. the unshadowable signal gadget)', async () => {
+  const client = createHttpClient({ policy: createDestinationPolicy({ allowCategories: ['loopback'] }), retry: false });
+  for (const [key, value] of [['signal', AbortSignal.abort()], ['rejectUnauthorized', false], ['anything', 1]]) {
+    Object.defineProperty(Object.prototype, key, { value, configurable: true, writable: true });
+    try {
+      seen.length = 0;
+      await assert.rejects(client.get(`http://127.0.0.1:${plainPort}/`), (err) => {
+        assert.equal(err.code, 'AMETHERIAN_PROTOTYPE_POLLUTED');
+        assert.deepEqual([...err.details.keys], [key]);
+        return true;
+      });
+      assert.equal(seen.length, 0, 'nothing was sent');
+    } finally {
+      delete Object.prototype[key];
+    }
+  }
+  assert.equal((await client.get(`http://127.0.0.1:${plainPort}/`)).text(), 'ok', 'works again once clean');
+  client.close();
 });

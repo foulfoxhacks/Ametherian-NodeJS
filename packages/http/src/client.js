@@ -16,6 +16,7 @@ import {
   isAmetherianError,
   AmetherianError,
   LimitExceededError,
+  assertNoPrototypePollution,
 } from '@foulfoxhacks/ametherian-core';
 import { createDestinationPolicy } from '@foulfoxhacks/ametherian-guard';
 import { retry } from '@foulfoxhacks/ametherian-resilience';
@@ -48,6 +49,9 @@ const CLIENT_SCHEMA = {
   // With baseUrl set, absolute or protocol-relative request URLs to another origin are refused
   // (axios CVE-2025-27152 / CVE-2024-39338, undici CVE-2022-35949 class).
   allowAbsoluteUrls: { type: 'boolean', default: false },
+  // Fail closed when Object.prototype is polluted: some Node internals (e.g. options.signal in
+  // stream constructors) read inherited values that no library can shadow.
+  pollutionCheck: { type: 'boolean', default: true },
   maxRequestBytes: { type: 'integer', min: 0, default: 10 * 1024 * 1024 },
   maxSocketsPerOrigin: { type: 'integer', min: 1, max: 10_000, default: 50 },
   maxTotalSockets: { type: 'integer', min: 1, max: 100_000, default: 256 },
@@ -269,6 +273,7 @@ export function createHttpClient(options) {
    *           throwOnStatus?: boolean, retry?: object | false }} input
    */
   async function request(input) {
+    if (o.pollutionCheck) assertNoPrototypePollution();
     // Own properties only: inherited `json`, `body`, `retry`, headers or method must never apply.
     const json = ownGet(input, 'json');
     const rawBody = ownGet(input, 'body');

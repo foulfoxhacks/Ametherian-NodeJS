@@ -70,3 +70,25 @@ export declare function createOsvClient(options?: {
   maxResponseBytes?: number;
   maxPages?: number;
 }): OsvClient;
+
+export interface NodeLineStatus {
+  readonly major: number;
+  readonly latest: string | null;
+  readonly latestSecurity: string | null;
+  readonly latestSecurityDate: string | null;
+  readonly lts: string | null;
+  readonly endOfLife: string | null;
+  readonly isEndOfLife: boolean;
+}
+export interface NodeReleaseStatus {
+  readonly lines: Readonly<Record<string, NodeLineStatus>>;
+  readonly provenance: readonly Provenance[];
+}
+export declare function createNodeReleaseClient(options?: {
+  transport?: import('@foulfoxhacks/ametherian-http').Transport;
+  now?: () => number;
+}): { status(majors: number[]): Promise<NodeReleaseStatus>; close(): void };
+export declare function compareNodeMinimums(
+  minimums: Record<string, string>,
+  status: Pick<NodeReleaseStatus, 'lines'>,
+): { ok: boolean; problems: readonly { major: number; kind: 'unknown-line' | 'end-of-life' | 'minimum-behind'; detail: string }[] };

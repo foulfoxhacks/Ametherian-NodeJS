@@ -10,14 +10,19 @@ may change without notice.
 
 | Runtime | Support |
 |---|---|
-| Node.js 20 LTS | Supported (packages declare `>=20`; the test suite needs 20.6+ for `ReadableStream.from`) |
-| Node.js 22 LTS | Supported |
-| Node.js 24 | Supported |
+| Node.js 20 | **Not supported** — end of life since 2026-04-30 (last release 20.20.2) |
+| Node.js 22 LTS (Jod) | Supported, minimum 22.23.5 |
+| Node.js 24 LTS (Krypton) | Supported, minimum 24.22.3 |
+| Node.js 26 LTS (Lithium) | Supported, minimum 26.13.1 |
 | Odd-numbered Node releases | Best effort |
 | Deno, Bun, browsers | Not supported yet; `getRuntimeCapabilities()` reports what is available, and packages fail clearly (`UnsupportedCapabilityError`) instead of silently falling back |
 
-Support for a Node.js major ends in the first minor release after that major
-reaches end of life upstream. CI tests every supported major.
+Minimums are the latest Node.js *security* release of each line, published as
+`NODE_SECURITY_MINIMUMS` in `ametherian-core` (`checkNodeVersion()` /
+`assertNodeVersion()`). The daily advisory watch fails when nodejs.org publishes
+a newer security release or a line reaches end of life (per the Node.js Release
+schedule), so minimums and CI move with upstream fixes to llhttp, OpenSSL and V8.
+CI tests every supported major. `engines` declares `>=22`.
 
 ## Module format and types
 
