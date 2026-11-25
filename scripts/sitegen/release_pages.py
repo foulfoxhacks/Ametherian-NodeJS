@@ -23,7 +23,7 @@ PURPOSE = {
     "ametherian-observability": "Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.",
     "ametherian-http": "HTTP client and undici-style fetch(): guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.",
     "ametherian-testing": "Mock transport, test server, fake clock and an adversarial fuzz corpus.",
-    "ametherian-security": "Vulnerability intelligence: OSV and NIST NVD clients with provenance, lockfile audit, Node.js release checks.",
+    "ametherian-security": "Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.",
     "ametherian": "Umbrella package re-exporting the others as namespaces.",
 }
 ORDER = list(PURPOSE)

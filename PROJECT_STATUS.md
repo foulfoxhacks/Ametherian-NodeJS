@@ -10,7 +10,7 @@ Ten packages are implemented in `packages/` with tests, TypeScript declarations 
 | Package taxonomy | Implemented as ten preview packages | Maintainer review of package boundaries |
 | HTTP and transport | Preview: client, `fetch()`, proxy, HTTP/2 | Streaming request bodies; independent review |
 | Security model | Threat models (`docs/threat-models/`) and adversarial tests in place | Independent review of controls |
-| Vulnerability intelligence | Working: OSV, GitHub advisories, NIST NVD, Node.js releases; daily watch | CISA KEV adapter |
+| Vulnerability intelligence | Working: OSV, GitHub advisories, NIST NVD, CISA KEV, Node.js releases; daily watch | Lockfile audit command-line tool |
 | axios/undici advisories | 111 mapped: 64 prevented with named tests, 47 not applicable | Kept current by the daily watch |
 | Package implementations | Preview `0.1.0`, unpublished | License, release process, npm publication |
 | Security audit | Not performed | Independent review with scope and report |

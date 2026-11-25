@@ -13,6 +13,7 @@ with these notes. Packages are unpublished previews until a license is chosen.
 - Site: `/sitemap.xml` is now a sitemap index with one sub-sitemap per language under `/sitemaps/`, styled for browsers with the site header.
 - Site: Modules page generated from the packages themselves, and this changelog page.
 - Releases: a numbered preview build with release notes and package tarballs for every green push to `main`.
+- `ametherian-security`: CISA Known Exploited Vulnerabilities client; `annotateWithKev()` flags lockfile findings that are exploited in the wild and lists them first.
 
 ### Changed
 - Sitemap `lastmod` dates now change only when a page's content changes.

@@ -92,3 +92,36 @@ export declare function compareNodeMinimums(
   minimums: Record<string, string>,
   status: Pick<NodeReleaseStatus, 'lines'>,
 ): { ok: boolean; problems: readonly { major: number; kind: 'unknown-line' | 'end-of-life' | 'minimum-behind'; detail: string }[] };
+
+export declare const KEV_URL: string;
+export interface KevEntry {
+  readonly cve: string;
+  readonly vendor: string;
+  readonly product: string;
+  readonly name: string;
+  readonly dateAdded: string;
+  readonly dueDate: string | null;
+  readonly ransomware: boolean;
+  readonly cwes: readonly string[];
+}
+export interface KevCatalog {
+  readonly version: string;
+  readonly released: string;
+  readonly count: number;
+  readonly size: number;
+  get(cve: string): KevEntry | null;
+  has(cve: string): boolean;
+  readonly provenance: Readonly<Provenance>;
+}
+export declare function createKevClient(options?: {
+  transport?: import('@foulfoxhacks/ametherian-http').Transport;
+  now?: () => number;
+  maxResponseBytes?: number;
+}): { fetchCatalog(): Promise<KevCatalog>; close(): void };
+export declare function annotateWithKev<R extends { findings: readonly Finding[] }>(
+  report: R,
+  catalog: Pick<KevCatalog, 'get' | 'version' | 'provenance'>,
+): Omit<R, 'findings'> & {
+  findings: readonly (Finding & { knownExploited: (KevEntry & { catalogVersion: string; provenance: Readonly<Provenance> }) | null })[];
+  knownExploited: number;
+};

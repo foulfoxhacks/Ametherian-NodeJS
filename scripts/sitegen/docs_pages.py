@@ -51,7 +51,7 @@ def docs_home_page() -> str:
     <tr><td>Package taxonomy</td><td>Implemented as ten preview packages</td><td>Maintainer review of package boundaries</td></tr>
     <tr><td>HTTP and transport</td><td>Preview: client, fetch(), proxy, HTTP/2</td><td>Streaming request bodies; independent review</td></tr>
     <tr><td>Security model</td><td>Threat models and adversarial tests in place</td><td>Independent review of controls</td></tr>
-    <tr><td>Vulnerability intelligence</td><td>Working: OSV, GitHub advisories, NIST NVD, daily watch</td><td>CISA KEV adapter</td></tr>
+    <tr><td>Vulnerability intelligence</td><td>Working: OSV, GitHub advisories, NIST NVD, CISA KEV, daily watch</td><td>Lockfile audit command-line tool</td></tr>
     <tr><td>Package implementations</td><td>Preview, unpublished</td><td>License, release process, npm publication</td></tr>
     <tr><td>Security audit</td><td>Not performed</td><td>Independent review with scope and report</td></tr>
   </tbody>
