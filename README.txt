@@ -1,9 +1,12 @@
 AMETHERIAN — A NEW KIND OF NODE LIBRARY ECOSYSTEM
 
-A public proposal from FoulFoxHacks.
+An independent project from FoulFoxHacks.
 
-Ametherian is a proposed modular JavaScript and TypeScript library ecosystem intended to explore networking, data handling, application infrastructure, developer tools, and security-conscious engineering.
+Ametherian is a family of modular JavaScript and TypeScript libraries for Node.js
+under the @foulfoxhacks npm scope. Ten packages exist as tested previews in
+packages/. They are licensed under the Apache License 2.0 (see LICENSE and NOTICE),
+are not published to npm, and have not been independently audited.
 
-This repository is a project notice and planning site. It does not claim that the proposed packages are already implemented, released, audited, or production-ready.
-
-Read README.md for the full project overview. Read docs/ for the vision, architecture, package map, security approach, roadmap, and documentation specifications.
+Read README.md for the overview, CHANGELOG.md for releases, and docs/ for the
+vision, architecture, security approach, threat models, vulnerability model and
+roadmap. Website: https://ametherian.foulfoxhacks.dev/

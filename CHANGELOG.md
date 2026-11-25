@@ -9,10 +9,12 @@ with these notes. Packages are unpublished previews until a license is chosen.
 ## Unreleased
 
 ### Added
+- License: the project and every package are licensed under the Apache License 2.0 (`LICENSE`, `NOTICE`, also shipped in each package tarball).
 - Site: light and dark themes with a System / Light / Dark switch, a mobile pass across every page, and full translations into Español, Português (Brasil), Deutsch, Français, Русский, 日本語 and 简体中文 with `hreflang` alternates.
 - Site: `/sitemap.xml` is now a sitemap index with one sub-sitemap per language under `/sitemaps/`, styled for browsers with the site header.
 - Site: Modules page generated from the packages themselves, and this changelog page.
 - Releases: a numbered preview build with release notes and package tarballs for every green push to `main`.
+- `ametherian-security`: CISA Known Exploited Vulnerabilities client; `annotateWithKev()` flags lockfile findings that are exploited in the wild and lists them first.
 
 ### Changed
 - Sitemap `lastmod` dates now change only when a page's content changes.
@@ -20,10 +22,11 @@ with these notes. Packages are unpublished previews until a license is chosen.
 
 ### Removed
 - The obsolete `/llms/` resource directory page, nav item and footer link.
+- One-off scratch scripts (some contained a local user path), inspection dumps, test images, the vendored `_pylibs/` Python tree and two dead workflows from the published site.
 
 ## 0.1.0 — 2026-11-24
 
-First preview of all ten packages. Unpublished, unaudited, license not chosen.
+First preview of all ten packages. Unpublished and unaudited; licensed under Apache 2.0 from the next build.
 
 ### Added
 - `@foulfoxhacks/ametherian-core`: typed errors with stable codes, deadlines and cancellation, resource limits, redaction, runtime capability reporting, config validation, lifecycle scopes, event hooks, prototype-pollution detection and lockdown, Node.js security minimums.

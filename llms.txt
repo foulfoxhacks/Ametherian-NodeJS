@@ -1,13 +1,13 @@
 # Ametherian
 
-> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. None is published to npm, none has been audited, and the license has not been chosen.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
 
 ## Important status
 
 - Preview packages are public in the repository and pass CI; they are not published to npm.
 - No security audit has been performed. The project is not production-ready.
 - The project is independent and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project.
-- The license has not been selected.
+- License: Apache License 2.0 (full text in LICENSE and in every package).
 - Supported runtimes: Node.js 22, 24 and 26 at their latest security releases. Node.js 20 is end of life.
 
 ## Modules
@@ -20,7 +20,7 @@
 - `@foulfoxhacks/ametherian-observability` 0.1.0: Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.
 - `@foulfoxhacks/ametherian-http` 0.1.0: HTTP client and undici-style fetch(): guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.
 - `@foulfoxhacks/ametherian-testing` 0.1.0: Mock transport, test server, fake clock and an adversarial fuzz corpus.
-- `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV and NIST NVD clients with provenance, lockfile audit, Node.js release checks.
+- `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.
 - `@foulfoxhacks/ametherian` 0.1.0: Umbrella package re-exporting the others as namespaces.
 
 ## Security model

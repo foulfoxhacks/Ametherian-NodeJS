@@ -1,7 +1,17 @@
 # Licensing status
 
-The project license has not yet been selected.
+Ametherian is licensed under the **Apache License, Version 2.0**.
 
-Before publishing implementation code, maintainers should choose a license, add the complete license text, and define contribution and dependency policies. Do not assume that this planning repository's proposed package names or architecture establish a license.
+- Full text: [`LICENSE`](LICENSE). Attribution: [`NOTICE`](NOTICE).
+- Every package in `packages/` ships its own copy of `LICENSE` and `NOTICE`, so they are included in each package tarball.
+- `package.json` files declare `"license": "Apache-2.0"`.
 
-Any code reused from Axios, Undici, Node.js, or other upstream projects must be reviewed for license compatibility, notices, attribution, and applicable source-distribution obligations. Prefer independent implementations or narrowly scoped, documented reuse where appropriate.
+The Apache License 2.0 is permissive and includes an explicit patent grant, which matters for a security-focused library family.
+
+## Contributions
+
+Contributions are accepted under the same license (Apache 2.0, section 5): anything you submit for inclusion is licensed under Apache 2.0 unless you state otherwise in writing.
+
+## Third-party code
+
+Ametherian has no third-party runtime dependencies. Any code reused from Axios, Undici, Node.js or other upstream projects must be reviewed for license compatibility, notices and attribution before it is added. Prefer independent implementations or narrowly scoped, documented reuse.

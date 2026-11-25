@@ -65,19 +65,17 @@ Status key: **Missing** = no code; **Partial** = some code exists but not to spe
 | Compatibility policy (Node versions, ESM/CJS, TS, semver) | architecture: compatibility | Doc only | Done (draft) | `docs/compatibility.md`; CI on Node 20/22/24 plus strict `tsc` check of all `.d.ts` (`types-check/`). Needs maintainer sign-off |
 | Vulnerability prevention model (axios/undici advisories vs OSV + NIST NVD) | security: vulnerability intelligence; regression tests for confirmed vulnerabilities | Missing | Done | `docs/vulnerability-model.md`, `docs/vulnerability-baseline.json` (111 advisories: 64 prevented with named tests, 47 not applicable), daily `advisory-watch.yml` |
 | undici-style `fetch()` and pooled transport | brief: Axios/Undici comparison | Missing | Done | `createFetch` returns standard `Response`; per-origin and total socket limits |
-| License | LICENSE-STATUS.md | Not chosen | Not chosen | Maintainer decision; blocks publishing. Packages are `private`/`UNLICENSED` |
+| License | LICENSE-STATUS.md | Not chosen | Done | Apache License 2.0; `LICENSE` and `NOTICE` at the root and in every package. Packages stay `private` until a release process is agreed |
 | Public website | README, site files | Done | Unchanged | Do not alter canonicals, sitemap, robots without saying so |
 
-## Repository hygiene findings (not fixed here)
+## Repository hygiene
 
-- Root holds many one-off scripts and scratch files from site work
-  (`_check1.py`, `_compose.py`, `_enc.py`, `_hrefs*.py`, `_inspect_*.txt`,
-  `_asset_test.*`, `_test_*.png`, `audit.py`, `contrast.py`, `db*.py`, etc.),
-  plus a vendored Python tree (`_pylibs/` with numpy/potrace) and `python/`.
-  Because the site is served from the repo root, these are publicly reachable.
-  Recommend moving them out or into an ignored folder in a separate PR.
-- `.github/workflows/build-clean-urls.yml` only triggers on the merged branch
-  `fix/clean-public-urls`; it is now dead and could be removed.
+Fixed on 2026-11-25: one-off scratch scripts (including several that read a
+local AI-assistant session database and contained a local user path), dumped
+HTML inspection files, test images, the 55 MB vendored `_pylibs/` tree and two
+workflows that only triggered on long-merged branches were removed from the
+published tree. They remain in git history. Root-level `_*.py` files are now
+ignored so scratch work cannot be published by accident.
 
 ## Wording rules carried forward
 

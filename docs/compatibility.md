@@ -51,7 +51,7 @@ CI tests every supported major. `engines` declares `>=22`.
 
 ## Before the first publish
 
-1. A license is chosen and added (see `LICENSE-STATUS.md`).
+1. ~~A license is chosen and added~~ Done: Apache License 2.0 (`LICENSE`, `NOTICE`, `LICENSE-STATUS.md`).
 2. Package ownership of the `@foulfoxhacks` npm scope is confirmed.
 3. Each package has a changelog, README status line, and passes CI on all supported Node majors.
 4. Publishing uses npm provenance from CI.

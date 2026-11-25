@@ -229,14 +229,14 @@ def llms_txt() -> str:
     base = baseline_counts()
     return f"""# Ametherian
 
-> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. None is published to npm, none has been audited, and the license has not been chosen.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. Ten packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
 
 ## Important status
 
 - Preview packages are public in the repository and pass CI; they are not published to npm.
 - No security audit has been performed. The project is not production-ready.
 - The project is independent and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project.
-- The license has not been selected.
+- License: Apache License 2.0 (full text in LICENSE and in every package).
 - Supported runtimes: Node.js 22, 24 and 26 at their latest security releases. Node.js 20 is end of life.
 
 ## Modules
@@ -284,7 +284,7 @@ def llms_full_txt() -> str:
 
 Ametherian is a proposed, independent family of modular JavaScript and TypeScript libraries under the `@foulfoxhacks` npm scope. Its direction is Node.js-first and broader than a single HTTP client: it explores networking, data handling, application infrastructure, developer tooling, and security-conscious engineering.
 
-Ten packages exist as tested previews in the repository (see the Modules section). No packages are published to npm. No security audit has been performed. The project is not production-ready, is not a drop-in replacement for Axios or Undici, and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. The license has not been selected.
+Ten packages exist as tested previews in the repository (see the Modules section). No packages are published to npm. No security audit has been performed. The project is not production-ready, is not a drop-in replacement for Axios or Undici, and is not affiliated with or endorsed by Node.js, the OpenJS Foundation, Axios, Undici, or any other referenced project. The code is licensed under the Apache License 2.0.
 
 ## Canonical pages
 
