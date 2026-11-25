@@ -17,9 +17,6 @@ export function createCascadeMinifier(options = {}) {
     if (config.sourceMap !== undefined && typeof config.sourceMap !== 'boolean') {
       throw new MinificationError('sourceMap must be a boolean', { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
     }
-    if (config.sourceMap !== undefined && typeof config.sourceMap !== 'boolean') {
-      throw new MinificationError('sourceMap must be a boolean', { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
-    }
     let targets;
     if (config.targets !== undefined) {
       const allowed = new Set(['and_chr', 'and_ff', 'android', 'chrome', 'edge', 'firefox', 'ie', 'ios_saf', 'opera', 'safari', 'samsung']);

@@ -23,6 +23,9 @@ export function createJavaScriptMinifier(options = {}) {
         code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS', details: { target },
       });
     }
+    if (config.sourceMap !== undefined && typeof config.sourceMap !== 'boolean') {
+      throw new MinificationError('sourceMap must be a boolean', { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+    }
     const result = await transform(source, {
       loader: 'js', target,
       minifyWhitespace: true,

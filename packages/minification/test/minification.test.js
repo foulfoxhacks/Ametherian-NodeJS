@@ -69,4 +69,9 @@ test('rejects invalid limits and CSS filenames', async () => {
   const engine = createMinificationEngine({ javascript: async (source) => ({ code: source }), cascade });
   await assert.rejects(engine.minifyCascade('x', { filename: '../bad' + String.fromCharCode(0) + 'name.css' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
   await assert.rejects(engine.minifyCascade('x', { sourceMap: 'yes' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+  const mapLimited = createMinificationEngine({
+    javascript: async () => ({ code: 'x', map: '123456' }), cascade: async (source) => ({ code: source }),
+    limits: { maxInputBytes: 20, maxOutputBytes: 20, maxSourceMapBytes: 4 },
+  });
+  await assert.rejects(mapLimited.minifyJavaScript('x'), { code: 'AMETHERIAN_MINIFICATION_SOURCEMAP_LIMIT' });
 });
