@@ -421,5 +421,6 @@
  "Unreleased",
  "Added",
  "Changed",
- "Removed"
+ "Removed",
+ "Bounded, adapter-driven JavaScript and CSS minification orchestration for Ametherian. Unpublished preview."
 ]
