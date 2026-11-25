@@ -41,7 +41,7 @@ Cascade uses the injected CSS engine's standards-aware minifier. It does not per
 - Source must be a string and is byte-counted before parsing.
 - Default source limit: 8 MiB. Default output and source-map limits: 16 MiB each.
 - Engine output must be valid UTF-8 text; malformed or oversized results are rejected.
-- Errors are wrapped in typed Ametherian minification errors.
+- Errors extend the shared Ametherian core error type, preserving cross-package error recognition and stable error codes.
 - No input file is read, no output file is written, and no dependency is installed by this package.
 - Source maps are opt-in and returned separately.
 - Minification is not a sanitizer. It does not replace escaping, CSP, validation, or secure templating.

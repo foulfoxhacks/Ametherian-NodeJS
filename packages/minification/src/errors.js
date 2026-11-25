@@ -1,9 +1,12 @@
-export class MinificationError extends Error {
+import { AmetherianError } from '@foulfoxhacks/ametherian-core';
+
+export class MinificationError extends AmetherianError {
   constructor(message, options = {}) {
-    super(message, options.cause ? { cause: options.cause } : undefined);
-    this.name = 'MinificationError';
-    this.code = options.code ?? 'AMETHERIAN_MINIFICATION_FAILED';
-    this.retryable = false;
-    if (options.details) this.details = Object.freeze({ ...options.details });
+    super(message, {
+      code: options.code ?? 'AMETHERIAN_MINIFICATION_FAILED',
+      retryable: false,
+      ...(options.cause === undefined ? {} : { cause: options.cause }),
+      details: options.details ?? {},
+    });
   }
 }

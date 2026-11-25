@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createMinificationEngine, createJavaScriptMinifier, createCascadeMinifier } from '../src/index.js';
+import { isAmetherianError } from '@foulfoxhacks/ametherian-core';
 
 test('JavaScript adapter uses conservative or standard parser-backed options', async () => {
   const calls = [];
@@ -35,13 +36,14 @@ test('cascade adapter passes CSS as bytes and requests parser-backed minificatio
 
 test('rejects missing engines, unsupported options, invalid input and size overflow', async () => {
   assert.throws(() => createJavaScriptMinifier(), { code: 'AMETHERIAN_MINIFICATION_ENGINE_REQUIRED' });
+  assert.equal(isAmetherianError(new (class extends Error {})()), false);
   const js = createJavaScriptMinifier({ transform: async (source) => ({ code: source }) });
   const engine = createMinificationEngine({
     javascript: js, cascade: async (source) => ({ code: source }),
     limits: { maxInputBytes: 4, maxOutputBytes: 8 },
   });
   await assert.rejects(engine.minifyJavaScript('x', { target: 'es2015' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
-  await assert.rejects(engine.minifyJavaScript('12345'), { code: 'AMETHERIAN_MINIFICATION_INPUT_LIMIT' });
+  await assert.rejects(engine.minifyJavaScript('12345'), { code: 'AMETHERIAN_MINIFICATION_INPUT_LIMIT' }).then((error) => assert.equal(isAmetherianError(error), true));
   await assert.rejects(engine.minifyJavaScript(123), { code: 'AMETHERIAN_MINIFICATION_INVALID_INPUT' });
   const oversized = createMinificationEngine({
     javascript: async () => ({ code: '123456789' }), cascade: async (source) => ({ code: source }),

@@ -1,3 +1,4 @@
+import type { AmetherianError } from '@foulfoxhacks/ametherian-core';
 export type MinificationLevel = 'conservative' | 'standard';
 export interface MinificationStats {
   readonly inputBytes: number; readonly outputBytes: number; readonly savedBytes: number;
@@ -7,7 +8,7 @@ export interface MinificationResult {
   readonly type: 'javascript' | 'cascade'; readonly code: string; readonly map: string | null;
   readonly warnings: readonly unknown[]; readonly engine: string; readonly stats: MinificationStats;
 }
-export declare class MinificationError extends Error {
+export declare class MinificationError extends AmetherianError {
   readonly code: string; readonly retryable: false; readonly details?: Readonly<Record<string, unknown>>;
 }
 export declare const DEFAULT_LIMITS: Readonly<{ maxInputBytes: number; maxOutputBytes: number; maxSourceMapBytes: number }>;
