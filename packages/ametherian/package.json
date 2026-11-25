@@ -27,7 +27,8 @@
     "@foulfoxhacks/ametherian-resilience": "0.1.0",
     "@foulfoxhacks/ametherian-observability": "0.1.0",
     "@foulfoxhacks/ametherian-http": "0.1.0",
-    "@foulfoxhacks/ametherian-security": "0.1.0"
+    "@foulfoxhacks/ametherian-security": "0.1.0",
+    "@foulfoxhacks/ametherian-minification": "0.1.0"
   },
   "scripts": {
     "test": "node --test"
