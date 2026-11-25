@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "test": "npm test --workspaces --if-present",
-    "typecheck": "tsc -p types-check"
+    "typecheck": "tsc -p types-check",
+    "security:audit": "node tools/security-audit/lockfile-audit.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
