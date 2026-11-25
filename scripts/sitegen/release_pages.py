@@ -90,7 +90,7 @@ def modules_page() -> str:
   <dl class="module-facts"><div><dt>Tests</dt><dd>{r['tests']}</dd></div><div><dt>Depends on</dt><dd translate="no">{esc(deps)}</dd></div><div><dt>Source</dt><dd translate="no"><a href="{REPO}/tree/main/packages/{esc(r['folder'])}" target="_blank" rel="noopener noreferrer">packages/{esc(r['folder'])} <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article>"""
         )
-    node_rows = "".join(f"<li>Node.js {esc(k)}: {esc(v)} or later</li>" for k, v in sorted(mins.items(), key=lambda kv: int(kv[0])))
+    node_rows = "".join(f'<li><span translate="no">Node.js {esc(k)}: {esc(v)}</span> <span>or later</span></li>' for k, v in sorted(mins.items(), key=lambda kv: int(kv[0])))
     vuln = ""
     if base:
         vuln = f"""<h2 id="vulnerability-model">Vulnerability model</h2>
