@@ -15,8 +15,12 @@ with these notes. Packages are unpublished previews until a license is chosen.
 - Site: Modules page generated from the packages themselves, and this changelog page.
 - Releases: a numbered preview build with release notes and package tarballs for every green push to `main`.
 - `ametherian-security`: CISA Known Exploited Vulnerabilities client; `annotateWithKev()` flags lockfile findings that are exploited in the wild and lists them first.
+- `ametherian-frontmatter` (new package): strict, bounded YAML frontmatter parser with a gray-matter-shaped result. It refuses anchors, aliases, tags, merge keys, duplicate keys and prototype keys, never evaluates code, and caps input size, depth and key count.
+- `ametherian-http`: edge build for Cloudflare Workers, Deno and browsers, selected by the `workerd`/`worker`/`browser`/`deno` export conditions (or `ametherian-http/edge`). `createFetchTransport()` runs the client over fetch() with the same guard, redirect, size and timeout rules; Node-only options (`ca`, `proxy`, `http2`) throw instead of being ignored.
 
 ### Changed
+- Edge portability: `core`, `guard`, `schema`, `observability` and the http edge build no longer import Node built-ins statically or use `Buffer`; `guard` validates IP literals itself (cross-checked against `node:net` by a fuzz test), and Node-only features load lazily. A test walks every edge import graph to keep it that way.
+- Site copy no longer states a fixed package count.
 - Sitemap `lastmod` dates now change only when a page's content changes.
 - The `llms.txt` and `robots.txt` companion pages use the full site header and footer.
 

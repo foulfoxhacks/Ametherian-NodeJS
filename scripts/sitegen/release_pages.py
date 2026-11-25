@@ -21,7 +21,8 @@ PURPOSE = {
     "ametherian-cache": "Bounded LRU/TTL cache with load de-duplication and collision-free scopes.",
     "ametherian-resilience": "Retries with backoff, concurrency and rate limits, circuit breaker.",
     "ametherian-observability": "Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.",
-    "ametherian-http": "HTTP client and undici-style fetch(): guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.",
+    "ametherian-http": "HTTP client and undici-style fetch() for Node.js and Cloudflare Workers: guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.",
+    "ametherian-frontmatter": "Strict, bounded YAML frontmatter parser: a gray-matter replacement that refuses anchors, tags and code evaluation.",
     "ametherian-testing": "Mock transport, test server, fake clock and an adversarial fuzz corpus.",
     "ametherian-security": "Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.",
     "ametherian": "Umbrella package re-exporting the others as namespaces.",
@@ -123,7 +124,7 @@ def modules_page() -> str:
 <li>No independent security audit has been performed.</li>
 </ul>
 """
-    return docs_shell(current, "Modules", "Ten preview packages, tested and unpublished.", body)
+    return docs_shell(current, "Modules", "Preview packages, tested and unpublished.", body)
 
 
 def _inline(text: str) -> str:

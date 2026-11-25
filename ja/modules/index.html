@@ -84,7 +84,7 @@
     </nav>
   </details>
   <div class="docs-sidebar__note">
-    <p><strong>状況：</strong> 10 個のプレビューパッケージ。未公開・未監査。</p>
+    <p><strong>状況：</strong> プレビューパッケージ。未公開・未監査です。</p>
     <p><a href="/PROJECT_STATUS.md">プロジェクトの状況</a> · <a href="/NOTICE.md">告知</a> · <a href="/LICENSE-STATUS.md">ライセンス</a></p>
   </div>
 </aside>
@@ -93,7 +93,7 @@
   <div class="doc-head">
     <p class="eyebrow">実装の状況</p>
     <h1>モジュール</h1>
-    <p class="doc-lead">10 個のプレビューパッケージ。テスト済み・未公開。</p>
+    <p class="doc-lead">プレビューパッケージ。テスト済み・未公開です。</p>
     <div class="doc-meta">
       <span>2026 年 11 月に確認</span>
       <span class="doc-meta__dot" aria-hidden="true">·</span>
@@ -103,8 +103,8 @@
   <div class="prose">
     
 <div class="module-summary" role="list">
-  <div role="listitem"><strong>10</strong><span>パッケージ</span></div>
-  <div role="listitem"><strong>234</strong><span>テスト定義</span></div>
+  <div role="listitem"><strong>11</strong><span>パッケージ</span></div>
+  <div role="listitem"><strong>257</strong><span>テスト定義</span></div>
   <div role="listitem"><strong>0</strong><span>サードパーティの実行時依存</span></div>
 </div>
 <p>これらのパッケージはリポジトリに存在し、CI のテストに合格しています。これらは <strong>プレビュー版</strong>です：npm には公開されておらず、監査も受けておらず、API が変わる可能性があります。Apache 2.0 ライセンスで提供されています。</p>
@@ -118,7 +118,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-guard"><code>@foulfoxhacks/ametherian-guard</code><a class="heading-anchor" href="#ametherian-guard" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
   <p>送信先ポリシー：プライベート、ループバック、メタデータのアドレスへの SSRF をブロックし、リダイレクトのたびと DNS 解決時に再確認します。</p>
-  <dl class="module-facts"><div><dt>テスト</dt><dd>25</dd></div><div><dt>依存先</dt><dd translate="no">core</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>テスト</dt><dd>28</dd></div><div><dt>依存先</dt><dd translate="no">core</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-schema"><code>@foulfoxhacks/ametherian-schema</code><a class="heading-anchor" href="#ametherian-schema" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
   <p>信頼できない入力の検証と上限付きパース。プロトタイプ汚染に対して安全です。</p>
@@ -137,8 +137,12 @@
   <dl class="module-facts"><div><dt>テスト</dt><dd>10</dd></div><div><dt>依存先</dt><dd translate="no">core</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/observability" target="_blank" rel="noopener noreferrer">packages/observability <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-http"><code>@foulfoxhacks/ametherian-http</code><a class="heading-anchor" href="#ametherian-http" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
-  <p>HTTP クライアントと undici 風の fetch()：保護された送信先、上限付きの本文、期限、プロキシ、HTTP/2。axios と undici で公開された脆弱性クラスに対して強化されています。</p>
-  <dl class="module-facts"><div><dt>テスト</dt><dd>51</dd></div><div><dt>依存先</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <p>Node.js と Cloudflare Workers 向けの HTTP クライアントと undici 風の fetch()。宛先の保護、本文サイズの上限、期限、プロキシ、HTTP/2 に対応し、公開済みの axios/undici の脆弱性クラスに対して強化されています。</p>
+  <dl class="module-facts"><div><dt>テスト</dt><dd>59</dd></div><div><dt>依存先</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+</article><article class="module-card">
+  <div class="module-card__top"><h3 id="ametherian-frontmatter"><code>@foulfoxhacks/ametherian-frontmatter</code><a class="heading-anchor" href="#ametherian-frontmatter" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
+  <p>厳格で上限付きの YAML フロントマターパーサー。アンカー、タグ、コード評価を拒否する gray-matter の代替です。</p>
+  <dl class="module-facts"><div><dt>テスト</dt><dd>10</dd></div><div><dt>依存先</dt><dd translate="no">core</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/frontmatter" target="_blank" rel="noopener noreferrer">packages/frontmatter <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-testing"><code>@foulfoxhacks/ametherian-testing</code><a class="heading-anchor" href="#ametherian-testing" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
   <p>モックトランスポート、テストサーバー、偽の時計、敵対的なファジング用コーパス。</p>
@@ -150,7 +154,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian"><code>@foulfoxhacks/ametherian</code><a class="heading-anchor" href="#ametherian" aria-label="このセクションへのリンク">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · プレビュー</span></div>
   <p>ほかのパッケージを名前空間として再エクスポートする包括パッケージ。</p>
-  <dl class="module-facts"><div><dt>テスト</dt><dd>5</dd></div><div><dt>依存先</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>テスト</dt><dd>7</dd></div><div><dt>依存先</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>出典</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article>
 </div>
 
@@ -178,7 +182,7 @@
 </main>
 <aside class="docs-toc" aria-label="このページの内容">
   <p class="docs-nav-title">このページの内容</p>
-  <a href="#packages">パッケージ</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">脆弱性モデル</a><a href="#runtime">対応ランタイム</a><a href="#status">プレビューの意味</a>
+  <a href="#packages">パッケージ</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-frontmatter" class="toc-sub">@foulfoxhacks/ametherian-frontmatter</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">脆弱性モデル</a><a href="#runtime">対応ランタイム</a><a href="#status">プレビューの意味</a>
   <a class="toc-top" href="#main">ページの先頭 <span aria-hidden="true">↑</span></a>
 </aside>
 </div>

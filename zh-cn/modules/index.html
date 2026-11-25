@@ -84,7 +84,7 @@
     </nav>
   </details>
   <div class="docs-sidebar__note">
-    <p><strong>状态：</strong> 十个预览包，未发布、未审计。</p>
+    <p><strong>状态：</strong> 预览包，未发布，未审计。</p>
     <p><a href="/PROJECT_STATUS.md">项目状态</a> · <a href="/NOTICE.md">声明</a> · <a href="/LICENSE-STATUS.md">许可证</a></p>
   </div>
 </aside>
@@ -93,7 +93,7 @@
   <div class="doc-head">
     <p class="eyebrow">实现状态</p>
     <h1>模块</h1>
-    <p class="doc-lead">十个预览包，已测试、未发布。</p>
+    <p class="doc-lead">预览包，已测试，未发布。</p>
     <div class="doc-meta">
       <span>2026 年 11 月审阅</span>
       <span class="doc-meta__dot" aria-hidden="true">·</span>
@@ -103,8 +103,8 @@
   <div class="prose">
     
 <div class="module-summary" role="list">
-  <div role="listitem"><strong>10</strong><span>个包</span></div>
-  <div role="listitem"><strong>234</strong><span>个测试定义</span></div>
+  <div role="listitem"><strong>11</strong><span>个包</span></div>
+  <div role="listitem"><strong>257</strong><span>个测试定义</span></div>
   <div role="listitem"><strong>0</strong><span>个第三方运行时依赖</span></div>
 </div>
 <p>这些包存在于仓库中，并在 CI 中通过了测试。它们是 <strong>预览版</strong>：没有发布到 npm，没有经过审计，API 仍可能变化。它们采用 Apache 2.0 许可证。</p>
@@ -118,7 +118,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-guard"><code>@foulfoxhacks/ametherian-guard</code><a class="heading-anchor" href="#ametherian-guard" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
   <p>出站目标策略：阻止针对私有地址、回环地址和元数据地址的 SSRF，并在每次重定向和 DNS 解析时再次检查。</p>
-  <dl class="module-facts"><div><dt>测试</dt><dd>25</dd></div><div><dt>依赖于</dt><dd translate="no">core</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>测试</dt><dd>28</dd></div><div><dt>依赖于</dt><dd translate="no">core</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/guard" target="_blank" rel="noopener noreferrer">packages/guard <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-schema"><code>@foulfoxhacks/ametherian-schema</code><a class="heading-anchor" href="#ametherian-schema" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
   <p>对不可信输入进行校验和有上限的解析，可防范原型污染。</p>
@@ -137,8 +137,12 @@
   <dl class="module-facts"><div><dt>测试</dt><dd>10</dd></div><div><dt>依赖于</dt><dd translate="no">core</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/observability" target="_blank" rel="noopener noreferrer">packages/observability <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-http"><code>@foulfoxhacks/ametherian-http</code><a class="heading-anchor" href="#ametherian-http" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
-  <p>HTTP 客户端和 undici 风格的 fetch()：受保护的目标、有上限的请求体、截止时间、代理、HTTP/2，并针对 axios 和 undici 已公开的漏洞类别进行了加固。</p>
-  <dl class="module-facts"><div><dt>测试</dt><dd>51</dd></div><div><dt>依赖于</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <p>适用于 Node.js 和 Cloudflare Workers 的 HTTP 客户端和 undici 风格的 fetch()：受保护的目标、有界的响应体、截止时间、代理、HTTP/2，并针对已公开的 axios/undici 漏洞类别进行了加固。</p>
+  <dl class="module-facts"><div><dt>测试</dt><dd>59</dd></div><div><dt>依赖于</dt><dd translate="no">core, guard, resilience, schema</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/http" target="_blank" rel="noopener noreferrer">packages/http <span aria-hidden="true">↗</span></a></dd></div></dl>
+</article><article class="module-card">
+  <div class="module-card__top"><h3 id="ametherian-frontmatter"><code>@foulfoxhacks/ametherian-frontmatter</code><a class="heading-anchor" href="#ametherian-frontmatter" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
+  <p>严格且有界的 YAML frontmatter 解析器：gray-matter 的替代品，拒绝锚点、标签和代码求值。</p>
+  <dl class="module-facts"><div><dt>测试</dt><dd>10</dd></div><div><dt>依赖于</dt><dd translate="no">core</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/frontmatter" target="_blank" rel="noopener noreferrer">packages/frontmatter <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian-testing"><code>@foulfoxhacks/ametherian-testing</code><a class="heading-anchor" href="#ametherian-testing" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
   <p>模拟传输层、测试服务器、伪时钟和对抗性模糊测试语料库。</p>
@@ -150,7 +154,7 @@
 </article><article class="module-card">
   <div class="module-card__top"><h3 id="ametherian"><code>@foulfoxhacks/ametherian</code><a class="heading-anchor" href="#ametherian" aria-label="链接到本节">#</a></h3><span class="module-badge"><span translate="no">v0.1.0</span> · 预览</span></div>
   <p>将其他包作为命名空间重新导出的总包。</p>
-  <dl class="module-facts"><div><dt>测试</dt><dd>5</dd></div><div><dt>依赖于</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
+  <dl class="module-facts"><div><dt>测试</dt><dd>7</dd></div><div><dt>依赖于</dt><dd translate="no">cache, core, guard, http, observability, resilience, schema, security</dd></div><div><dt>来源</dt><dd translate="no"><a href="https://github.com/foulfoxhacks/Ametherian-NodeJS/tree/main/packages/ametherian" target="_blank" rel="noopener noreferrer">packages/ametherian <span aria-hidden="true">↗</span></a></dd></div></dl>
 </article>
 </div>
 
@@ -178,7 +182,7 @@
 </main>
 <aside class="docs-toc" aria-label="本页内容">
   <p class="docs-nav-title">本页内容</p>
-  <a href="#packages">包</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">漏洞模型</a><a href="#runtime">支持的运行时</a><a href="#status">预览意味着什么</a>
+  <a href="#packages">包</a><a href="#ametherian-core" class="toc-sub">@foulfoxhacks/ametherian-core</a><a href="#ametherian-guard" class="toc-sub">@foulfoxhacks/ametherian-guard</a><a href="#ametherian-schema" class="toc-sub">@foulfoxhacks/ametherian-schema</a><a href="#ametherian-cache" class="toc-sub">@foulfoxhacks/ametherian-cache</a><a href="#ametherian-resilience" class="toc-sub">@foulfoxhacks/ametherian-resilience</a><a href="#ametherian-observability" class="toc-sub">@foulfoxhacks/ametherian-observability</a><a href="#ametherian-http" class="toc-sub">@foulfoxhacks/ametherian-http</a><a href="#ametherian-frontmatter" class="toc-sub">@foulfoxhacks/ametherian-frontmatter</a><a href="#ametherian-testing" class="toc-sub">@foulfoxhacks/ametherian-testing</a><a href="#ametherian-security" class="toc-sub">@foulfoxhacks/ametherian-security</a><a href="#ametherian" class="toc-sub">@foulfoxhacks/ametherian</a><a href="#vulnerability-model">漏洞模型</a><a href="#runtime">支持的运行时</a><a href="#status">预览意味着什么</a>
   <a class="toc-top" href="#main">页面顶部 <span aria-hidden="true">↑</span></a>
 </aside>
 </div>

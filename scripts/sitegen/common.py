@@ -238,7 +238,7 @@ PAGES = {
             "its security model, and the Node.js versions it supports."
         ),
         "og_title": "Modules",
-        "og_subtitle": "Ten preview packages, tested and unpublished.",
+        "og_subtitle": "Preview packages, tested and unpublished.",
         "og_label": "MODULES",
         "og_key": "docs",
         "og_alt": "Ametherian modules overview social card.",
@@ -828,7 +828,7 @@ def docs_sidebar(path: str) -> str:
     </nav>
   </details>
   <div class="docs-sidebar__note">
-    <p><strong>Status:</strong> Ten preview packages, unpublished and unaudited.</p>
+    <p><strong>Status:</strong> Preview packages, unpublished and unaudited.</p>
     <p><a href="{url_for('PROJECT_STATUS.md', path)}">Project status</a> · <a href="{url_for('NOTICE.md', path)}">Notice</a> · <a href="{url_for('LICENSE-STATUS.md', path)}">License</a></p>
   </div>
 </aside>"""
