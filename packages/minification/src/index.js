@@ -40,6 +40,12 @@ export function createMinificationEngine(options = {}) {
         details: { sourceMapBytes, maxSourceMapBytes: limits.maxSourceMapBytes },
       });
     }
+    const warnings = raw?.warnings ?? [];
+    if (!Array.isArray(warnings)) {
+      throw new MinificationError('Minifier engine returned invalid warnings', {
+        code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT',
+      });
+    }
     const durationMs = Number((performance.now() - started).toFixed(3));
     const stats = Object.freeze({
       inputBytes, outputBytes, savedBytes: inputBytes - outputBytes,
@@ -48,7 +54,7 @@ export function createMinificationEngine(options = {}) {
     });
     return Object.freeze({
       type: kind, code, map,
-      warnings: Object.freeze((raw?.warnings == null ? [] : Array.isArray(raw.warnings) ? raw.warnings : (() => { throw new MinificationError('Minifier engine returned invalid warnings', { code: 'AMETHERIAN_MINIFICATION_INVALID_ENGINE_OUTPUT' }); })()).slice(0, 100)),
+      warnings: Object.freeze(warnings.slice(0, 100)),
       engine: String(raw?.engine ?? 'custom'), stats,
     });
   }

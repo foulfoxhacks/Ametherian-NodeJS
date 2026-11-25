@@ -67,5 +67,6 @@ test('rejects invalid limits and CSS filenames', async () => {
   }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
   const cascade = createCascadeMinifier({ transform: async (options) => ({ code: options.code }) });
   const engine = createMinificationEngine({ javascript: async (source) => ({ code: source }), cascade });
-  await assert.rejects(engine.minifyCascade('x', { filename: '../bad\0name.css' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+  await assert.rejects(engine.minifyCascade('x', { filename: '../bad' + String.fromCharCode(0) + 'name.css' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
+  await assert.rejects(engine.minifyCascade('x', { sourceMap: 'yes' }), { code: 'AMETHERIAN_MINIFICATION_INVALID_OPTIONS' });
 });
