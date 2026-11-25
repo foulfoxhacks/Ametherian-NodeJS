@@ -12,8 +12,7 @@
  *  - no cookies, no cache, no CORS (server-side client).
  */
 import { ConfigError } from '@foulfoxhacks/ametherian-core';
-import { createHttpClient } from './client.js';
-import { own, ownGet } from './hardening.js';
+import { own, ownGet } from './own.js';
 
 const NULL_BODY_STATUS = new Set([101, 103, 204, 205, 304]);
 
@@ -28,10 +27,15 @@ async function bodyBytes(body) {
 }
 
 /**
- * @param {object} [options] Same options as createHttpClient (retries default off, like fetch).
- * @returns {((input: string | URL | Request, init?: object) => Promise<Response>) & { close(): void, client: object }}
+ * Bind createFetch to a runtime's createHttpClient (Node or edge).
+ * @param {(options: object) => object} createHttpClient
  */
-export function createFetch(options) {
+export function makeCreateFetch(createHttpClient) {
+  /**
+   * @param {object} [options] Same options as createHttpClient (retries default off, like fetch).
+   * @returns {((input: string | URL | Request, init?: object) => Promise<Response>) & { close(): void, client: object }}
+   */
+  return function createFetch(options) {
   const opts = own(options);
   if (!Object.hasOwn(opts, 'retry')) opts.retry = false;
   opts.throwOnStatus = false;
@@ -79,4 +83,5 @@ export function createFetch(options) {
   fetch.close = () => client.close();
   fetch.client = client;
   return fetch;
+  };
 }

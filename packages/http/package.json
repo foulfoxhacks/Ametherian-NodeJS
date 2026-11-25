@@ -11,7 +11,15 @@
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
+      "workerd": "./src/edge.js",
+      "worker": "./src/edge.js",
+      "browser": "./src/edge.js",
+      "deno": "./src/edge.js",
       "default": "./src/index.js"
+    },
+    "./edge": {
+      "types": "./src/index.d.ts",
+      "default": "./src/edge.js"
     }
   },
   "files": [

@@ -60,8 +60,12 @@ export function sanitize(value, options = {}, depth = 0, seen = new WeakSet()) {
   return out;
 }
 
+// JSON lines on stderr in Node; console on runtimes without process.stderr (Workers, browsers).
 const defaultSink = (record) => {
-  process.stderr.write(`${JSON.stringify(record)}\n`);
+  const line = JSON.stringify(record);
+  const stderr = globalThis.process?.stderr;
+  if (stderr?.write) stderr.write(`${line}\n`);
+  else console.error(line);
 };
 
 /**

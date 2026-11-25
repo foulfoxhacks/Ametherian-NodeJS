@@ -56,6 +56,12 @@ export declare function createNodeTransport(options?: {
   maxFreeSockets?: number;
 }): Transport;
 export declare function createHttp2Transport(options?: { lookup?: DestinationPolicy['lookup']; ca?: CA; idleTimeoutMs?: number }): Transport;
+/**
+ * Transport over a WHATWG fetch() (Cloudflare Workers, Deno, browsers, or a
+ * Workers service binding). Redirects are handled by the client, never by fetch.
+ * On the edge build, `ca`, `proxy` and `http2` client options throw a ConfigError.
+ */
+export declare function createFetchTransport(options?: { fetch?: typeof fetch }): Transport;
 
 export declare class HttpStreamResponse {
   readonly status: number;

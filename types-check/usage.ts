@@ -11,7 +11,7 @@ import { object, string, number, literal, array, record, union, parseJson, type 
 import { createCache } from '@foulfoxhacks/ametherian-cache';
 import { retry, createConcurrencyLimit, createRateLimiter, createCircuitBreaker } from '@foulfoxhacks/ametherian-resilience';
 import { createLogger, createMetrics, attachEventHub, publishToDiagnosticsChannel } from '@foulfoxhacks/ametherian-observability';
-import { createHttpClient, createFetch, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
+import { createHttpClient, createFetch, createFetchTransport, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
 import { normalizeOsv, auditLockfile, compareSemver, createOsvClient, createNodeReleaseClient, compareNodeMinimums } from '@foulfoxhacks/ametherian-security';
 import matterParse, { parseYaml } from '@foulfoxhacks/ametherian-frontmatter';
@@ -114,3 +114,7 @@ export async function usage(): Promise<void> {
   ametherian.http.createHttpClient satisfies typeof createHttpClient;
   void [code, limit, bytes, safe, u, url, cat, blocked, name, role, v, data];
 }
+
+// Edge transport with an injected fetch (e.g. a Workers service binding).
+const edgeClient = createHttpClient({ transport: createFetchTransport({ fetch: globalThis.fetch }) });
+void edgeClient;

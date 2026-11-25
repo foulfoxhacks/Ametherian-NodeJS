@@ -21,10 +21,8 @@ import {
 import { createDestinationPolicy } from '@foulfoxhacks/ametherian-guard';
 import { retry } from '@foulfoxhacks/ametherian-resilience';
 import { parseJson } from '@foulfoxhacks/ametherian-schema';
-import { createNodeTransport } from './transport.js';
-import { createHttp2Transport } from './http2.js';
 import { HttpStatusError, TOO_MANY_REDIRECTS, BASE_URL_ESCAPE } from './errors.js';
-import { own, ownGet } from './hardening.js';
+import { own, ownGet } from './own.js';
 
 const HEADER_NAME = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
 // eslint-disable-next-line no-control-regex
@@ -152,7 +150,14 @@ class HttpResponse {
 /**
  * @param {object} [options]
  */
-export function createHttpClient(options) {
+/**
+ * Runtime-neutral client builder. `defaultTransport({ policy, ca, proxy, http2, maxSocketsPerOrigin, maxTotalSockets })`
+ * creates the transport when the caller does not pass one: the Node entry
+ * (index.js) uses node:http/https/http2, the edge entry (edge.js) uses fetch().
+ * @param {object} [options]
+ * @param {(settings: object) => Function} defaultTransport
+ */
+export function buildHttpClient(options, defaultTransport) {
   // Own properties only, so a polluted Object.prototype cannot configure the client.
   const clientRest = own(options);
   const clientRetry = ownGet(options, 'retry');
@@ -177,15 +182,14 @@ export function createHttpClient(options) {
   }
   const transport =
     o.transport ??
-    (o.http2
-      ? createHttp2Transport({ lookup: policy.lookup, ca })
-      : createNodeTransport({
-          lookup: policy.lookup,
-          ca,
-          proxy: o.proxy,
-          maxSocketsPerOrigin: o.maxSocketsPerOrigin,
-          maxTotalSockets: o.maxTotalSockets,
-        }));
+    defaultTransport({
+      policy,
+      ca,
+      proxy: o.proxy,
+      http2: o.http2,
+      maxSocketsPerOrigin: o.maxSocketsPerOrigin,
+      maxTotalSockets: o.maxTotalSockets,
+    });
   const redirectStrip = [...CREDENTIAL_HEADERS, ...o.stripHeadersOnRedirect.map((h) => h.toLowerCase())];
   const hooks = o.hooks;
   const emit = (name, payload) => {

@@ -43,7 +43,7 @@ export function parseJson(input, options = {}) {
   for (const [name, v] of [['maxBytes', maxBytes], ['maxDepth', maxDepth]]) {
     if (!Number.isInteger(v) || v < 1) throw new ConfigError(`${name} must be a positive integer`, { problems: [`${name}: ${v}`] });
   }
-  const size = typeof input === 'string' ? Buffer.byteLength(input) : input?.byteLength;
+  const size = typeof input === 'string' ? new TextEncoder().encode(input).byteLength : input?.byteLength;
   if (typeof size !== 'number') throw new TypeError('parseJson expects a string or Uint8Array');
   if (size > maxBytes) {
     throw new LimitExceededError(`JSON exceeds ${maxBytes} bytes`, { limit: maxBytes, actual: size, resource: 'json' });

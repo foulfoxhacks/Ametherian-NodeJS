@@ -5,6 +5,9 @@
 import { LimitExceededError, ConfigError } from './errors.js';
 import { throwIfAborted } from './cancel.js';
 
+// TextEncoder instead of Buffer: works in Node, Cloudflare Workers, Deno and browsers.
+const utf8 = new TextEncoder();
+
 function checkLimit(limit, name = 'limit') {
   if (typeof limit !== 'number' || !Number.isInteger(limit) || limit < 0) {
     throw new ConfigError(`${name} must be a non-negative integer`, {
@@ -31,7 +34,7 @@ export function assertWithinLimit(actual, limit, resource = 'resource') {
 }
 
 function byteLength(chunk) {
-  if (typeof chunk === 'string') return Buffer.byteLength(chunk);
+  if (typeof chunk === 'string') return utf8.encode(chunk).byteLength;
   if (chunk instanceof ArrayBuffer) return chunk.byteLength;
   if (ArrayBuffer.isView(chunk)) return chunk.byteLength;
   throw new TypeError('Expected string, ArrayBuffer or ArrayBufferView chunk');
@@ -79,7 +82,7 @@ export async function collectBytes(source, options) {
   let total = 0;
   for await (const chunk of source) {
     throwIfAborted(signal);
-    const bytes = typeof chunk === 'string' ? Buffer.from(chunk) : chunk;
+    const bytes = typeof chunk === 'string' ? utf8.encode(chunk) : chunk;
     total += bytes.byteLength;
     if (total > maxBytes) {
       throw new LimitExceededError(`${resource} exceeded ${maxBytes} bytes`, { limit: maxBytes, actual: total, resource });
