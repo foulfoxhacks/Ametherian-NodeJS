@@ -14,6 +14,7 @@ import { createLogger, createMetrics, attachEventHub, publishToDiagnosticsChanne
 import { createHttpClient, createFetch, HttpStatusError, type HttpResponse } from '@foulfoxhacks/ametherian-http';
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
 import { normalizeOsv, auditLockfile, compareSemver, createOsvClient, createNodeReleaseClient, compareNodeMinimums } from '@foulfoxhacks/ametherian-security';
+import matterParse, { parseYaml } from '@foulfoxhacks/ametherian-frontmatter';
 import * as ametherian from '@foulfoxhacks/ametherian';
 
 export async function usage(): Promise<void> {
@@ -98,6 +99,9 @@ export async function usage(): Promise<void> {
   const nodeStatus = await createNodeReleaseClient().status([22]);
   compareNodeMinimums(NODE_SECURITY_MINIMUMS, nodeStatus).ok satisfies boolean;
   void leaks;
+  const fm = matterParse<{ title: string }>('---\ntitle: x\n---\n', { dates: 'date' });
+  fm.data.title satisfies string;
+  parseYaml('a: 1');
   createFakeClock().advance(1);
   fuzzStrings({ seed: 1 }) satisfies string[];
 
