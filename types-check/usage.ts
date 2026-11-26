@@ -125,3 +125,16 @@ export async function usage(): Promise<void> {
 // Edge transport with an injected fetch (e.g. a Workers service binding).
 const edgeClient = createHttpClient({ transport: createFetchTransport({ fetch: globalThis.fetch }) });
 void edgeClient;
+
+// Lockfile audit CLI, run programmatically with injected I/O.
+{
+  const { runAudit, sanitizeForTerminal, EXIT_FINDINGS } = await import('@foulfoxhacks/ametherian-security/cli');
+  const status = await runAudit(['package-lock.json', '--fail-on', 'critical', '--json'], {
+    readFile: async () => '{}',
+    stdout: (text: string) => void text,
+    stderr: (text: string) => void text,
+  });
+  status satisfies 0 | 1 | 2;
+  void (status === EXIT_FINDINGS);
+  sanitizeForTerminal('\u001b[31m') satisfies string;
+}
