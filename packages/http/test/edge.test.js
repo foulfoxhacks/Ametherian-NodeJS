@@ -101,3 +101,17 @@ test('fetch transport accepts an injected fetch (e.g. a Workers service binding)
   assert.equal(res.headers.get('x-a'), '1');
   assert.deepEqual(calls, [['https://example.com/x', 'manual']]);
 });
+
+test('edge createFetch: header arrays, cache-mode headers, and refuses Workers-only options', async () => {
+  const seen = [];
+  const fakeFetch = async (url, init) => { seen.push(Object.fromEntries(new Headers(init.headers))); return new Response('ok'); };
+  const fetch = createFetch({ transport: createFetchTransport({ fetch: fakeFetch }) });
+  await fetch('https://example.com/a', { headers: [['x-a', '1'], ['x-a', '2']], cache: 'no-cache' });
+  await fetch('https://example.com/b', { headers: { 'if-none-match': '"v1"' } });
+  assert.equal(seen[0]['x-a'], '1, 2');
+  assert.equal(seen[0]['cache-control'], 'max-age=0');
+  assert.equal(seen[1].pragma, 'no-cache');
+  assert.equal(seen[1]['cache-control'], 'no-cache');
+  await assert.rejects(fetch('https://example.com/c', { cf: { cacheTtl: 60 } }), { code: 'AMETHERIAN_CONFIG' });
+  assert.equal(seen.length, 2);
+});

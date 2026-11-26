@@ -20,6 +20,7 @@ with these notes. Packages are unpublished previews until a license is chosen.
 - `ametherian-http`: edge build for Cloudflare Workers, Deno and browsers, selected by the `workerd`/`worker`/`browser`/`deno` export conditions (or `ametherian-http/edge`). `createFetchTransport()` runs the client over fetch() with the same guard, redirect, size and timeout rules; Node-only options (`ca`, `proxy`, `http2`) throw instead of being ignored.
 
 ### Changed
+- `ametherian-http` `createFetch()` is now a closer drop-in for Node's `fetch()`. `headers` accepts arrays of `[name, value]` pairs (#25). `cache` modes add the request headers fetch() sends for them, including `pragma`/`cache-control: no-cache` on a default request with a conditional header. A `Request`'s own `redirect`, `cache` and `integrity` are honoured, where `redirect` was previously ignored. Options it cannot honour (non-empty `integrity`, a `referrer` URL, `mode: 'same-origin'`, `cache: 'only-if-cached'`, `dispatcher`, runtime-specific keys such as `cf`, unknown keys) throw `AMETHERIAN_CONFIG` instead of being silently dropped.
 - Edge portability: `core`, `guard`, `schema`, `observability` and the http edge build no longer import Node built-ins statically or use `Buffer`; `guard` validates IP literals itself (cross-checked against `node:net` by a fuzz test), and Node-only features load lazily. A test walks every edge import graph to keep it that way.
 - Site copy no longer states a fixed package count.
 - Sitemap `lastmod` dates now change only when a page's content changes.
