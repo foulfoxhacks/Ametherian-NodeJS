@@ -423,5 +423,6 @@
   "XML sitemap — Ametherian": "XML-карта сайта — Ametherian",
   "XML sitemap remains available": "XML-карта сайта по-прежнему доступна",
   "YouTube (opens in a new tab)": "YouTube (откроется в новой вкладке)",
-  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Чтение чата прямых трансляций YouTube для Node.js и Cloudflare Workers: находит чат трансляции, опрашивает его и возвращает нормализованные сообщения, с ограниченным размером ответов и фиксированным источником."
+  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Чтение чата прямых трансляций YouTube для Node.js и Cloudflare Workers: находит чат трансляции, опрашивает его и возвращает нормализованные сообщения, с ограниченным размером ответов и фиксированным источником.",
+  "Fixed": "Исправлено"
 }

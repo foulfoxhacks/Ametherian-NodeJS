@@ -19,7 +19,10 @@ export class YouTubeChatError extends AmetherianError {
 }
 
 const ORIGIN = 'https://www.youtube.com';
-const DEFAULTS = Object.freeze({ maxPageBytes: 4 * 1024 * 1024, maxChatBytes: 2 * 1024 * 1024, timeoutMs: 10_000, maxMessages: 500, maxText: 2_000 });
+// YouTube serves a page without chat data to clients that don't look like a browser (Node's
+// and Workers' fetch send no browser User-Agent), so every request carries one.
+const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36';
+const DEFAULTS = Object.freeze({ maxPageBytes: 4 * 1024 * 1024, maxChatBytes: 2 * 1024 * 1024, timeoutMs: 10_000, maxMessages: 500, maxText: 2_000, userAgent: BROWSER_UA });
 const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
 const CHANNEL_ID = /^UC[A-Za-z0-9_-]{22}$/;
 const HANDLE = /^@[\p{L}\p{N}._-]{3,30}$/u;
@@ -39,7 +42,11 @@ export function parseTarget(input) {
 function options(opts = {}) {
   const fetchImpl = opts.fetch ?? globalThis.fetch;
   if (typeof fetchImpl !== 'function') throw new ConfigError('A fetch implementation is required', { problems: ['fetch: missing'] });
-  return { ...DEFAULTS, ...opts, fetch: fetchImpl };
+  const o = { ...DEFAULTS, ...opts, fetch: fetchImpl };
+  if (typeof o.userAgent !== 'string' || !/^[\x20-\x7e]{1,300}$/.test(o.userAgent)) {
+    throw new ConfigError('userAgent must be 1-300 printable ASCII characters', { problems: ['userAgent: invalid'] });
+  }
+  return o;
 }
 
 async function request(url, init, o, maxBytes) {
@@ -47,7 +54,7 @@ async function request(url, init, o, maxBytes) {
   try {
     let res;
     try {
-      res = await o.fetch(url, { ...init, redirect: 'manual', signal: deadline.signal });
+      res = await o.fetch(url, { ...init, headers: { ...init.headers, 'User-Agent': o.userAgent }, redirect: 'manual', signal: deadline.signal });
     } catch (cause) {
       throw new YouTubeChatError('YouTube did not answer', { code: YTCHAT_UPSTREAM, retryable: true, cause });
     }

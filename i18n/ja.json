@@ -423,5 +423,6 @@
   "XML sitemap — Ametherian": "XML サイトマップ — Ametherian",
   "XML sitemap remains available": "XML サイトマップは引き続き利用できます",
   "YouTube (opens in a new tab)": "YouTube（新しいタブで開きます）",
-  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Node.js と Cloudflare Workers 向けの YouTube ライブチャットリーダー。配信のチャットを見つけてポーリングし、正規化したメッセージを返します。レスポンスサイズに上限があり、リクエスト先は固定です。"
+  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Node.js と Cloudflare Workers 向けの YouTube ライブチャットリーダー。配信のチャットを見つけてポーリングし、正規化したメッセージを返します。レスポンスサイズに上限があり、リクエスト先は固定です。",
+  "Fixed": "修正"
 }

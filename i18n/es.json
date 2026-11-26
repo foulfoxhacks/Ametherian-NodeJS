@@ -423,5 +423,6 @@
   "XML sitemap — Ametherian": "Mapa del sitio XML — Ametherian",
   "XML sitemap remains available": "mapa del sitio XML sigue disponible",
   "YouTube (opens in a new tab)": "YouTube (se abre en una pestaña nueva)",
-  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Lector del chat en vivo de YouTube para Node.js y Cloudflare Workers: encuentra el chat de una transmisión, lo consulta y devuelve mensajes normalizados, con cuerpos acotados y un origen fijo."
+  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "Lector del chat en vivo de YouTube para Node.js y Cloudflare Workers: encuentra el chat de una transmisión, lo consulta y devuelve mensajes normalizados, con cuerpos acotados y un origen fijo.",
+  "Fixed": "Corregido"
 }

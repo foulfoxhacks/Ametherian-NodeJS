@@ -423,5 +423,6 @@
   "XML sitemap — Ametherian": "XML 站点地图 — Ametherian",
   "XML sitemap remains available": "XML 站点地图仍可使用",
   "YouTube (opens in a new tab)": "YouTube（在新标签页中打开）",
-  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "适用于 Node.js 和 Cloudflare Workers 的 YouTube 直播聊天读取器：查找直播的聊天，轮询并返回规范化的消息；响应大小有上限，只向固定的源发送请求。"
+  "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.": "适用于 Node.js 和 Cloudflare Workers 的 YouTube 直播聊天读取器：查找直播的聊天，轮询并返回规范化的消息；响应大小有上限，只向固定的源发送请求。",
+  "Fixed": "修复"
 }

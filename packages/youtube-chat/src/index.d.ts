@@ -22,6 +22,8 @@ export interface ChatOptions {
   maxMessages?: number;
   /** Characters per message. Default 2 000. */
   maxText?: number;
+  /** Sent with every request. Default: a current desktop Chrome string (YouTube strips chat data for non-browser agents). */
+  userAgent?: string;
   /** 'all' (default): YouTube's "Live chat" view. 'top': "Top chat". */
   view?: 'all' | 'top';
 }

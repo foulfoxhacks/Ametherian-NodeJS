@@ -94,6 +94,9 @@ test('findLiveChat: handle → /live page → /live_chat page; only the fixed Yo
   assert.equal(chat.messages.length, 6);
   assert.deepEqual(f.calls.map((c) => c.url), ['https://www.youtube.com/@LofiGirl/live', 'https://www.youtube.com/live_chat?v=4t4AQ15yj1M']);
   assert.ok(f.calls.every((c) => c.init.redirect === 'manual'));
+  assert.ok(f.calls.every((c) => /^Mozilla\/5\.0 .*Chrome\//.test(c.init.headers['User-Agent'])), 'a browser User-Agent on every request');
+  assert.equal(f.calls[0].init.headers['Accept-Language'], 'en-US,en;q=0.8', 'page headers are kept');
+  await assert.rejects(findLiveChat('@LofiGirl', { fetch: f, userAgent: 'bad\r\nInjected: 1' }), { code: 'AMETHERIAN_CONFIG' });
   await assert.rejects(findLiveChat('https://evil.example/', { fetch: f }), { code: 'AMETHERIAN_CONFIG' });
 });
 
@@ -113,6 +116,8 @@ test('fetchChat posts the continuation to the web chat endpoint', async () => {
   assert.equal(page.messages.length, 6);
   const body = JSON.parse(f.calls[0].init.body);
   assert.equal(f.calls[0].init.method, 'POST');
+  assert.equal(f.calls[0].init.headers['Content-Type'], 'application/json');
+  assert.match(f.calls[0].init.headers['User-Agent'], /Chrome\//);
   assert.equal(body.continuation, '0ofMyANyntheticNextContinuationToken01');
   assert.equal(body.context.client.clientName, 'WEB');
   assert.match(body.context.client.clientVersion, /^2\.\d{8}\.\d{2}\.\d{2}$/, 'untrusted client versions are replaced');
