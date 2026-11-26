@@ -147,10 +147,26 @@ export declare function createHttpClient(options?: HttpClientOptions): HttpClien
 
 export interface AmetherianFetchInit {
   method?: string;
-  headers?: Record<string, string> | Headers;
+  /** Any WHATWG HeadersInit form. Repeated names in an array are joined with ", ". */
+  headers?: Record<string, string> | Headers | ReadonlyArray<readonly [string, string]>;
   body?: string | ArrayBuffer | ArrayBufferView | URLSearchParams | null;
   signal?: AbortSignal;
   redirect?: 'follow' | 'manual' | 'error';
+  /** There is no cache; each mode adds the request headers fetch() sends for it. 'only-if-cached' throws. */
+  cache?: 'default' | 'no-store' | 'reload' | 'no-cache' | 'force-cache';
+  /** Accepted no-ops on a server-side client (no cookie jar, document or CORS). */
+  credentials?: 'omit' | 'same-origin' | 'include';
+  /** 'same-origin' throws: a server-side client has no origin to enforce. */
+  mode?: 'cors' | 'no-cors';
+  /** Only '' or 'about:client': no Referer is sent. Set a referer header explicitly instead. */
+  referrer?: '' | 'about:client';
+  referrerPolicy?: string;
+  /** Only '': subresource integrity is not verified, so a non-empty value throws. */
+  integrity?: '';
+  keepalive?: boolean;
+  priority?: 'high' | 'low' | 'auto';
+  duplex?: 'half';
+  window?: null;
 }
 export type AmetherianFetch = ((input: string | URL | Request, init?: AmetherianFetchInit) => Promise<Response>) & {
   close(): void;

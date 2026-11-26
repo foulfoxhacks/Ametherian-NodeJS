@@ -46,6 +46,15 @@ console.log(res.status, await res.json());   // standard Response
 
 It returns standard `Response` objects and supports `redirect: 'follow' | 'manual' | 'error'`. All of the client's protections still apply: guard, limits, deadlines and credential stripping. Failures reject with typed Ametherian errors rather than a bare `TypeError`. Retries are off by default, as with fetch. There are no cookies, cache or CORS.
 
+It is meant as a drop-in for Node's `fetch()`:
+
+- `headers` takes every `HeadersInit` form: a `Headers`, an object, or an array of `[name, value]` pairs. Repeated names are joined with `, `, as `Headers` joins them.
+- `cache` has no cache behind it, but each mode adds the request headers `fetch()` sends for it: `no-cache` sends `cache-control: max-age=0`, `no-store` and `reload` send `pragma: no-cache` and `cache-control: no-cache`, and so does a default request with a conditional header such as `if-none-match`.
+- A `Request`'s own `redirect`, `cache` and `integrity` apply unless `init` overrides them.
+- `credentials`, `mode: 'cors' | 'no-cors'`, `keepalive`, `priority`, `referrerPolicy` and `duplex: 'half'` are accepted and have no effect, as on any server-side fetch.
+- Anything it cannot honour throws a `ConfigError` (`AMETHERIAN_CONFIG`) instead of being ignored: a non-empty `integrity`, a `referrer` URL, `mode: 'same-origin'`, `cache: 'only-if-cached'`, an undici `dispatcher`, a runtime-specific option such as Workers' `cf`, and any unknown key.
+- `Blob` and `FormData` bodies are not supported yet; send a string, bytes or `URLSearchParams`.
+
 ## Vulnerability model
 
 Every published axios and undici advisory (111 so far) is mapped in [docs/vulnerability-baseline.json](../../docs/vulnerability-baseline.json): either prevented, with a regression test named by its GHSA/CVE ID (`test/cve-regressions.test.js`, `test/prototype-pollution.test.js`), or not applicable, with the reason. A daily workflow checks OSV and NIST NVD for new ones. See [docs/vulnerability-model.md](../../docs/vulnerability-model.md).

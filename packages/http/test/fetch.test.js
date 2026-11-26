@@ -19,6 +19,10 @@ before(async () => {
       return res.end();
     }
     if (u.pathname === '/slow') return setTimeout(() => res.end('late'), 500);
+    if (u.pathname === '/headers') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      return res.end(JSON.stringify(req.headers));
+    }
     let body = '';
     req.on('data', (c) => (body += c));
     req.on('end', () => {
@@ -100,5 +104,69 @@ test('keeps Ametherian protections: guard, limits, timeouts, abort, no Blob', as
   small.close();
   const fetch = local();
   await assert.rejects(fetch(`http://127.0.0.1:${port}/slow`, { signal: AbortSignal.timeout(20) }), (err) => [ErrorCodes.ABORTED, ErrorCodes.TIMEOUT].includes(err.code));
+  fetch.close();
+});
+
+const sent = async (fetch, init) => (await fetch(`http://127.0.0.1:${port}/headers`, init)).json();
+
+test('headers: arrays of pairs work like Headers, joining repeats (#25)', async () => {
+  const fetch = local();
+  const got = await sent(fetch, { headers: [['X-Test', '1'], ['x-test', '2'], ['x-other', 'b']] });
+  assert.equal(got['x-test'], '1, 2');
+  assert.equal(got['x-other'], 'b');
+  const record = await sent(fetch, { headers: { 'X-Mixed': 'a', 'x-mixed': 'b' } });
+  assert.equal(record['x-mixed'], 'a, b');
+  await assert.rejects(fetch(`http://127.0.0.1:${port}/headers`, { headers: [['only-a-name']] }), { code: ErrorCodes.CONFIG });
+  await assert.rejects(fetch(`http://127.0.0.1:${port}/headers`, { headers: [['x-bad', 'a\r\nx-injected: 1']] }), { code: ErrorCodes.CONFIG });
+  await assert.rejects(fetch(`http://127.0.0.1:${port}/headers`, { headers: 'x: y' }), { code: ErrorCodes.CONFIG });
+  fetch.close();
+});
+
+test('cache modes send the same cache headers as Node fetch (undici)', async () => {
+  const fetch = local();
+  const cases = [
+    {}, { cache: 'default' }, { cache: 'no-cache' }, { cache: 'no-store' }, { cache: 'reload' }, { cache: 'force-cache' },
+    { headers: { 'if-none-match': '"abc"' } },
+    { headers: { 'if-modified-since': 'Tue, 24 Nov 2026 00:00:00 GMT' }, cache: 'no-cache' },
+    { cache: 'no-store', headers: { 'cache-control': 'max-age=5' } },
+    { cache: 'no-cache', headers: { 'Cache-Control': 'no-transform' } },
+  ];
+  for (const init of cases) {
+    const ours = await sent(fetch, init);
+    const native = await (await globalThis.fetch(`http://127.0.0.1:${port}/headers`, init)).json();
+    const pick = (h) => ({ pragma: h.pragma, 'cache-control': h['cache-control'] });
+    assert.deepEqual(pick(ours), pick(native), JSON.stringify(init));
+  }
+  fetch.close();
+});
+
+test('options it cannot honour throw instead of being ignored', async () => {
+  const fetch = local();
+  const url = `http://127.0.0.1:${port}/headers`;
+  for (const init of [
+    { cache: 'only-if-cached' }, { cache: 'sometimes' }, { integrity: 'sha256-abc' }, { dispatcher: {} },
+    { referrer: 'https://example.com/' }, { mode: 'same-origin' }, { cf: { cacheTtl: 5 } }, { next: { revalidate: 60 } },
+    { credentials: 'always' }, { duplex: 'full' }, { window: {} },
+  ]) {
+    await assert.rejects(fetch(url, init), (err) => err.code === ErrorCodes.CONFIG && err.details?.problems?.length === 1, JSON.stringify(init));
+  }
+  // Values fetch() itself treats as no-ops on a server are accepted.
+  const ok = await fetch(url, {
+    credentials: 'include', mode: 'cors', keepalive: true, referrer: '', referrerPolicy: 'no-referrer',
+    integrity: '', priority: 'high', duplex: 'half', window: null, cache: undefined,
+  });
+  assert.equal(ok.status, 200);
+  fetch.close();
+});
+
+test('a Request keeps its own options: redirect, cache and integrity', async () => {
+  const fetch = local();
+  const manual = await fetch(new Request(`http://127.0.0.1:${port}/redirect`, { redirect: 'manual' }));
+  assert.equal(manual.status, 302);
+  const overridden = await fetch(new Request(`http://127.0.0.1:${port}/redirect`, { redirect: 'manual' }), { redirect: 'follow' });
+  assert.equal(overridden.status, 200);
+  const noCache = await (await fetch(new Request(`http://127.0.0.1:${port}/headers`, { cache: 'no-cache' }))).json();
+  assert.equal(noCache['cache-control'], 'max-age=0');
+  await assert.rejects(fetch(new Request(`http://127.0.0.1:${port}/headers`, { integrity: 'sha256-abc' })), { code: ErrorCodes.CONFIG });
   fetch.close();
 });
