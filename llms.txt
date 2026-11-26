@@ -1,6 +1,6 @@
 # Ametherian
 
-> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. 11 packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
+> Ametherian is an independent family of modular JavaScript and TypeScript libraries under the @foulfoxhacks npm scope, with a Node.js-first, security-first direction. 12 packages exist as tested previews in the repository. They are licensed under the Apache License 2.0. None is published to npm and none has been audited.
 
 ## Important status
 
@@ -23,6 +23,7 @@
 - `@foulfoxhacks/ametherian-testing` 0.1.0: Mock transport, test server, fake clock and an adversarial fuzz corpus.
 - `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.
 - `@foulfoxhacks/ametherian` 0.1.0: Umbrella package re-exporting the others as namespaces.
+- `@foulfoxhacks/ametherian-minification` 0.1.0: Bounded, adapter-driven JavaScript and CSS minification orchestration for Ametherian. Unpublished preview.
 
 ## Security model
 
