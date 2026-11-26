@@ -9,6 +9,7 @@ with these notes. Packages are unpublished previews until a license is chosen.
 ## Unreleased
 
 ### Added
+- `ametherian-youtube-chat` (new package): YouTube live chat reader for Node.js and Cloudflare Workers. It finds a stream's chat from a video ID, channel ID or @handle, polls it and returns normalized messages (text, Super Chats and Stickers, memberships, gifts, deletions, author badges). Every body is size-bounded, every request has a deadline, inputs are validated IDs, and requests only go to the fixed YouTube origin. Tests use an anonymized recorded chat page plus synthetic fixtures for paid and membership items.
 - License: the project and every package are licensed under the Apache License 2.0 (`LICENSE`, `NOTICE`, also shipped in each package tarball).
 - Site: light and dark themes with a System / Light / Dark switch, a mobile pass across every page, and full translations into Español, Português (Brasil), Deutsch, Français, Русский, 日本語 and 简体中文 with `hreflang` alternates.
 - Site: `/sitemap.xml` is now a sitemap index with one sub-sitemap per language under `/sitemaps/`, styled for browsers with the site header.

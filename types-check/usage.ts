@@ -15,6 +15,7 @@ import { createHttpClient, createFetch, createFetchTransport, HttpStatusError, t
 import { createMockTransport, createFakeClock, fuzzStrings } from '@foulfoxhacks/ametherian-testing';
 import { normalizeOsv, auditLockfile, compareSemver, createOsvClient, createNodeReleaseClient, compareNodeMinimums } from '@foulfoxhacks/ametherian-security';
 import matterParse, { parseYaml } from '@foulfoxhacks/ametherian-frontmatter';
+import { findLiveChat, fetchChat, liveChat, parseTarget, type ChatMessage } from '@foulfoxhacks/ametherian-youtube-chat';
 import * as ametherian from '@foulfoxhacks/ametherian';
 
 export async function usage(): Promise<void> {
@@ -113,6 +114,12 @@ export async function usage(): Promise<void> {
 
   ametherian.http.createHttpClient satisfies typeof createHttpClient;
   void [code, limit, bytes, safe, u, url, cat, blocked, name, role, v, data];
+  const chat = await findLiveChat('@handle', { view: 'all', timeoutMs: 5000 });
+  const next = await fetchChat({ continuation: chat.continuation, clientVersion: chat.clientVersion });
+  const first: ChatMessage | undefined = next.messages[0];
+  first?.author.badges.moderator satisfies boolean | undefined;
+  parseTarget('UCxxxxxxxxxxxxxxxxxxxxxx')?.kind satisfies 'video' | 'channel' | 'handle' | undefined;
+  for await (const batch of liveChat('videoId1234', { signal: AbortSignal.timeout(1) })) batch.deleted satisfies string[];
 }
 
 // Edge transport with an injected fetch (e.g. a Workers service binding).
