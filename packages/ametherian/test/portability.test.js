@@ -19,6 +19,7 @@ const ENTRIES = [
   'resilience/src/index.js',
   'observability/src/index.js',
   'frontmatter/src/index.js',
+  'youtube-chat/src/index.js',
   'http/src/edge.js',
 ];
 

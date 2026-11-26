@@ -39,6 +39,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 - [x] Releases per green build with tarballs and checksums.
 - [x] Repo hygiene: scratch scripts, vendored Python libraries and dead workflows removed from the published tree.
 - [x] security: CISA Known Exploited Vulnerabilities adapter; lockfile audit findings flag actively exploited CVEs.
+- [x] youtube-chat: bounded YouTube live chat reader (Node.js and Workers); used by the BetterYTS chat Worker.
 
 ## Next steps
 

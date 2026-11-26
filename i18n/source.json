@@ -387,9 +387,11 @@
  "Structured logging with redaction by default, bounded metrics, diagnostics_channel bridge.",
  "HTTP client and undici-style fetch() for Node.js and Cloudflare Workers: guarded destinations, bounded bodies, deadlines, proxy, HTTP/2, hardened against published axios/undici vulnerability classes.",
  "Strict, bounded YAML frontmatter parser: a gray-matter replacement that refuses anchors, tags and code evaluation.",
+ "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.",
  "Mock transport, test server, fake clock and an adversarial fuzz corpus.",
  "Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.",
  "Umbrella package re-exporting the others as namespaces.",
+ "Bounded, adapter-driven JavaScript and CSS minification orchestration for Ametherian. Unpublished preview.",
  "Vulnerability model",
  "Every published advisory for undici and axios is mapped:",
  "in total,",
@@ -421,6 +423,5 @@
  "Unreleased",
  "Added",
  "Changed",
- "Removed",
- "Bounded, adapter-driven JavaScript and CSS minification orchestration for Ametherian. Unpublished preview."
+ "Removed"
 ]

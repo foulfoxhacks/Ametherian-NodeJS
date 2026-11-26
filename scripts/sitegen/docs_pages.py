@@ -116,7 +116,7 @@ def packages_page() -> str:
 
 <h2 id="networking-and-protocols">Networking and protocols</h2>
 <p>HTTP clients, transports, connection pools, proxies, streaming, retries, deadlines, and cancellation.</p>
-<p>Preview packages: <code>ametherian-http</code>, <code>ametherian-guard</code>.</p>
+<p>Preview packages: <code>ametherian-http</code>, <code>ametherian-guard</code>, <code>ametherian-youtube-chat</code>.</p>
 
 <h2 id="data-and-serialization">Data and serialization</h2>
 <p>Validation, schemas, parsing, serialization, conversion, structured data, and safe handling of untrusted input.</p>

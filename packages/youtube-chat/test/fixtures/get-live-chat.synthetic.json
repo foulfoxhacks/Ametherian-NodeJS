@@ -1,0 +1,18 @@
+{
+  "_note": "Synthetic: hand-built in the documented get_live_chat shape for paid, membership and deletion items the recorded page didn't contain.",
+  "continuationContents": {
+    "liveChatContinuation": {
+      "continuations": [{ "timedContinuationData": { "timeoutMs": 3500, "continuation": "0ofMyANyntheticNextContinuationToken01" } }],
+      "actions": [
+        { "addChatItemAction": { "item": { "liveChatPaidMessageRenderer": { "id": "paid-1", "timestampUsec": "1795690723754179", "authorName": { "simpleText": "@supporter" }, "authorExternalChannelId": "UCTESTSUPPORTERxxxxxxxxx", "purchaseAmountText": { "simpleText": "$5.00" }, "message": { "runs": [{ "text": "!sr " }, { "text": "lofi beats" }] } } } } },
+        { "addChatItemAction": { "item": { "liveChatPaidStickerRenderer": { "id": "sticker-1", "timestampUsec": "1795690723754180", "authorName": { "simpleText": "@sticky" }, "purchaseAmountText": { "simpleText": "€2.00" } } } } },
+        { "addChatItemAction": { "item": { "liveChatMembershipItemRenderer": { "id": "member-1", "timestampUsec": "1795690723754181", "authorName": { "simpleText": "@newmember" }, "authorExternalChannelId": "UCTESTMEMBERxxxxxxxxxxxx", "headerSubtext": { "runs": [{ "text": "Welcome to " }, { "text": "the club" }] }, "authorBadges": [{ "liveChatAuthorBadgeRenderer": { "customThumbnail": { "thumbnails": [] }, "tooltip": "New member" } }] } } } },
+        { "addChatItemAction": { "item": { "liveChatSponsorshipsGiftPurchaseAnnouncementRenderer": { "id": "giftpurchase-1", "timestampUsec": "1795690723754182", "authorExternalChannelId": "UCTESTGIFTERxxxxxxxxxxxx", "header": { "liveChatSponsorshipsHeaderRenderer": { "authorName": { "simpleText": "@gifter" }, "primaryText": { "runs": [{ "text": "Gifted " }, { "text": "5" }, { "text": " memberships" }] } } } } } } },
+        { "addChatItemAction": { "item": { "liveChatTextMessageRenderer": { "id": "owner-1", "timestampUsec": "1795690723754183", "authorName": { "simpleText": "@streamer" }, "authorExternalChannelId": "UCTESTOWNERxxxxxxxxxxxxx", "message": { "runs": [{ "text": "hi " }, { "emoji": { "emojiId": "🦊", "shortcuts": [":fox:"] } }] }, "authorBadges": [{ "liveChatAuthorBadgeRenderer": { "icon": { "iconType": "OWNER" } } }, { "liveChatAuthorBadgeRenderer": { "icon": { "iconType": "VERIFIED" } } }] } } } },
+        { "addChatItemAction": { "item": { "liveChatPlaceholderItemRenderer": { "id": "placeholder-1" } } } },
+        { "markChatItemAsDeletedAction": { "targetItemId": "old-1" } },
+        { "addChatItemAction": { "item": { "liveChatTextMessageRenderer": { "id": "__proto__", "authorName": { "simpleText": "@x" }, "authorExternalChannelId": "not-a-channel", "message": { "simpleText": "odd id, bad channel" } } } } }
+      ]
+    }
+  }
+}

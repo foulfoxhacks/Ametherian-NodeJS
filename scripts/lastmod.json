@@ -13,7 +13,7 @@
   },
   "changelog/index.html": {
     "date": "2026-11-26",
-    "hash": "f2dfbec11759d092"
+    "hash": "a9b74495cebdaa97"
   },
   "docs/architecture.html": {
     "date": "2026-11-25",
@@ -24,8 +24,8 @@
     "hash": "8967e0d295005dbf"
   },
   "docs/packages.html": {
-    "date": "2026-11-25",
-    "hash": "11f4a8b364955607"
+    "date": "2026-11-26",
+    "hash": "401ad75bc8a2320a"
   },
   "docs/roadmap.html": {
     "date": "2026-11-25",
@@ -45,11 +45,11 @@
   },
   "llms.html": {
     "date": "2026-11-26",
-    "hash": "68e5a55c2533195c"
+    "hash": "570a483cbec69416"
   },
   "modules/index.html": {
     "date": "2026-11-26",
-    "hash": "dc3a62e2d1e1c9d5"
+    "hash": "fcdbf5343e0e1519"
   },
   "robots.html": {
     "date": "2026-11-24",
