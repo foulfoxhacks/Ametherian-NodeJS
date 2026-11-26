@@ -40,13 +40,14 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 - [x] Repo hygiene: scratch scripts, vendored Python libraries and dead workflows removed from the published tree.
 - [x] security: CISA Known Exploited Vulnerabilities adapter; lockfile audit findings flag actively exploited CVEs.
 - [x] youtube-chat: bounded YouTube live chat reader (Node.js and Workers); used by the BetterYTS chat Worker.
+- [x] security: `ametherian-audit` lockfile audit command; the repository release gate runs through it.
 
 ## Next steps
 
 1. [x] License chosen: Apache License 2.0. Publishing to npm now waits only for an agreed release process (remove `private`, npm provenance from CI).
 2. [ ] **Owner decision:** have a fluent speaker review each of the seven translations.
 3. [ ] Optional: add an `NVD_API_KEY` repository secret to speed up the advisory watch.
-4. [ ] security: CLI that prints an audit report for a lockfile.
+4. [x] security: `ametherian-audit` CLI that prints an audit report for a lockfile (text or JSON, `--fail-on`, offline mode).
 5. [ ] http: streaming request bodies; opt-in cookie jar (would move cookie advisories into scope: add regression tests first).
 
 ## Conventions

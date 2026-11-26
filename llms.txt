@@ -22,7 +22,7 @@
 - `@foulfoxhacks/ametherian-frontmatter` 0.1.0: Strict, bounded YAML frontmatter parser: a gray-matter replacement that refuses anchors, tags and code evaluation.
 - `@foulfoxhacks/ametherian-youtube-chat` 0.1.0: YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.
 - `@foulfoxhacks/ametherian-testing` 0.1.0: Mock transport, test server, fake clock and an adversarial fuzz corpus.
-- `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.
+- `@foulfoxhacks/ametherian-security` 0.1.0: Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, the ametherian-audit command, Node.js release checks.
 - `@foulfoxhacks/ametherian` 0.1.0: Umbrella package re-exporting the others as namespaces.
 - `@foulfoxhacks/ametherian-minification` 0.1.0: Bounded, adapter-driven JavaScript and CSS minification orchestration for Ametherian. Unpublished preview.
 

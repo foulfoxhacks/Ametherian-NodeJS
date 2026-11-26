@@ -21,4 +21,24 @@ const advisories = await osv.queryBatch(packagesFromLockfile(lockText).map((p) =
 const report = auditLockfile(lockText, advisories);   // findings for human review
 ```
 
+## `ametherian-audit` command
+
+The package ships a command that runs the whole workflow on a lockfile and prints a report:
+
+```sh
+npx ametherian-audit                       # ./package-lock.json, fail on high or worse
+npx ametherian-audit path/to/package-lock.json --omit-dev --fail-on moderate
+npx ametherian-audit --json --output audit.json
+npx ametherian-audit --advisories osv.json --no-kev --no-nvd   # fully offline
+```
+
+- Advisories come from OSV (one batched query, each `name@version` once), or from a JSON file of OSV records with `--advisories`.
+- CVEs are checked against the CISA Known Exploited Vulnerabilities catalog and enriched with NIST NVD CVSS data (`NVD_API_KEY` raises the rate limit). Skip either with `--no-kev` / `--no-nvd`.
+- `--fail-on critical|high|moderate|low|any|none` sets the threshold (default `high`). A known exploited finding fails at every level except `none`.
+- Exit status: `0` below the threshold, `1` findings at or above it, `2` a usage error or incomplete intelligence. A failed KEV or NVD lookup is never reported as a clean scan, and an empty lockfile is refused.
+- Advisory text is stripped of terminal escape sequences and control characters before printing.
+- `runAudit(argv, io)` from `@foulfoxhacks/ametherian-security/cli` runs the same command with injected file access, output and clients; it resolves to the exit status.
+
+Running it online tells OSV and NVD which packages and versions you use. This repository's own release gate (`tools/security-audit/lockfile-audit.mjs`) is a thin wrapper around this command.
+
 There is no automatic remediation: acting on findings stays with a human reviewer, as `docs/security.md` requires. The lockfile audit itself is offline.

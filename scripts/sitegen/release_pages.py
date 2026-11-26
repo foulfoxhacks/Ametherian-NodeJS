@@ -25,7 +25,7 @@ PURPOSE = {
     "ametherian-frontmatter": "Strict, bounded YAML frontmatter parser: a gray-matter replacement that refuses anchors, tags and code evaluation.",
     "ametherian-youtube-chat": "YouTube live chat reader for Node.js and Cloudflare Workers: finds a stream's chat, polls it and returns normalized messages, with bounded bodies and a fixed origin.",
     "ametherian-testing": "Mock transport, test server, fake clock and an adversarial fuzz corpus.",
-    "ametherian-security": "Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, Node.js release checks.",
+    "ametherian-security": "Vulnerability intelligence: OSV, NIST NVD and CISA KEV clients with provenance, lockfile audit that flags actively exploited CVEs, the ametherian-audit command, Node.js release checks.",
     "ametherian": "Umbrella package re-exporting the others as namespaces.",
 }
 ORDER = list(PURPOSE)
