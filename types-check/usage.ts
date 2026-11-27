@@ -138,3 +138,13 @@ void edgeClient;
   void (status === EXIT_FINDINGS);
   sanitizeForTerminal('\u001b[31m') satisfies string;
 }
+
+// Streamed request bodies (single-use; chunked unless contentLength is set).
+{
+  const { createHttpClient: streamingClient, STREAM_BODY_REDIRECT } = await import('@foulfoxhacks/ametherian-http');
+  const c = streamingClient();
+  async function* chunks() { yield 'a'; yield new Uint8Array([98]); }
+  await c.put('https://example.com/upload', { body: chunks() });
+  await c.post('https://example.com/upload', { body: new ReadableStream<Uint8Array>(), contentLength: 1024 });
+  STREAM_BODY_REDIRECT satisfies 'AMETHERIAN_STREAM_BODY_REDIRECT';
+}

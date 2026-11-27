@@ -41,6 +41,7 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 - [x] security: CISA Known Exploited Vulnerabilities adapter; lockfile audit findings flag actively exploited CVEs.
 - [x] youtube-chat: bounded YouTube live chat reader (Node.js and Workers); used by the BetterYTS chat Worker.
 - [x] security: `ametherian-audit` lockfile audit command; the repository release gate runs through it.
+- [x] http: streamed request bodies on every transport, with limits enforced while reading.
 
 ## Next steps
 
@@ -48,7 +49,8 @@ Use this to pick work back up if a session is cut off. Check items off as they l
 2. [ ] **Owner decision:** have a fluent speaker review each of the seven translations.
 3. [ ] Optional: add an `NVD_API_KEY` repository secret to speed up the advisory watch.
 4. [x] security: `ametherian-audit` CLI that prints an audit report for a lockfile (text or JSON, `--fail-on`, offline mode).
-5. [ ] http: streaming request bodies; opt-in cookie jar (would move cookie advisories into scope: add regression tests first).
+5. [x] http: streaming request bodies (ReadableStream / async iterable, `contentLength`, never retried, 307/308 refused).
+6. [ ] http: opt-in cookie jar (would move cookie advisories into scope: add regression tests first).
 
 ## Conventions
 
