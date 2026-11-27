@@ -8,7 +8,7 @@ Thirteen packages are implemented in `packages/` with tests, TypeScript declarat
 |---|---|---|
 | Project vision | Published | Maintainer review and community feedback |
 | Package taxonomy | Implemented as eleven preview packages | Maintainer review of package boundaries |
-| HTTP and transport | Preview: client, `fetch()`, proxy, HTTP/2 | Streaming request bodies; independent review |
+| HTTP and transport | Preview: client, `fetch()`, proxy, HTTP/2, streamed request bodies | Opt-in cookie jar; independent review |
 | Security model | Threat models (`docs/threat-models/`) and adversarial tests in place | Independent review of controls |
 | Vulnerability intelligence | Working: OSV, GitHub advisories, NIST NVD, CISA KEV, Node.js releases; daily watch | Full lockfile gate, npm audit, SBOM generation and independent review |
 | axios/undici advisories | 111 mapped: 64 prevented with named tests, 47 not applicable | Kept current by the daily watch |

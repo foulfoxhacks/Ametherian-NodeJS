@@ -46,7 +46,8 @@ document covers what the client itself must defend.
 
 | H15 | Base URL escape: absolute or protocol-relative URL overrides `baseUrl` and receives default credentials | Refused unless `allowAbsoluteUrls: true` (`AMETHERIAN_BASE_URL_ESCAPE`) | Path-prefix escapes within the same origin (`../`) are allowed |
 | H16 | Prototype-pollution gadgets (polluted `Object.prototype` changes TLS checks, sockets, proxy, headers, method) | Own-property-only option reads; security-relevant Node options pinned as own values; no URL objects passed to Node | Node-internal reads (e.g. `options.signal` in stream constructors) cannot be shadowed; prevent pollution at the application level |
-| H17 | Unbounded request bodies | `maxRequestBytes` (10 MiB) | — |
+| H17 | Unbounded request bodies | `maxRequestBytes` (10 MiB), also counted while a streamed body is read; the source is cancelled at the limit, and a declared `contentLength` above the limit is refused before sending | — |
+| H18 | Streamed request body sent wrongly: replayed, truncated or silently emptied | A stream body is never retried; a 307/308 redirect that would have to resend it fails with `AMETHERIAN_STREAM_BODY_REDIRECT`; a declared `contentLength` must match the bytes sent exactly; locked streams are refused; abort and early responses cancel the source | Bytes already sent before an error reach the server; the request is then reset, not completed |
 
 Every published axios/undici advisory is mapped to these threats in
 [../vulnerability-baseline.json](../vulnerability-baseline.json) — see
@@ -62,4 +63,5 @@ responses, browser runtimes.
 `packages/http/test/*.test.js` runs against real local servers and covers H1
 (default policy, redirect to metadata/file URLs), H2, H4/H5 (gzip bomb), H6,
 H7, H8, H9 (POST not retried), H10 and H11. Proxy and HTTP/2 tests run local
-proxy/HTTP/2 servers.
+proxy/HTTP/2 servers. `stream-body.test.js` covers H17 and H18 on the
+HTTP/1.1, HTTP/2 and fetch transports and through `createFetch()`.

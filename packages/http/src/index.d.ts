@@ -6,6 +6,8 @@ export declare const HTTP_STATUS: 'AMETHERIAN_HTTP_STATUS';
 export declare const NETWORK: 'AMETHERIAN_NETWORK';
 export declare const TOO_MANY_REDIRECTS: 'AMETHERIAN_TOO_MANY_REDIRECTS';
 export declare const BASE_URL_ESCAPE: 'AMETHERIAN_BASE_URL_ESCAPE';
+/** Thrown when a 307/308 redirect would have to resend a streamed (single-use) request body. */
+export declare const STREAM_BODY_REDIRECT: 'AMETHERIAN_STREAM_BODY_REDIRECT';
 export declare const RETRYABLE_STATUS: readonly number[];
 export declare function parseRetryAfter(value: string | null | undefined, now?: () => number): number | undefined;
 
@@ -31,7 +33,8 @@ export interface TransportRequest {
   method: string;
   url: URL;
   headers: Record<string, string>;
-  body?: Uint8Array;
+  /** Buffered bytes, or a single-use stream already limited to maxRequestBytes. */
+  body?: Uint8Array | ReadableStream<Uint8Array>;
   signal?: AbortSignal;
   maxResponseBytes: number;
   lookup?: DestinationPolicy['lookup'];
@@ -77,7 +80,14 @@ export declare class HttpStreamResponse {
   cancel(reason?: unknown): Promise<void>;
 }
 
-type Body = string | Uint8Array | ArrayBuffer | URLSearchParams;
+type BufferedBody = string | Uint8Array | ArrayBuffer | URLSearchParams;
+/**
+ * A single-use streamed body: a web ReadableStream or any async iterable of
+ * chunks (Node Readable streams included). Sent chunked unless contentLength
+ * is given. Never retried; a 307/308 redirect throws STREAM_BODY_REDIRECT.
+ */
+type StreamBody = ReadableStream<Uint8Array | ArrayBufferView | ArrayBuffer | string> | AsyncIterable<Uint8Array | ArrayBufferView | ArrayBuffer | string>;
+type Body = BufferedBody | StreamBody;
 export interface RequestOptions {
   method?: string;
   url: string;
@@ -91,6 +101,8 @@ export interface RequestOptions {
   retry?: false | Omit<RetryOptions, 'signal'>;
   stream?: boolean;
   maxRequestBytes?: number;
+  /** Exact byte length of a streamed body; sent as content-length and enforced. Only valid with a stream body. */
+  contentLength?: number;
   /** 'follow' (default), 'manual' (return the 3xx response) or 'error'. */
   redirect?: 'follow' | 'manual' | 'error';
 }
@@ -149,7 +161,8 @@ export interface AmetherianFetchInit {
   method?: string;
   /** Any WHATWG HeadersInit form. Repeated names in an array are joined with ", ". */
   headers?: Record<string, string> | Headers | ReadonlyArray<readonly [string, string]>;
-  body?: string | ArrayBuffer | ArrayBufferView | URLSearchParams | null;
+  /** A ReadableStream body needs duplex: 'half', as in fetch(). */
+  body?: string | ArrayBuffer | ArrayBufferView | URLSearchParams | ReadableStream<Uint8Array> | null;
   signal?: AbortSignal;
   redirect?: 'follow' | 'manual' | 'error';
   /** There is no cache; each mode adds the request headers fetch() sends for it. 'only-if-cached' throws. */

@@ -24,12 +24,13 @@ api.close();
 | Retries | Idempotent methods only (GET, HEAD, OPTIONS, PUT, DELETE), on retryable errors (timeouts, network errors, 408/425/429/5xx). Up to 2 retries with jittered backoff, honouring `Retry-After`. `retry: false` turns this off. |
 | Headers | Names must be RFC 9110 tokens. Values may not contain control characters (CR, LF, NUL…; tab is allowed). Names are lower-cased. |
 | Base URL lock | With `baseUrl` set, absolute or protocol-relative URLs to another origin are refused (`allowAbsoluteUrls: true` to opt out). |
-| Request size | `maxRequestBytes` (10 MiB) on every transport. |
+| Request size | `maxRequestBytes` (10 MiB) on every transport, enforced while a streamed body is read. |
 | Pool | `maxSocketsPerOrigin` (50), `maxTotalSockets` (256). |
 | Prototype pollution | Options are read from own properties only, and every security-relevant Node option is pinned, so a polluted `Object.prototype` cannot disable TLS checks, redirect sockets or inject headers. |
 | Events | `http.request`, `http.response`, `http.redirect`, `http.retry`, `http.error` on an optional `hooks` event hub, with redacted URLs. |
 
 | Streaming | `{ stream: true }` returns `HttpStreamResponse`: `body` is a web `ReadableStream`, with `bytes()`/`text()`/`json()`/`cancel()`. The size limit and the request deadline keep applying while the body is read. |
+| Streamed request bodies | `body` may be a web `ReadableStream` or any async iterable (Node streams included) of `Uint8Array`, `ArrayBuffer`, typed-array or string chunks. It is sent chunked (HTTP/1.1) or as DATA frames (HTTP/2), or with `content-length` when you pass the exact `contentLength`, which is then enforced. The body is read once: it is never retried, a 307/308 redirect throws `AMETHERIAN_STREAM_BODY_REDIRECT` instead of resending an empty body, and the source is cancelled on abort, error or the size limit. On the fetch transport it is sent with `duplex: 'half'`. |
 | Extra redirect stripping | `stripHeadersOnRedirect: ['x-api-key']` removes more headers on cross-origin hops. |
 | Proxy | `proxy: 'http://user:pass@proxy:8080'`. http:// targets are sent in absolute form; https:// targets are tunnelled with CONNECT, with TLS end to end. Proxy credentials go only to the proxy. The proxy resolves names, so the guard checks the target URL but can't check the proxy's DNS answer. |
 | HTTP/2 | `http2: true` uses one session per origin over TLS (ALPN h2) or h2c for `http://`. The guard lookup, limits and deadlines still apply. HTTP/2 through a proxy is not supported. |

@@ -133,3 +133,52 @@ export function ametherianCause(err, depth = 0) {
   if (isAmetherianError(err)) return err;
   return ametherianCause(err.cause, depth + 1);
 }
+
+/**
+ * Write a web ReadableStream request body to a node:http ClientRequest or an
+ * HTTP/2 stream with backpressure, then end it. Stops reading and cancels the
+ * source when the request closes early (abort, error, early response); a
+ * source error destroys the request with that error.
+ *
+ * @param {import('node:stream').Writable} req
+ * @param {ReadableStream<Uint8Array>} stream
+ */
+export function writeStreamBody(req, stream) {
+  const reader = stream.getReader();
+  let stopped = false;
+  const onClose = () => {
+    if (stopped) return;
+    stopped = true;
+    reader.cancel().catch(() => {});
+  };
+  req.once('close', onClose);
+  const drained = () => new Promise((resolve) => {
+    const done = () => {
+      req.off('drain', done);
+      req.off('close', done);
+      resolve();
+    };
+    req.on('drain', done);
+    req.on('close', done);
+  });
+  (async () => {
+    try {
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (stopped) return;
+        if (done) {
+          stopped = true;
+          req.off('close', onClose);
+          req.end();
+          return;
+        }
+        if (!req.write(value)) await drained();
+      }
+    } catch (err) {
+      if (stopped) return;
+      stopped = true;
+      req.off('close', onClose);
+      req.destroy(err);
+    }
+  })();
+}

@@ -97,14 +97,21 @@ function applyCacheMode(mode, headers) {
   }
 }
 
-async function bodyBytes(body) {
+async function bodyBytes(body, duplex) {
   if (body === undefined || body === null) return undefined;
+  if (typeof ReadableStream !== 'undefined' && body instanceof ReadableStream) {
+    // As in fetch(): a stream body must declare duplex: 'half'.
+    if (duplex !== 'half') {
+      throw new ConfigError("A ReadableStream body needs duplex: 'half'", { problems: ["duplex: required as 'half' when body is a ReadableStream"] });
+    }
+    return body; // streamed: maxRequestBytes is enforced while it is read; never retried
+  }
   if (typeof body === 'string' || body instanceof Uint8Array || body instanceof ArrayBuffer || body instanceof URLSearchParams) return body;
   if (ArrayBuffer.isView(body)) return new Uint8Array(body.buffer, body.byteOffset, body.byteLength);
   if (typeof Blob !== 'undefined' && body instanceof Blob) {
     throw new ConfigError('Blob bodies are not supported', { problems: ['body: Blob/FormData not supported; send bytes or a string'] });
   }
-  throw new ConfigError('Unsupported fetch body', { problems: ['body: expected string, ArrayBuffer, typed array or URLSearchParams'] });
+  throw new ConfigError('Unsupported fetch body', { problems: ['body: expected string, ArrayBuffer, typed array, URLSearchParams or ReadableStream'] });
 }
 
 /**
@@ -154,7 +161,7 @@ export function makeCreateFetch(createHttpClient) {
       url,
       method: String(method ?? 'GET').toUpperCase(),
       headers: requestHeaders,
-      ...(body !== undefined && body !== null ? { body: await bodyBytes(body) } : {}),
+      ...(body !== undefined && body !== null ? { body: await bodyBytes(body, effective.duplex) } : {}),
       ...(signal ? { signal } : {}),
       redirect,
       stream: true,

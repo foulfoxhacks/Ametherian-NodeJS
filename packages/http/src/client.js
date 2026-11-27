@@ -21,7 +21,8 @@ import {
 import { createDestinationPolicy } from '@foulfoxhacks/ametherian-guard';
 import { retry } from '@foulfoxhacks/ametherian-resilience';
 import { parseJson } from '@foulfoxhacks/ametherian-schema';
-import { HttpStatusError, TOO_MANY_REDIRECTS, BASE_URL_ESCAPE } from './errors.js';
+import { HttpStatusError, TOO_MANY_REDIRECTS, BASE_URL_ESCAPE, STREAM_BODY_REDIRECT } from './errors.js';
+import { isStreamBody, limitedStreamBody } from './request-body.js';
 import { own, ownGet } from './own.js';
 
 const HEADER_NAME = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
@@ -70,6 +71,7 @@ const REQUEST_SCHEMA = {
   throwOnStatus: { type: 'boolean' },
   stream: { type: 'boolean', default: false },
   maxRequestBytes: { type: 'integer', min: 0 },
+  contentLength: { type: 'integer', min: 0 },
   redirect: { type: 'string', oneOf: ['follow', 'manual', 'error'], default: 'follow' },
 };
 
@@ -211,8 +213,10 @@ export function buildHttpClient(options, defaultTransport) {
     let redirected = false;
     for (let hop = 0; ; hop++) {
       throwIfAborted(signal);
-      if (body) headers['content-length'] = String(body.byteLength);
-      else delete headers['content-length'];
+      if (body instanceof Uint8Array) headers['content-length'] = String(body.byteLength);
+      else if (body && req.contentLength !== undefined) headers['content-length'] = String(req.contentLength);
+      else delete headers['content-length']; // streamed without a declared length: chunked / DATA frames
+      delete headers['transfer-encoding'];
       const started = performance.now();
       emit('http.request', { method, url: redactUrl(url), hop });
       const raw = await transport({
@@ -243,10 +247,18 @@ export function buildHttpClient(options, defaultTransport) {
           });
         }
         const next = policy.checkRedirect(url, location);
+        const dropsBody = raw.status === 303 || ((raw.status === 301 || raw.status === 302) && method === 'POST');
+        if (body && !(body instanceof Uint8Array) && !dropsBody) {
+          // A streamed body is single-use: it cannot be sent again to the new location.
+          throw new AmetherianError(`Cannot follow a ${raw.status} redirect with a streamed request body`, {
+            code: STREAM_BODY_REDIRECT,
+            details: { status: raw.status, url: redactUrl(url) },
+          });
+        }
         if (next.origin !== url.origin) {
           for (const h of redirectStrip) delete headers[h];
         }
-        if (raw.status === 303 || ((raw.status === 301 || raw.status === 302) && method === 'POST')) {
+        if (dropsBody) {
           if (method !== 'HEAD') method = 'GET';
           body = undefined;
           delete headers['content-type'];
@@ -287,7 +299,15 @@ export function buildHttpClient(options, defaultTransport) {
     delete rest.body;
     delete rest.retry;
     const r = validateOptions(rest, REQUEST_SCHEMA, { name: 'request options' });
-    let body = toBytes(rawBody);
+    const maxRequestBytes = r.maxRequestBytes ?? o.maxRequestBytes;
+    const streamed = isStreamBody(rawBody);
+    if (r.contentLength !== undefined && !streamed) {
+      throw new ConfigError('contentLength applies only to streamed bodies', { problems: ['contentLength: body is not a stream'] });
+    }
+    if (r.contentLength !== undefined && r.contentLength > maxRequestBytes) {
+      throw new LimitExceededError(`Request body exceeds ${maxRequestBytes} bytes`, { limit: maxRequestBytes, actual: r.contentLength, resource: 'request-body' });
+    }
+    let body = streamed ? limitedStreamBody(rawBody, { maxBytes: maxRequestBytes, contentLength: r.contentLength }) : toBytes(rawBody);
     const extraHeaders = {};
     if (json !== undefined) {
       if (rawBody !== undefined) throw new ConfigError('Use either body or json, not both', { problems: ['body/json: both set'] });
@@ -301,8 +321,7 @@ export function buildHttpClient(options, defaultTransport) {
       extraHeaders['content-type'] = 'application/json';
       extraHeaders.accept = 'application/json';
     }
-    const maxRequestBytes = r.maxRequestBytes ?? o.maxRequestBytes;
-    if (body && body.byteLength > maxRequestBytes) {
+    if (body instanceof Uint8Array && body.byteLength > maxRequestBytes) {
       throw new LimitExceededError(`Request body exceeds ${maxRequestBytes} bytes`, {
         limit: maxRequestBytes,
         actual: body.byteLength,
@@ -318,11 +337,13 @@ export function buildHttpClient(options, defaultTransport) {
       throwOnStatus: r.throwOnStatus ?? o.throwOnStatus,
       stream: r.stream,
       redirect: r.redirect,
+      contentLength: r.contentLength,
     };
     const timeoutMs = r.timeoutMs ?? o.timeoutMs;
     const override = checkRetryOption(retryOverride, 'request options');
     const retryConfig = override === undefined ? defaultRetry : override === false ? false : own(override);
-    const canRetry = retryConfig && IDEMPOTENT.has(req.method);
+    // A streamed body can be read only once, so it is never retried.
+    const canRetry = retryConfig && IDEMPOTENT.has(req.method) && !streamed;
 
     const once = async () => {
       const deadline = createDeadline(timeoutMs, { signal: r.signal });

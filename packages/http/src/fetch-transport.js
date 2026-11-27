@@ -24,12 +24,15 @@ export function createFetchTransport(options = {}) {
       res = await platformFetch(url.href, {
         method,
         headers,
-        body: body && body.byteLength ? body : undefined,
+        // A streamed body needs duplex: 'half' (request sent before the response is read).
+        ...(body instanceof Uint8Array ? { body: body.byteLength ? body : undefined } : body ? { body, duplex: 'half' } : {}),
         redirect: 'manual',
         signal,
       });
     } catch (err) {
       if (isAmetherianError(err)) throw err;
+      // A failing streamed body (size limit, length mismatch) surfaces as fetch's cause.
+      if (isAmetherianError(err?.cause)) throw err.cause;
       if (signal?.aborted) throw toAbortError(signal.reason);
       throw new NetworkError(`Request to ${url.host} failed: ${err?.message ?? err}`, err, { host: url.host });
     }

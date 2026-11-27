@@ -4,6 +4,8 @@ export const HTTP_STATUS = 'AMETHERIAN_HTTP_STATUS';
 export const NETWORK = 'AMETHERIAN_NETWORK';
 export const TOO_MANY_REDIRECTS = 'AMETHERIAN_TOO_MANY_REDIRECTS';
 export const BASE_URL_ESCAPE = 'AMETHERIAN_BASE_URL_ESCAPE';
+/** A 307/308 redirect would have to resend a streamed (single-use) request body. */
+export const STREAM_BODY_REDIRECT = 'AMETHERIAN_STREAM_BODY_REDIRECT';
 
 /** Status codes that are safe to retry (for idempotent methods). */
 export const RETRYABLE_STATUS = Object.freeze([408, 425, 429, 500, 502, 503, 504]);

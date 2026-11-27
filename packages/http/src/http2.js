@@ -10,7 +10,7 @@ import http2 from 'node:http2';
 import { isIP } from 'node:net';
 import { toAbortError } from '@foulfoxhacks/ametherian-core';
 import { NetworkError } from './errors.js';
-import { bodyFrom, responseHeaderPairs, ametherianCause } from './body.js';
+import { bodyFrom, responseHeaderPairs, ametherianCause, writeStreamBody } from './body.js';
 import { pinnedTls, ownGet } from './hardening.js';
 
 // Connection-specific headers are forbidden in HTTP/2 (RFC 9113 §8.2.2).
@@ -79,7 +79,7 @@ export function createHttp2Transport(options = {}) {
         if (!FORBIDDEN.has(k.toLowerCase())) h2headers[k.toLowerCase()] = v;
       }
       try {
-        req = session.request(h2headers, { endStream: !(body && body.byteLength), signal: undefined, waitForTrailers: false });
+        req = session.request(h2headers, { endStream: body instanceof Uint8Array ? !body.byteLength : !body, signal: undefined, waitForTrailers: false });
       } catch (e) {
         return fail(wrap(e));
       }
@@ -118,7 +118,11 @@ export function createHttp2Transport(options = {}) {
         signal.addEventListener('abort', onAbort, { once: true });
       }
 
-      if (body && body.byteLength) req.end(body);
+      if (body instanceof Uint8Array) {
+        if (body.byteLength) req.end(body);
+      } else if (body) {
+        writeStreamBody(req, body);
+      }
     });
   }
 

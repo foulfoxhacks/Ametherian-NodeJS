@@ -49,7 +49,7 @@ def docs_home_page() -> str:
   <tbody>
     <tr><td>Project vision</td><td>Published</td><td>Maintainer review and community feedback</td></tr>
     <tr><td>Package taxonomy</td><td>Implemented as preview packages</td><td>Maintainer review of package boundaries</td></tr>
-    <tr><td>HTTP and transport</td><td>Preview: client, fetch(), proxy, HTTP/2</td><td>Streaming request bodies; independent review</td></tr>
+    <tr><td>HTTP and transport</td><td>Preview: client, fetch(), proxy, HTTP/2, streamed request bodies</td><td>Opt-in cookie jar; independent review</td></tr>
     <tr><td>Security model</td><td>Threat models and adversarial tests in place</td><td>Independent review of controls</td></tr>
     <tr><td>Vulnerability intelligence</td><td>Working: OSV, GitHub advisories, NIST NVD, CISA KEV, daily watch</td><td>Lockfile audit command-line tool</td></tr>
     <tr><td>Package implementations</td><td>Preview, unpublished</td><td>Release process, npm publication</td></tr>

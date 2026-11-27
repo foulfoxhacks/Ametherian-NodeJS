@@ -6,6 +6,7 @@
  *   transport({ method, url, headers, body, signal, maxResponseBytes, stream })
  *     -> Promise<{ status, statusText, headers: Array<[string, string]>,
  *                  body: Uint8Array | ReadableStream<Uint8Array> }>
+ *   The request `body` is a Uint8Array or a single-use ReadableStream<Uint8Array>.
  *
  * Proxy mode (see docs/threat-models/http.md H1, H13):
  *  - http:// targets are sent to the proxy in absolute form;
@@ -21,7 +22,7 @@ import tls from 'node:tls';
 import { isIP } from 'node:net';
 import { toAbortError, redactUrl, ConfigError } from '@foulfoxhacks/ametherian-core';
 import { NetworkError } from './errors.js';
-import { bodyFrom, responseHeaderPairs, ametherianCause } from './body.js';
+import { bodyFrom, responseHeaderPairs, ametherianCause, writeStreamBody } from './body.js';
 import { pinnedHttp, pinnedTls, ownGet } from './hardening.js';
 
 function parseProxy(proxy) {
@@ -199,8 +200,14 @@ export function createNodeTransport(options = {}) {
         });
       }
 
-      if (body && body.byteLength) req.end(body);
-      else req.end();
+      if (body instanceof Uint8Array) {
+        if (body.byteLength) req.end(body);
+        else req.end();
+      } else if (body) {
+        writeStreamBody(req, body);
+      } else {
+        req.end();
+      }
     });
   }
 
